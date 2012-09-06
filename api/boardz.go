@@ -32,7 +32,7 @@ func main() {
 	http.Handle("/", m)
 
 	// Start the HTTP server
-	log.Printf("Listening on http://%s/\n", addr)
+	log.Printf("Listening on http://%s:%d/\n", addr, port)
 	foo := fmt.Sprintf("%s:%d", addr, port)	
 	err := http.ListenAndServe(foo, nil)
 	if err != nil {
