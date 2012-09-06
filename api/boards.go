@@ -1,9 +1,9 @@
 package main
 
 import (
-	"fmt"
+  "fmt"
   "encoding/json"
-	"net/http"
+  "net/http"
   "io/ioutil"
 )
 
@@ -58,7 +58,7 @@ func ListBoards(w http.ResponseWriter, req *http.Request) {
 }
 
 func ShowBoard(w http.ResponseWriter, req *http.Request) {
-	id := req.URL.Query().Get(":Id")
+  id := req.URL.Query().Get(":Id")
   board := boards.findById(id)
   if board != nil {
     bytes, _ := (*board).toJSON()
@@ -69,7 +69,7 @@ func ShowBoard(w http.ResponseWriter, req *http.Request) {
 }
 
 func CreateBoard(w http.ResponseWriter, req *http.Request) {
-	board := new(Board)
+  board := new(Board)
   bytes, _ := ioutil.ReadAll(req.Body)
   err := board.Unmarshal(bytes)
   if err == nil {
