@@ -48,13 +48,20 @@ func CreatePostit(w http.ResponseWriter, req *http.Request) {
 		fmt.Println("Cannot unmarshal to postit: %s", err)
 	}
 	
+	board := boards.findById(postit.Board_id)
+	if board == nil {
+		fmt.Println("Board doesn't exist: %s", err)
+	}
+
 	// FIXME : move that somewhere else, with a decent UID
 	postit.Id = strconv.FormatInt(time.Now().UnixNano(), 10)
 	postit.Coords = [2]int{1,1}
 	postit.Color = "#123456"
+	
 
-	// FIXME : add postit to relevant board postits list
+	(*board).Postits = append((*board).Postits, postit)
 	Postits = append(Postits, *postit)
+
 
 }
 

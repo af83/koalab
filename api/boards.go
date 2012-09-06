@@ -12,7 +12,7 @@ import (
 
 type Board struct {
   Id string
-  Postits []Postit
+  Postits []*Postit
   // FIXME : h|vrules
 }
 
