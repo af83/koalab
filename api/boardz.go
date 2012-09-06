@@ -8,20 +8,6 @@ import (
 	"net/http"
 )
 
-type postit struct {
-	id string
-	title string
-	coords [2]int
-	board_id string
-	//FIXME : corners 
-}
-
-type board struct {
-	id string
-	// FIXME : h|vrules
-}
-
-var boards []board 
 
 
 
@@ -45,7 +31,8 @@ func main() {
 
 	// POST
 	m.Post("/boards/", http.HandlerFunc(CreateBoard))
-
+	m.Post("/postits/", http.HandlerFunc(CreatePostit))
+	
 	http.Handle("/", m)
 
 	// Start the HTTP server

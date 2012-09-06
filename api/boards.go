@@ -6,6 +6,12 @@ import (
 	"io"
 )
 
+type board struct {
+	id string
+	// FIXME : h|vrules
+}
+
+var boards []board 
 func ListBoards(w http.ResponseWriter, req *http.Request) {
 	fmt.Printf("boards=%v\n", boards)
 }
