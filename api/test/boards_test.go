@@ -12,16 +12,15 @@ import (
 var u = "http://127.0.0.1:8080"
 
 func TestShowBoards(t *testing.T) {
-  bytes := Get("/boards/", t)
+  bytes := Get("/boards", t)
   fmt.Printf("%s\n", bytes)
 }
 
 func TestCreateBoard(t *testing.T) {
-  // model := `{
-  //   "Id": "123"
-  // }`
-  // bytes := Post("/boards/", "text/json", strings.NewReader(model), t)
-  bytes := Post("/boards/", "text/json", strings.NewReader(model), t)
+  model := `{
+    "Id": "123"
+  }`
+  bytes := Post("/boards", "text/json", strings.NewReader(model), t)
   fmt.Printf("%s\n", bytes)
 }
 

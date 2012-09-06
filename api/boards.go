@@ -15,6 +15,10 @@ type Board struct {
   // FIXME : h|vrules
 }
 
+func (b *Board) addPostit(postit *Postit) {
+  b.Postits = append(b.Postits, postit)
+}
+
 func (b *Board) Unmarshal(bytes []byte) error {
   return json.Unmarshal(bytes, &b)
 }
@@ -24,11 +28,11 @@ func (b *Board) toJSON() ([]byte, error) {
 }
 
 type BoardCollection struct {
-  Boards []Board
+  Boards []*Board
 }
 
 func (bc *BoardCollection) addBoard(board *Board) {
-  bc.Boards = append(boards.Boards, *board)
+  bc.Boards = append(boards.Boards, board)
 }
 
 func (bc *BoardCollection) toJSON() ([]byte, error) {
@@ -37,8 +41,8 @@ func (bc *BoardCollection) toJSON() ([]byte, error) {
 
 func (bc *BoardCollection) findById(id string) *Board {
   for _, b := range bc.Boards {
-    if b.Id == id {
-      return &b
+    if (*b).Id == id {
+      return b
     }
   }
   return nil
@@ -59,6 +63,8 @@ func ShowBoard(w http.ResponseWriter, req *http.Request) {
   if board != nil {
     bytes, _ := (*board).toJSON()
     fmt.Fprintf(w, "%s", bytes)
+  } else {
+    w.WriteHeader(404)
   }
 }
 
