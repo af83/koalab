@@ -24,13 +24,13 @@ func main() {
 	m.Get("/boards/", http.HandlerFunc(ListBoards))
 	m.Post("/boards/", http.HandlerFunc(CreateBoard))
 	m.Get("/boards/:id", http.HandlerFunc(ShowBoard))
-	m.Delete("/boards/:id", http.HandlerFunc(DeleteBoard))
+	m.Del("/boards/:id", http.HandlerFunc(DeleteBoard))
 
 	// Postits
 	m.Get("/postits/", http.HandlerFunc(ListPostits))
 	m.Post("/postits/", http.HandlerFunc(CreatePostit))
 	m.Get("/postits/:id", http.HandlerFunc(ShowPostit))
-	m.Delete("/postits/:id", http.HandlerFunc(DeletePostit))
+	m.Del("/postits/:id", http.HandlerFunc(DeletePostit))
 
 	// Start the HTTP server
 	log.Printf("Listening on http://%s:%d/\n", addr, port)

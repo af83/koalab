@@ -74,6 +74,4 @@ func CreateBoard(w http.ResponseWriter, req *http.Request) {
 }
 
 func DeleteBoard(w http.ResponseWriter, req *http.Request) {
-    id := req.URL.Query().Get(":Id")
-    board := boards.findById(id)
 }
