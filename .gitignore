@@ -20,7 +20,13 @@ _cgo_export.*
 _testmain.go
 
 *.exe
+*.log
 
-boardz
-api/boards
-api/boardz
+/boardz
+/api/boards
+/api/boardz
+
+/front/docs
+/front/node_modules
+/front/public/*.js
+/front/tmp
