@@ -32,6 +32,8 @@ func main() {
 	m.Get("/postits/:id", http.HandlerFunc(ShowPostit))
 	m.Del("/postits/:id", http.HandlerFunc(DeletePostit))
 
+	http.Handle("/", m)
+
 	// Start the HTTP server
 	log.Printf("Listening on http://%s:%d/\n", addr, port)
 	foo := fmt.Sprintf("%s:%d", addr, port)	
