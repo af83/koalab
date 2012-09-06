@@ -5,24 +5,25 @@ import (
 	"net/http"
 )
 
-
-type postit struct {
-	id string
-	title string
-	coords [2]int
-	board_id string
+type Postit struct {
+	Id string
+	Title string
+	Coords [2]int
+	Board_id string
 	//FIXME : corners 
 }
 
+
+
 func ListPostits(w http.ResponseWriter, req *http.Request) {
-	board_id := req.URL.Query().Get("board_id")
-	io.WriteString(w, "Listing postits "+board_id+"\n")
+	board_id := req.URL.Query().Get("Board_id")
+	io.WriteString(w, "Listing postits: "+board_id+"\n")
 	// FIXME : without parameters, return nothing
 	// with a valid board_d, return the list
 }
 
 func ShowPostit(w http.ResponseWriter, req *http.Request) {
-	io.WriteString(w, "Showing postit # "+req.URL.Query().Get(":id")+"!\n")
+	io.WriteString(w, "Showing postit # "+req.URL.Query().Get(":Id")+"!\n")
 	// FIXME : return postit attributes
 }
 

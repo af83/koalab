@@ -7,10 +7,6 @@ import (
 	"log"
 	"net/http"
 )
-
-
-
-
 func main() {
 	var addr string
 	var port int
