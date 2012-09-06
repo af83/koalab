@@ -7,7 +7,6 @@ import (
   "io/ioutil"
 )
 
-
 // == Models
 
 type Board struct {
@@ -33,7 +32,7 @@ func (bc *BoardCollection) addBoard(board *Board) {
 }
 
 func (bc *BoardCollection) toJSON() ([]byte, error) {
-  return json.Marshal(&bc)
+  return json.Marshal(bc.Boards)
 }
 
 func (bc *BoardCollection) findById(id string) *Board {
@@ -72,4 +71,9 @@ func CreateBoard(w http.ResponseWriter, req *http.Request) {
   } else {
     fmt.Println("%s", err)
   }
+}
+
+func DeleteBoard(w http.ResponseWriter, req *http.Request) {
+    id := req.URL.Query().Get(":Id")
+    board := boards.findById(id)
 }

@@ -65,3 +65,6 @@ func CreatePostit(w http.ResponseWriter, req *http.Request) {
 
 }
 
+func DeletePostit(w http.ResponseWriter, req *http.Request) {
+	// FIXME : delete a postit
+}

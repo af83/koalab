@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 )
+
 func main() {
 	var addr string
 	var port int
@@ -19,17 +20,17 @@ func main() {
 	
 	m := pat.New()
 
-	// GET
+	// Boards
 	m.Get("/boards/", http.HandlerFunc(ListBoards))
-	m.Get("/boards/:id", http.HandlerFunc(ShowBoard))
-	m.Get("/postits/", http.HandlerFunc(ListPostits))
-	m.Get("/postits/:id", http.HandlerFunc(ShowPostit))
-
-	// POST
 	m.Post("/boards/", http.HandlerFunc(CreateBoard))
+	m.Get("/boards/:id", http.HandlerFunc(ShowBoard))
+	m.Delete("/boards/:id", http.HandlerFunc(DeleteBoard))
+
+	// Postits
+	m.Get("/postits/", http.HandlerFunc(ListPostits))
 	m.Post("/postits/", http.HandlerFunc(CreatePostit))
-	
-	http.Handle("/", m)
+	m.Get("/postits/:id", http.HandlerFunc(ShowPostit))
+	m.Delete("/postits/:id", http.HandlerFunc(DeletePostit))
 
 	// Start the HTTP server
 	log.Printf("Listening on http://%s:%d/\n", addr, port)
@@ -39,5 +40,3 @@ func main() {
 		log.Fatal("ListenAndServe: ", err)
 	}	
 }
-
-
