@@ -4,23 +4,37 @@ var mongoose = require('mongoose'),
 module.exports = function(db) {
   var postitSchema = new Schema({
     title  : String,
-    coords : [],
-    size   : [],
+    coords : {
+      x : Number,
+      y : Number
+    },
+    size   : {
+      w : Number,
+      h : Number
+    },
     color  : String,
     angle  : Number
   });
 
   var boardSchema = new Schema({
+    title   : String,
     postits : [postitSchema]
   });
 
   var rulesSchema = new Schema({
-    coords : []
+    coords : {
+      x : Number,
+      y : Number
+    }
   });
 
+  var Board  = db.model('board', boardSchema);
+  var Postit = db.model('postit', postitSchema);
+  var Rules  = db.model('rules', rulesSchema);
+
   return {
-    board  : mongoose.model('Board', boardSchema),
-    postit : mongoose.model('Postit', postitSchema),
-    rules  : mongoose.model('Rules', rulesSchema)
+    Board  : Board,
+    Postit : Postit,
+    Rules  : Rules
   };
 };
