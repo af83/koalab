@@ -3,7 +3,7 @@ var path     = require('path'),
     mongoose = require('mongoose'),
     hamljs   = require('hamljs');
 
-var db = mongoose.createConnection('localhost', 'password');
+var db = mongoose.createConnection('localhost', null);
 
 var app = express.createServer();
 app
