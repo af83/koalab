@@ -5,6 +5,6 @@
     "mongoose"         : "*",
     "express-mongoose" : "*",
     "express"          : "*",
-    "hamljs"           : "*"
+    "consolidate"      : "*"
   }
 }
