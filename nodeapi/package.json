@@ -2,6 +2,7 @@
   "name" : "BoardZ",
   "version" : "0.1.0",
   "dependencies" : {
+    "mongoose"         : "*",
     "express-mongoose" : "*",
     "express"          : "*",
     "hamljs"           : "*"

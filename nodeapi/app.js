@@ -1,14 +1,9 @@
-var path      = require('path'),
-    express   = require('express'),
-    Sequelize = require('sequelize'),
-    hamljs    = require('hamljs');
+var path     = require('path'),
+    express  = require('express'),
+    mongoose = require('mongoose'),
+    hamljs   = require('hamljs');
 
-var db  = new Sequelize('database', 'root', null, {
-      dialect: 'sqlite',
-      storage: __dirname + '/db/test.db',
-      sync: { force: true },
-      define : {underscored: true} //column created_at instead of createdAt
-    });
+var db = mongoose.createConnection('localhost', 'password');
 
 var app = express.createServer();
 app
@@ -17,4 +12,4 @@ app
    .set('view options', {layout: false})
    .set('views', __dirname + '/app/views')
    .set('db', db)
-   .set('models', require('app/models')(db, Sequelize));
+   .set('models', require('app/models')(db));
