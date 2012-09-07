@@ -27,6 +27,13 @@ app.get('/', function(req, res) {
   res.render('index');
 });
 
+app.get('/boards', function(req, res) {
+  var boards = Board.find({}, function(err, boards) {
+    if(err) return res.send(err);
+    res.send(boards);
+  });
+});
+
 // Create Board
 app.post('/boards', function(req, res) {
   var board = new Board(req.body);
