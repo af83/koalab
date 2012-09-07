@@ -1,7 +1,7 @@
 @App =
   init: ->
-    App.Boards.push new App.Board()
-    list = new App.ListView collection: App.Boards
+    boards = new App.BoardsCollection()
+    list = new App.ListView collection: boards
     list.render()
 
 @JST = {}

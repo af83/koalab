@@ -79,7 +79,7 @@ module.exports = function(grunt) {
       }
     },
     watch: {
-      files: ['<config:coffeelint.files>', 'app/css/*.styl'],
+      files: ['<config:coffeelint.files>', 'app/templates/*.hbs', 'app/css/*.styl'],
       tasks: 'coffeelint stylus handlebars coffee concat'
     }
   });
