@@ -11,8 +11,15 @@ import (
 
 type Board struct {
 	Id      string
+	Title	string
 	Postits []*Postit
+	Rules []*Rule
 	// FIXME : h|vrules
+}
+
+type Rule struct {
+	Id  string
+	Coords [4]int // X1, Y1, X2, Y2
 }
 
 func (b *Board) addPostit(postit *Postit) {
@@ -68,6 +75,11 @@ func ShowBoard(w http.ResponseWriter, req *http.Request) {
 	}
 }
 
+/* JSON example
+ * { "Title" : "exemple", "rules": [[1,1,2,2], [3,3,4,4]]}
+ * 
+ */
+
 func CreateBoard(w http.ResponseWriter, req *http.Request) {
 	board := new(Board)
 	bytes, _ := ioutil.ReadAll(req.Body)
@@ -77,6 +89,18 @@ func CreateBoard(w http.ResponseWriter, req *http.Request) {
 	} else {
 		fmt.Println("%s", err)
 	}
+	// Board
+	//sql := "insert into Boards (Title) values ('"+board.Title+"')";
+	sql := "select * from Boards;";
+	results, err := Db.Exec(sql)
+	if err != nil {
+		fmt.Printf("%q: %s\n", err, sql)
+		return
+	}
+	fmt.Printf("sql return from board createBoard : %v", results )
+	// Rule
+	// No rules at creation time	
+	
 }
 
 func DeleteBoard(w http.ResponseWriter, req *http.Request) {

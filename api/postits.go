@@ -12,8 +12,13 @@ import (
 type Postit struct {
 	Id     string
 	Title  string
-	Coords [2]int
+	X	   int
+	Y      int
 	Color  string
+	Angle  int 
+	H      int
+	W	   int
+
 	//FIXME : corners 
 }
 
@@ -40,7 +45,8 @@ func CreatePostit(w http.ResponseWriter, req *http.Request) {
 
 	// FIXME : move that somewhere else, with a decent UID
 	postit.Id = strconv.FormatInt(time.Now().UnixNano(), 10)
-	postit.Coords = [2]int{1, 1}
+	postit.X = 1
+	postit.Y = 1
 	postit.Color = "#123456"
 
 	fmt.Printf("%v", *board)

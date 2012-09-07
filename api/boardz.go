@@ -10,6 +10,9 @@ import (
 	"net/http"
 )
 
+
+var Db *sql.DB
+
 func main() {
 	var addr string
 	var port int
@@ -21,20 +24,21 @@ func main() {
 	flag.StringVar(&dbpath, "dbpath", "/tmp/boardz.sqlite3", "SQLite3 DB file")
 	flag.Parse()
 
-	db, err := sql.Open("sqlite3", dbpath)
+	Db, err := sql.Open("sqlite3", dbpath)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	defer db.Close()
+	defer Db.Close()
 
 	sqls := []string{
-		"create table if not exists Boards (Id integer not null primary key);",
-		"create table if not exists Postits (Id integer not null primary key, Title text, Color text, X int, Y int, BoardId int, foreign key(BoardId) references Boards(Id) );",
+		"create table if not exists Boards (Id integer not null primary key autoincrement, Title text);",
+		"create table if not exists Postits (Id integer not null primary key autoincrement, Title text, Color text, Angle int, X int, Y int, H int, W int, BoardId int, foreign key(BoardId) references Boards(Id) );",
+		"create table if not exists Rules (Id integer not null primary key autoincrement, X1 int, X2 int, Y1 int, Y2 int, BoardId int, foreign key(BoardId) references Boards(Id));",
 	}
 
 	for _, sql := range sqls {
-		_, err = db.Exec(sql)
+		_, err = Db.Exec(sql)
 		if err != nil {
 			fmt.Printf("%q: %s\n", err, sql)
 			return
