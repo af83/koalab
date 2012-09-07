@@ -10,13 +10,12 @@ class App.MainView extends Backbone.View
     @view = new App.ListView collection: @boards
 
   render: ->
-    @$el.append @view.render().el
+    @$el.html @view.render().el
     @
 
   openBoard: (e) ->
-    board = @boards.get $(e.target).data "id"
+    board = @boards.get e.target.dataset.id
     if board
-      console.log board
       @view.remove()
       @view = new App.BoardView model: board
       @render()
