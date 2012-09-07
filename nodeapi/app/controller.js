@@ -39,7 +39,7 @@ app.post('/boards', function(req, res) {
   var board = new Board(req.body);
   board.save(function(err) {
     if(err) return res.send(err);
-    res.send(202, board);
+    res.send(201, board);
   });
 });
 
@@ -62,7 +62,7 @@ app.post('/boards/:board_id/postits', function(req, res) {
   var postit = new Postit(req.body);
   postit.save(function(err) {
     if(err) return res.send(err);
-    res.send(202, postit);
+    res.send(201, postit);
   });
 });
 
