@@ -54,6 +54,7 @@ app.put('/boards/:board_id', function(req, res) {
 
 // Create Postit
 app.post('/boards/:board_id/postits', function(req, res) {
+  req.body.board_id = req.params.board_id;
   var postit = new Postit(req.body);
   postit.save(function(err) {
     if(err) return res.send(err);
