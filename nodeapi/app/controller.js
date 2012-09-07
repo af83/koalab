@@ -78,4 +78,9 @@ app.get('/boards/:board_id/postits/:postit_id', function(req, res) {
 
 // Update postit
 app.put('/boards/:board_id/postits/:postit_id', function(req, res) {
+  req.postit = req.body;
+  req.postit.save(function() {
+    if(err) return res.send(err);
+    res.send(200);
+  });
 });
