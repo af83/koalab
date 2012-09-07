@@ -12,13 +12,9 @@ module.exports = function(db) {
       w : Number,
       h : Number
     },
-    color  : String,
-    angle  : Number
-  });
-
-  var boardSchema = new Schema({
-    title   : String,
-    postits : [postitSchema]
+    color    : String,
+    angle    : Number,
+    board_id : String
   });
 
   var rulesSchema = new Schema({
@@ -26,6 +22,10 @@ module.exports = function(db) {
       x : Number,
       y : Number
     }
+  });
+
+  var boardSchema = new Schema({
+    title : String
   });
 
   var Board  = db.model('board', boardSchema);

@@ -12,7 +12,6 @@ db.once('open', function () {
      .set('view engine', 'haml')
      .set('view options', {layout: false})
      .set('views', __dirname + '/app/views')
-     // .set('db', db)
      .set('models', require('./app/models')(db));
 
   require('./app/controller');

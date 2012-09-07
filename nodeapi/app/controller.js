@@ -9,7 +9,7 @@ app.use(express.bodyParser());
 
 function loader(Model) {
   return function(req, res, next, id) {
-    Model.findOne({ title : id }, function(err, model) {
+    Model.findById(id, function(err, model) {
       if (err) {
         next(err);
       } else {
@@ -43,20 +43,29 @@ app.get('/boards/:board_id', function(req, res) {
 
 // Update Board
 app.put('/boards/:board_id', function(req, res) {
-  req.board.update();
 });
 
 // Create Postit
 app.post('/boards/:board_id/postits', function(req, res) {
-  res.send(req.board.postits);
+  var postit = new Postit(req.body);
+  postit.save(function(err) {
+    if(err) return res.send(err);
+    res.send(200);
+  });
 });
 
 // List postits
 app.get('/boards/:board_id/postits', function(req, res) {
+  var board_id = req.params.board_id;
+  Postit.find({ board_id : board_id }, function(err, postits) {
+    if (err) return res.send(404);
+    res.send(postits);
+  });
 });
 
 // Get postit
 app.get('/boards/:board_id/postits/:postit_id', function(req, res) {
+  res.send(req.postit);
 });
 
 // Update postit
