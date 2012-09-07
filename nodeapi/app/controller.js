@@ -50,6 +50,11 @@ app.get('/boards/:board_id', function(req, res) {
 
 // Update Board
 app.put('/boards/:board_id', function(req, res) {
+  req.board = req.body;
+  req.board.save(function(err) {
+    if(err) return res.send(err);
+    res.send(200);
+  });
 });
 
 // Create Postit
@@ -79,7 +84,7 @@ app.get('/boards/:board_id/postits/:postit_id', function(req, res) {
 // Update postit
 app.put('/boards/:board_id/postits/:postit_id', function(req, res) {
   req.postit = req.body;
-  req.postit.save(function() {
+  req.postit.save(function(err) {
     if(err) return res.send(err);
     res.send(200);
   });
