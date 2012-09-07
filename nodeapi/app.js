@@ -5,7 +5,7 @@ var path     = require('path'),
 
 var db = mongoose.createConnection('localhost', 'boardz');
 
-var app = express();
+app = express();
 
 app.engine('haml', engines.haml)
    .set('view engine', 'haml')
@@ -13,3 +13,8 @@ app.engine('haml', engines.haml)
    .set('views', __dirname + '/app/views')
    .set('db', db)
    .set('models', require('./app/models')(db));
+
+require('./app/controller');
+
+app.listen(8080);
+console.log("http://localhost:8080/");
