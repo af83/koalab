@@ -39,7 +39,7 @@ app.post('/boards', function(req, res) {
   var board = new Board(req.body);
   board.save(function(err) {
     if(err) return res.send(err);
-    res.send(200);
+    res.send(202);
   });
 });
 
@@ -50,10 +50,9 @@ app.get('/boards/:board_id', function(req, res) {
 
 // Update Board
 app.put('/boards/:board_id', function(req, res) {
-  req.board = req.body;
-  req.board.save(function(err) {
-    if(err) return res.send(err);
-    res.send(200);
+  Board.findByIdAndUpdate(req.params.board_id, req.body, function(err) {
+    if (err) return res.send(404);
+    res.send(204);
   });
 });
 
@@ -63,7 +62,7 @@ app.post('/boards/:board_id/postits', function(req, res) {
   var postit = new Postit(req.body);
   postit.save(function(err) {
     if(err) return res.send(err);
-    res.send(200);
+    res.send(202);
   });
 });
 
@@ -83,9 +82,8 @@ app.get('/boards/:board_id/postits/:postit_id', function(req, res) {
 
 // Update postit
 app.put('/boards/:board_id/postits/:postit_id', function(req, res) {
-  req.postit = req.body;
-  req.postit.save(function(err) {
-    if(err) return res.send(err);
-    res.send(200);
+  Postit.findByIdAndUpdate(req.params.postit_id, req.body, function(err) {
+    if (err) return res.send(404);
+    res.send(204);
   });
 });
