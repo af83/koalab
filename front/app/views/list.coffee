@@ -1,9 +1,8 @@
 class App.ListView extends Backbone.View
-  el: '#app'
+  id: 'list-view'
 
   events:
     'keypress #new-board': 'createOnEnter'
-    'click .board-link': 'openBoard'
 
   initialize: ->
     @collection.on 'add', @add
@@ -13,17 +12,15 @@ class App.ListView extends Backbone.View
 
   render: ->
     @$el.html JST.list boards: @collection.toJSON()
-    @list = $ "#list-of-boards"
-    @input = $ "#new-board"
+    @list = @$el.find "#list-of-boards"
+    @input = @$el.find "#new-board"
+    @add board for board in @collection
     @
 
   add: (board) =>
     @list.append JST.listitem board.toJSON()
+    @$el.find(".board-link:last").focus()
     @
-
-  openBoard: (e) ->
-    console.log $(e.target).data "id"
-    false
 
   createOnEnter: (e) ->
     return if e.which != 13  # ENTER_KEY

@@ -1,8 +1,7 @@
 @App =
   init: ->
-    boards = new App.BoardsCollection()
-    list = new App.ListView collection: boards
-    list.render()
+    main = new App.MainView()
+    main.render()
 
 @JST = {}
 
