@@ -17,24 +17,27 @@ module.exports = function(db) {
     board_id : String
   });
 
-  var rulesSchema = new Schema({
+  var linesSchema = new Schema({
     coords : {
-      x : Number,
-      y : Number
+      x1 : Number,
+      y1 : Number,
+      x2 : Number,
+      y2 : Number
     }
   });
 
   var boardSchema = new Schema({
-    title : String
+    title : String,
+    lines : [linesSchema]
   });
 
   var Board  = db.model('board', boardSchema);
   var Postit = db.model('postit', postitSchema);
-  var Rules  = db.model('rules', rulesSchema);
+  var Lines  = db.model('lines', linesSchema);
 
   return {
     Board  : Board,
     Postit : Postit,
-    Rules  : Rules
+    Lines  : Lines
   };
 };
