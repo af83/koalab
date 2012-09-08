@@ -3,12 +3,11 @@ class App.Board extends Backbone.Model
     title: "Foobar"
 
   initialize: ->
-    @set
-      lines: new App.LinesCollection()
-      postits: new App.PostitsCollection()
+    @set lines: new App.LinesCollection()
+    @postits = new App.PostitsCollection()
 
   addPostit: ->
-    @get("postits").create(title: "New postit")
+    @postits.create(title: "New postit")
 
   addLine: ->
     y = 100 * @get("lines").length

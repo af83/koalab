@@ -6,9 +6,7 @@ class App.ListView extends Backbone.View
 
   initialize: ->
     @collection.on 'add', @add
-    # FIXME @id is just a hack to have ids.
-    # Remove it when the Rest API will be available
-    @id = 0
+    @collection.on 'reset', @fetch
 
   render: ->
     @$el.html JST.list boards: @collection.toJSON()
@@ -22,9 +20,13 @@ class App.ListView extends Backbone.View
     @$el.find(".board-link:last").focus()
     @
 
+  fetch: (boards) =>
+    @add board for board in @collection.models
+    @
+
   createOnEnter: (e) ->
     return if e.which != 13  # ENTER_KEY
     title = @input.val().trim()
     @input.val ''
-    @collection.create id: @id++, title: title if title
+    @collection.create title: title if title
     false

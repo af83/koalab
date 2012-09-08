@@ -5,4 +5,6 @@
 
 @JST = {}
 
+Backbone.Model.prototype.idAttribute = "_id"
+
 document.addEventListener "DOMContentLoaded", App.init
