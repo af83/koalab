@@ -51,9 +51,9 @@ module.exports = function(app, db) {
   // Update Board
   app.put('/boards/:bid', function(req, res, next) {
     delete req.body._id;
-    Board.findByIdAndUpdate(req.params.bid, req.body, function(err) {
+    Board.findByIdAndUpdate(req.params.bid, req.body, function(err, board) {
       if (err) return next(err);
-      res.send(204);
+      res.send(200, board);
     });
   });
 
@@ -84,9 +84,9 @@ module.exports = function(app, db) {
   // Update postit
   app.put('/boards/:bid/postits/:pid', function(req, res, next) {
     delete req.body._id;
-    Postit.findByIdAndUpdate(req.params.pid, req.body, function(err) {
+    Postit.findByIdAndUpdate(req.params.pid, req.body, function(err, postit) {
       if (err) return next(err);
-      res.send(204);
+      res.send(200, postit);
     });
   });
 };
