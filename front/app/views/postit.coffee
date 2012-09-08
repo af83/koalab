@@ -6,17 +6,20 @@ class App.PostitView extends Backbone.View
     'dragstart': 'start'
     'dragleave': 'leave'
     'dragend': 'end'
+    'dblclick': 'randomColor'
 
   initialize: ->
     @model.on 'change:color',  @colorize
     @model.on 'change:coords', @move
+    @model.on 'change:size',   @resize
 
   render: ->
     @el.id = "postit-#{@model.cid}"
     @el.draggable = true
     @$el.html JST.postit @model.toJSON()
-    @move()
     @colorize()
+    @move()
+    @resize()
     @
 
   colorize: =>
@@ -25,10 +28,15 @@ class App.PostitView extends Backbone.View
 
   move: =>
     coords = @model.get "coords"
-    console.log 'move', coords, @el
     @el.style.left = "#{coords.x}px"
     @el.style.top  = "#{coords.y}px"
     @el.classList.remove 'moving'
+    @
+
+  resize: =>
+    size = @model.get "size"
+    @el.style.width  = "#{size.w}px"
+    @el.style.height = "#{size.h}px"
     @
 
   start: (e) =>
@@ -45,4 +53,11 @@ class App.PostitView extends Backbone.View
 
   end: (e) =>
     e = e.originalEvent if e.originalEvent
+    true
+
+  randomColor: =>
+    colors = ["f00", "349", "333", "9fb"]
+    i = Math.floor(Math.random() * (colors.length + 1))
+    @model.set color: colors[i]
+    @model.save()
     true
