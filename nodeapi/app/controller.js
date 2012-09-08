@@ -50,6 +50,7 @@ module.exports = function(app, db) {
 
   // Update Board
   app.put('/boards/:bid', function(req, res, next) {
+    delete req.body._id;
     Board.findByIdAndUpdate(req.params.bid, req.body, function(err) {
       if (err) return next(err);
       res.send(204);
@@ -82,6 +83,7 @@ module.exports = function(app, db) {
 
   // Update postit
   app.put('/boards/:bid/postits/:pid', function(req, res, next) {
+    delete req.body._id;
     Postit.findByIdAndUpdate(req.params.pid, req.body, function(err) {
       if (err) return next(err);
       res.send(204);
