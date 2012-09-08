@@ -7,8 +7,9 @@ class App.PostitsView extends Backbone.View
 
   initialize: ->
     @collection.on 'add', @add
+    @collection.on 'reset', @fetch
     @views = []
-    @views.push new App.PostitView model: m for m in @collection
+    @views.push new App.PostitView model: m for m in @collection.models
 
   render: ->
     @$el.html ''
@@ -21,6 +22,11 @@ class App.PostitsView extends Backbone.View
     @views.push view
     @$el.append view.render().el
 
+  fetch: =>
+    @views = []
+    @views.push new App.PostitView model: m for m in @collection.models
+    @render()
+
   dragover: (e) =>
     e = e.originalEvent if e.originalEvent
     e.preventDefault()
@@ -29,8 +35,9 @@ class App.PostitsView extends Backbone.View
   drop: (e) =>
     e = e.originalEvent if e.originalEvent
     [cid, x, y] = e.dataTransfer.getData("text/postit").split(',')
-    el = document.getElementById "postit-#{cid}"
-    el.style.left = "#{e.clientX - x}px"
-    el.style.top  = "#{e.clientY - y}px"
-    el.classList.remove 'moving'
+    el = @collection.getByCid cid
+    el.set coords:
+      x: e.clientX - x
+      y: e.clientY - y
+    el.save()
     false

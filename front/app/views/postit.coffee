@@ -8,14 +8,27 @@ class App.PostitView extends Backbone.View
     'dragend': 'end'
 
   initialize: ->
-    @el.id = "postit-#{@model.cid}"
-    @el.draggable = true
-    @el.style.backgroundColor = "##{@model.get 'color'}"
+    @model.on 'change:color',  @colorize
+    @model.on 'change:coords', @move
 
   render: ->
+    @el.id = "postit-#{@model.cid}"
+    @el.draggable = true
     @$el.html JST.postit @model.toJSON()
-    @el.style.left = "0px"
-    @el.style.top  = "0px"
+    @move()
+    @colorize()
+    @
+
+  colorize: =>
+    @el.style.backgroundColor = "##{@model.get 'color'}"
+    @
+
+  move: =>
+    coords = @model.get "coords"
+    console.log 'move', coords, @el
+    @el.style.left = "#{coords.x}px"
+    @el.style.top  = "#{coords.y}px"
+    @el.classList.remove 'moving'
     @
 
   start: (e) =>

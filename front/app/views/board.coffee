@@ -6,8 +6,9 @@ class App.BoardView extends Backbone.View
     'click #add-line': 'addLine'
 
   initialize: ->
-    @lines = new App.LinesView collection: @model.get("lines")
+    @lines = new App.LinesView model: @model
     @postits = new App.PostitsView collection: @model.postits
+    @model.postits.fetch()
 
   render: ->
     @$el.html JST.board @model.toJSON()
