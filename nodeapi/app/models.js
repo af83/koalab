@@ -18,12 +18,10 @@ module.exports = function(db) {
   });
 
   var linesSchema = new Schema({
-    coords : {
-      x1 : Number,
-      y1 : Number,
-      x2 : Number,
-      y2 : Number
-    }
+    x1 : Number,
+    y1 : Number,
+    x2 : Number,
+    y2 : Number
   });
 
   var boardSchema = new Schema({

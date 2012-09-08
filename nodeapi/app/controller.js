@@ -1,89 +1,85 @@
-var express = require('express'),
-    models  = app.get('models'),
+var express = require('express');
 
-    Board  = models.Board,
-    Postit = models.Postit,
-    Rules  = models.Rules;
-
-app.use(express.bodyParser());
-
-function loader(Model) {
-  return function(req, res, next, id) {
-    Model.findById(id, function(err, model) {
-      if (err) {
-        next(err);
-      } else {
-        req[Model.modelName] = model;
-        next();
-      }
+function loader(Model, id) {
+  return function(req, res, next) {
+    Model.findById(req.params[id], function(err, model) {
+      if (err) return next(err);
+      if (!model) return next(new Error('wrong id'));
+      req[Model.modelName] = model;
+      next();
     });
   };
 }
 
-app.param('board_id', loader(Board));
-app.param('postit_id', loader(Postit));
+module.exports = function(app, db) {
+  var models = require('./models')(db),
 
-app.get('/', function(req, res) {
-  res.render('index');
-});
+      Board  = models.Board,
+      Postit = models.Postit,
+      Lines  = models.Lines;
 
-app.get('/boards', function(req, res) {
-  var boards = Board.find({}, function(err, boards) {
-    if(err) return res.send(err);
-    res.send(boards);
+  app.get('/', function(req, res) {
+    res.render('index');
   });
-});
 
-// Create Board
-app.post('/boards', function(req, res) {
-  var board = new Board(req.body);
-  board.save(function(err) {
-    if(err) return res.send(err);
-    res.send(201, board);
+  app.get('/boards', function(req, res) {
+    var boards = Board.find({}, function(err, boards) {
+      if(err) return res.send(err);
+      res.send(boards);
+    });
   });
-});
 
-// Get Board
-app.get('/boards/:board_id', function(req, res) {
-  res.send(req.board);
-});
-
-// Update Board
-app.put('/boards/:board_id', function(req, res) {
-  Board.findByIdAndUpdate(req.params.board_id, req.body, function(err) {
-    if (err) return res.send(404);
-    res.send(204);
+  // Create Board
+  app.post('/boards', function(req, res) {
+    var board = new Board(req.body);
+    board.save(function(err) {
+      if(err) return res.send(err);
+      res.send(201, board);
+    });
   });
-});
 
-// Create Postit
-app.post('/boards/:board_id/postits', function(req, res) {
-  req.body.board_id = req.params.board_id;
-  var postit = new Postit(req.body);
-  postit.save(function(err) {
-    if(err) return res.send(err);
-    res.send(201, postit);
+  // Get Board
+  app.get('/boards/:bid', loader(Board, 'bid'), function(req, res) {
+    res.send(req.board);
   });
-});
 
-// List postits
-app.get('/boards/:board_id/postits', function(req, res) {
-  var board_id = req.params.board_id;
-  Postit.find({ board_id : board_id }, function(err, postits) {
-    if (err) return res.send(404);
-    res.send(postits);
+  // Update Board
+  app.put('/boards/:bid', function(req, res) {
+    Board.findByIdAndUpdate(req.params.bid, req.body, function(err) {
+      if (err) return res.send(404);
+      res.send(204);
+    });
   });
-});
 
-// Get postit
-app.get('/boards/:board_id/postits/:postit_id', function(req, res) {
-  res.send(req.postit);
-});
-
-// Update postit
-app.put('/boards/:board_id/postits/:postit_id', function(req, res) {
-  Postit.findByIdAndUpdate(req.params.postit_id, req.body, function(err) {
-    if (err) return res.send(404);
-    res.send(204);
+  // Create Postit
+  app.post('/boards/:bid/postits', function(req, res) {
+    req.body.board_id = req.params.bid;
+    var postit = new Postit(req.body);
+    postit.save(function(err) {
+      if(err) return res.send(err);
+      res.send(201, postit);
+    });
   });
-});
+
+  // Get postits
+  app.get('/boards/:bid/postits', function(req, res) {
+    var bid = req.params.bid;
+    Postit.find({ board_id : bid }, function(err, postits) {
+      if (err) return res.send(404);
+      res.send(postits);
+    });
+  });
+
+  // Get postit
+  app.get('/boards/:bid/postits/:pid', loader(Postit, 'pid'), function(req, res) {
+    res.send(req.postit);
+  });
+
+  // Update postit
+  app.put('/boards/:bid/postits/:pid', function(req, res) {
+    Postit.findByIdAndUpdate(req.params.pid, req.body, function(err) {
+      if (err) return res.send(404);
+      res.send(204);
+    });
+  });
+};
