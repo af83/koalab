@@ -11,8 +11,8 @@ function loader(Model, id) {
   };
 }
 
-module.exports = function(app) {
-  var models  = app.get('models'),
+module.exports = function(app, db) {
+  var models = require('./models')(db),
 
       Board  = models.Board,
       Postit = models.Postit,
@@ -39,21 +39,21 @@ module.exports = function(app) {
   });
 
   // Get Board
-  app.get('/boards/:board_id', loader(Board, 'board_id'), function(req, res) {
+  app.get('/boards/:bid', loader(Board, 'bid'), function(req, res) {
     res.send(req.board);
   });
 
   // Update Board
-  app.put('/boards/:board_id', function(req, res) {
-    Board.findByIdAndUpdate(req.params.board_id, req.body, function(err) {
+  app.put('/boards/:bid', function(req, res) {
+    Board.findByIdAndUpdate(req.params.bid, req.body, function(err) {
       if (err) return res.send(404);
       res.send(204);
     });
   });
 
   // Create Postit
-  app.post('/boards/:board_id/postits', function(req, res) {
-    req.body.board_id = req.params.board_id;
+  app.post('/boards/:bid/postits', function(req, res) {
+    req.body.board_id = req.params.bid;
     var postit = new Postit(req.body);
     postit.save(function(err) {
       if(err) return res.send(err);
@@ -62,22 +62,22 @@ module.exports = function(app) {
   });
 
   // Get postits
-  app.get('/boards/:board_id/postits', function(req, res) {
-    var board_id = req.params.board_id;
-    Postit.find({ board_id : board_id }, function(err, postits) {
+  app.get('/boards/:bid/postits', function(req, res) {
+    var bid = req.params.bid;
+    Postit.find({ board_id : bid }, function(err, postits) {
       if (err) return res.send(404);
       res.send(postits);
     });
   });
 
   // Get postit
-  app.get('/boards/:board_id/postits/:postit_id', loader(Postit, 'postit_id'), function(req, res) {
+  app.get('/boards/:bid/postits/:pid', loader(Postit, 'pid'), function(req, res) {
     res.send(req.postit);
   });
 
   // Update postit
-  app.put('/boards/:board_id/postits/:postit_id', function(req, res) {
-    Postit.findByIdAndUpdate(req.params.postit_id, req.body, function(err) {
+  app.put('/boards/:bid/postits/:pid', function(req, res) {
+    Postit.findByIdAndUpdate(req.params.pid, req.body, function(err) {
       if (err) return res.send(404);
       res.send(204);
     });
