@@ -49,6 +49,9 @@ class App.PostitView extends Backbone.View
     y = e.clientY - parseInt @el.style.top, 10
     e.dataTransfer.setData 'text/postit', "#{@model.cid},#{x},#{y}"
     e.dataTransfer.dropEffect = 'move'
+    img = document.createElement 'img'
+    img.src = '/images/koala.png'
+    e.dataTransfer.setDragImage img, 0, 0
     true
 
   leave: (e) =>
