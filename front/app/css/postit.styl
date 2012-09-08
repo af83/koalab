@@ -1,24 +1,56 @@
 #board-view
   aside
     position: fixed
-    z-index: 2
-    width: 200px
-    border: 1px solid #888
-    border-radius: 0 10px 10px 0
-    padding: 10px
-    background-color: #eee
+    bottom: 50px
+    z-index: 3
+    width: 275px
+    border: 1px solid #aaa
+    padding: 5px
+    background-color: #fff
+    button
+      margin: 3px
+      width: 24px
+      height: 24px
+    .add-postit
+      border: none
+    #add-postit-blue
+      background-image: url("/images/note_bleu.png")
+      &:hover
+        background-image: url("/images/note_bleu_roll.png")
+    #add-postit-green
+      background-image: url("/images/note_vert.png")
+      &:hover
+        background-image: url("/images/note_vert_roll.png")
+    #add-postit-yellow
+      background-image: url("/images/note_jaune.png")
+      &:hover
+        background-image: url("/images/note_jaune_roll.png")
+    #add-postit-rose
+      background-image: url("/images/note_rose.png")
+      &:hover
+        background-image: url("/images/note_rose_roll.png")
+    .add-line
+      border: 1px solid #aaa
+    #add-line-h
+      background: url("/images/horizontal.png") no-repeat center
+    #add-line-v
+      background: url("/images/vertical.png") no-repeat center
+    #add-line-d
+      background: url("/images/diagonale.png") no-repeat center
     .toggle-menu
       display: block
       float: right
+      margin: 3px
+      width: 14px
+      height: 22px
       color: #333
       font-size: 1.5em
       text-decoration: none
-    .toggle-menu:before
-      content: "«"
+      background-image: url("/images/chevron_gauche.png")
   aside.closed
-    left: -190px
-    .toggle-menu:before
-      content: "»"
+    left: -250px
+    .toggle-menu
+      background-image: url("/images/chevron_droit.png")
 
 #postits-view
   position: fixed
@@ -36,3 +68,5 @@
 
 .line
   position: fixed
+  background-image: url("/images/trait.png")
+  height: 10px

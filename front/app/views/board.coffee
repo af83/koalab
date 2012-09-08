@@ -2,7 +2,10 @@ class App.BoardView extends Backbone.View
   id: 'board-view'
 
   events:
-    'click #add-postit': 'addPostit'
+    'click #add-postit-blue': 'addPostitBlue'
+    'click #add-postit-green': 'addPostitGreen'
+    'click #add-postit-yellow': 'addPostitYellow'
+    'click #add-postit-rose': 'addPostitRose'
     'click #add-line': 'addLine'
     'click .toggle-menu': 'toggleMenu'
 
@@ -17,15 +20,26 @@ class App.BoardView extends Backbone.View
     @$el.append @postits.render().el
     @
 
-  addPostit: ->
-    @model.addPostit()
+  addPostit: (color) ->
+    @model.addPostit color
     false
 
+  addPostitBlue: ->
+    @addPostit '3fa1f3'
+
+  addPostitGreen: ->
+    @addPostit '7ef45f'
+
+  addPostitYellow: ->
+    @addPostit 'f0fa78'
+
+  addPostitRose: ->
+    @addPostit 'f878d2'
+
   addLine: ->
-    @model.addLine()
+    @model.addLine
     false
 
   toggleMenu: ->
-    console.log 'toggleMenu'
     @$el.find('aside').toggleClass 'closed'
     false

@@ -7,8 +7,8 @@ class App.Board extends Backbone.Model
     @postits = new App.PostitsCollection
     @postits.board = @
 
-  addPostit: ->
-    @postits.create()
+  addPostit: (color) ->
+    @postits.create color: color
 
   addLine: ->
     y = 100 * @get("lines").length
