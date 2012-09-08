@@ -4,7 +4,7 @@ var path     = require('path'),
     mongoose = require('mongoose');
 
 var app = express();
-var db  = mongoose.createConnection('localhost', 'boardz');
+var db;
 
 app.configure(function() {
   app.engine('haml', engines.haml);
@@ -16,6 +16,8 @@ app.configure(function() {
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(app.router);
+
+  db = mongoose.createConnection('localhost', 'boardz');
 });
 
 app.configure('development', 'test', function() {

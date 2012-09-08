@@ -1,5 +1,6 @@
 var express = require('express'),
-    errors  = require('./errors');
+    errors  = require('./errors'),
+    broadcast = require('./sse');
 
 function loader(Model, id) {
   return function(req, res, next) {
@@ -40,6 +41,7 @@ module.exports = function(app, db) {
     board.save(function(err) {
       if (err) return next(err);
       res.send(201, board);
+      broadcast('create', Board, board);
     });
   });
 
@@ -54,6 +56,7 @@ module.exports = function(app, db) {
     Board.findByIdAndUpdate(req.params.bid, req.body, function(err, board) {
       if (err) return next(err);
       res.send(200, board);
+      broadcast('update', Board, board);
     });
   });
 
@@ -64,6 +67,7 @@ module.exports = function(app, db) {
     postit.save(function(err) {
       if (err) return next(err);
       res.send(201, postit);
+      broadcast('create', Postit, postit);
     });
   });
 
@@ -87,6 +91,9 @@ module.exports = function(app, db) {
     Postit.findByIdAndUpdate(req.params.pid, req.body, function(err, postit) {
       if (err) return next(err);
       res.send(200, postit);
+      broadcast('update', Postit, postit);
     });
   });
+
+  app.get('/sse', broadcast.middleware);
 };
