@@ -8,6 +8,7 @@ class App.MainView extends Backbone.View
   initialize: ->
     @boards = new App.BoardsCollection()  # FIXME
     @view = new App.ListView collection: @boards
+    @boards.fetch()
 
   render: ->
     @$el.html @view.render().el

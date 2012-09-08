@@ -7,7 +7,7 @@ class App.BoardView extends Backbone.View
 
   initialize: ->
     @lines = new App.LinesView collection: @model.get("lines")
-    @postits = new App.PostitsView collection: @model.get("postits")
+    @postits = new App.PostitsView collection: @model.postits
 
   render: ->
     @$el.html JST.board @model.toJSON()
