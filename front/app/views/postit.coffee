@@ -9,6 +9,7 @@ class App.PostitView extends Backbone.View
     'dblclick': 'randomColor'
 
   initialize: ->
+    @model.on 'change:title',  @update
     @model.on 'change:color',  @colorize
     @model.on 'change:coords', @move
     @model.on 'change:size',   @resize
@@ -16,10 +17,14 @@ class App.PostitView extends Backbone.View
   render: ->
     @el.id = "postit-#{@model.cid}"
     @el.draggable = true
-    @$el.html JST.postit @model.toJSON()
+    @update()
     @colorize()
     @move()
     @resize()
+    @
+
+  update: =>
+    @$el.html JST.postit @model.toJSON()
     @
 
   colorize: =>

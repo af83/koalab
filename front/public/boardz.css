@@ -1,6 +1,27 @@
 #board-view aside {
   position: fixed;
   z-index: 2;
+  width: 200px;
+  border: 1px solid #888;
+  border-radius: 0 10px 10px 0;
+  padding: 10px;
+  background-color: #eee;
+}
+#board-view aside .toggle-menu {
+  display: block;
+  float: right;
+  color: #333;
+  font-size: 1.5em;
+  text-decoration: none;
+}
+#board-view aside .toggle-menu:before {
+  content: "«";
+}
+#board-view aside.closed {
+  left: -190px;
+}
+#board-view aside.closed .toggle-menu:before {
+  content: "»";
 }
 #postits-view {
   position: fixed;

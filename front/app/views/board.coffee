@@ -4,6 +4,7 @@ class App.BoardView extends Backbone.View
   events:
     'click #add-postit': 'addPostit'
     'click #add-line': 'addLine'
+    'click .toggle-menu': 'toggleMenu'
 
   initialize: ->
     @lines = new App.LinesView model: @model
@@ -22,4 +23,9 @@ class App.BoardView extends Backbone.View
 
   addLine: ->
     @model.addLine()
+    false
+
+  toggleMenu: ->
+    console.log 'toggleMenu'
+    @$el.find('aside').toggleClass 'closed'
     false
