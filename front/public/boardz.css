@@ -1,3 +1,10 @@
+body {
+  background-image: url("/images/background.png");
+}
+#logo {
+  float: left;
+  margin: 10px 50px;
+}
 #board-view aside {
   position: fixed;
   bottom: 50px;
@@ -81,6 +88,7 @@
 .postit {
   position: fixed;
   cursor: move;
+  box-shadow: -4px 4px 4px #aaa;
 }
 .line {
   position: fixed;
