@@ -16,7 +16,7 @@ module.exports = function(app, db) {
 
       Board  = models.Board,
       Postit = models.Postit,
-      Rules  = models.Rules;
+      Lines  = models.Lines;
 
   app.get('/', function(req, res) {
     res.render('index');
