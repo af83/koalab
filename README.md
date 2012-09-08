@@ -1,4 +1,4 @@
 boardz
 ======
 
-A golang scrum-like board
+A golang^W node scrum-like board
