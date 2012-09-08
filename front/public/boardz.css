@@ -1,17 +1,30 @@
+@font-face {
+  font-family: 'Coming Soon';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Coming Soon'), local('ComingSoon'), url("http://themes.googleusercontent.com/static/fonts/comingsoon/v3/myblyOycMnPMGjfPG-DzP4bN6UDyHWBl620a-IRfuBk.woff") format('woff');
+}
 body {
   background-image: url("/images/background.png");
+  font-family: 'Coming Soon', cursive;
+  font-size: 1.2em;
 }
 #logo {
   float: left;
   margin: 10px 50px;
 }
+#list-view h1 {
+  font-size: 2.5em;
+}
+#list-view section {
+  padding-left: 350px;
+}
 #board-view aside {
   position: fixed;
   bottom: 50px;
   z-index: 3;
-  width: 275px;
+  width: 280px;
   border: 1px solid #aaa;
-  padding: 5px;
   background-color: #fff;
 }
 #board-view aside button {
@@ -61,7 +74,7 @@ body {
 #board-view aside .toggle-menu {
   display: block;
   float: right;
-  margin: 3px;
+  margin: 9px 6px 7px;
   width: 14px;
   height: 22px;
   color: #333;
@@ -70,7 +83,7 @@ body {
   background-image: url("/images/chevron_gauche.png");
 }
 #board-view aside.closed {
-  left: -250px;
+  left: -245px;
 }
 #board-view aside.closed .toggle-menu {
   background-image: url("/images/chevron_droit.png");
@@ -89,6 +102,9 @@ body {
   position: fixed;
   cursor: move;
   box-shadow: -4px 4px 4px #aaa;
+}
+.postit p {
+  text-align: center;
 }
 .line {
   position: fixed;
