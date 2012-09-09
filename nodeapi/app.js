@@ -17,7 +17,7 @@ app.configure(function() {
   app.use(express.methodOverride());
   app.use(app.router);
 
-  db = mongoose.createConnection('localhost', 'boardz');
+  db = mongoose.createConnection('localhost', 'koalab');
 });
 
 app.configure('development', 'test', function() {

@@ -13,7 +13,7 @@ module.exports = function(grunt) {
       version: '0.1.0',
       banner: '/*! Boardz - v<%= meta.version %> - ' +
         '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
-        ' * https://github.com/AF83/boardz\n' +
+        ' * https://github.com/AF83/koalab\n' +
         ' * Copyright (c) <%= grunt.template.today("yyyy") %> ' +
         'af83; Licensed MIT */'
     },
@@ -57,13 +57,13 @@ module.exports = function(grunt) {
     concat: {
       dist: {
         src: ['<banner:meta.banner>', 'tmp/app.js', 'tmp/templates.js'],
-        dest: 'public/boardz.js'
+        dest: 'public/koalab.js'
       }
     },
     min: {
       dist: {
         src: ['<banner:meta.banner>', 'vendor/**/*.js', '<config:concat.dist.dest>'],
-        dest: 'public/boardz.min.js'
+        dest: 'public/koalab.min.js'
       }
     },
     server: {
@@ -74,7 +74,7 @@ module.exports = function(grunt) {
     stylus: {
       compile: {
         files: {
-          'public/boardz.css': 'app/css/*.styl'
+          'public/koalab.css': 'app/css/*.styl'
         }
       }
     },
