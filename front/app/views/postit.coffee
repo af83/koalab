@@ -6,16 +6,44 @@ class App.PostitView extends Backbone.View
     'dragstart': 'start'
     'dragleave': 'leave'
     'dragend': 'end'
+    'focus p': 'focus'
+    'blur p': 'blur'
+    'keypress p': 'saveOnEnter'
 
   initialize: ->
-    @el.id = "postit-#{@model.cid}"
-    @el.draggable = true
-    @el.style.backgroundColor = "##{@model.get 'color'}"
+    @model.on 'change:title',  @update
+    @model.on 'change:color',  @colorize
+    @model.on 'change:coords', @move
+    @model.on 'change:size',   @resize
 
   render: ->
+    @el.id = "postit-#{@model.cid}"
+    @el.draggable = true
+    @update()
+    @colorize()
+    @move()
+    @resize()
+    @
+
+  update: =>
     @$el.html JST.postit @model.toJSON()
-    @el.style.left = "0px"
-    @el.style.top  = "0px"
+    @
+
+  colorize: =>
+    @el.style.backgroundColor = "##{@model.get 'color'}"
+    @
+
+  move: =>
+    coords = @model.get "coords"
+    @el.style.left = "#{coords.x}px"
+    @el.style.top  = "#{coords.y}px"
+    @el.classList.remove 'moving'
+    @
+
+  resize: =>
+    size = @model.get "size"
+    @el.style.width  = "#{size.w}px"
+    @el.style.height = "#{size.h}px"
     @
 
   start: (e) =>
@@ -24,6 +52,9 @@ class App.PostitView extends Backbone.View
     y = e.clientY - parseInt @el.style.top, 10
     e.dataTransfer.setData 'text/postit', "#{@model.cid},#{x},#{y}"
     e.dataTransfer.dropEffect = 'move'
+    img = document.createElement 'img'
+    img.src = '/images/koala.png'
+    e.dataTransfer.setDragImage img, 0, 0
     true
 
   leave: (e) =>
@@ -33,3 +64,18 @@ class App.PostitView extends Backbone.View
   end: (e) =>
     e = e.originalEvent if e.originalEvent
     true
+
+  focus: =>
+    p = @$el.find('p')
+    p.text "" if p.text() == App.Postit.defaultTitle
+    true
+
+  blur: =>
+    @model.set title: @$el.find('p').text()
+    @model.save()
+    true
+
+  saveOnEnter: (e) =>
+    return if e.which != App.keys.enter
+    @$el.find('p').blur()
+    false

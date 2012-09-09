@@ -1,14 +1,18 @@
 class App.Board extends Backbone.Model
-  defaults:
+  defaults: ->
     title: "Foobar"
+    lines: []
 
   initialize: ->
-    @set lines: new App.LinesCollection()
-    @postits = new App.PostitsCollection()
+    @postits = new App.PostitsCollection
+    @postits.board = @
 
-  addPostit: ->
-    @postits.create(title: "New postit")
+  addPostit: (color) ->
+    @postits.create color: color
 
   addLine: ->
     y = 100 * @get("lines").length
-    @get("lines").create x1: 0, y1: y, x2: 1000, y2: y
+    line = x1: 0, y1: y, x2: 1000, y2: y
+    @get("lines").push line
+    @trigger "add:lines", line
+    @save()

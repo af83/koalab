@@ -1,5 +1,6 @@
 var express = require('express'),
-    errors  = require('./errors');
+    errors  = require('./errors'),
+    broadcast = require('./sse');
 
 function loader(Model, id) {
   return function(req, res, next) {
@@ -40,6 +41,7 @@ module.exports = function(app, db) {
     board.save(function(err) {
       if (err) return next(err);
       res.send(201, board);
+      broadcast('create', Board, board);
     });
   });
 
@@ -51,9 +53,10 @@ module.exports = function(app, db) {
   // Update Board
   app.put('/boards/:bid', function(req, res, next) {
     delete req.body._id;
-    Board.findByIdAndUpdate(req.params.bid, req.body, function(err) {
+    Board.findByIdAndUpdate(req.params.bid, req.body, function(err, board) {
       if (err) return next(err);
-      res.send(204);
+      res.send(200, board);
+      broadcast('update', Board, board);
     });
   });
 
@@ -64,6 +67,7 @@ module.exports = function(app, db) {
     postit.save(function(err) {
       if (err) return next(err);
       res.send(201, postit);
+      broadcast('create', Postit, postit);
     });
   });
 
@@ -84,9 +88,12 @@ module.exports = function(app, db) {
   // Update postit
   app.put('/boards/:bid/postits/:pid', function(req, res, next) {
     delete req.body._id;
-    Postit.findByIdAndUpdate(req.params.pid, req.body, function(err) {
+    Postit.findByIdAndUpdate(req.params.pid, req.body, function(err, postit) {
       if (err) return next(err);
-      res.send(204);
+      res.send(200, postit);
+      broadcast('update', Postit, postit);
     });
   });
+
+  app.get('/sse', broadcast.middleware);
 };
