@@ -1,8 +1,6 @@
 var EventEmitter = require('events').EventEmitter,
     ee = new EventEmitter();
 
-ee.setMaxListeners(100);
-
 exports = module.exports = function broadcast(action, Model, model) {
   var data = {
     action : action,
@@ -23,7 +21,7 @@ exports.middleware = function(req, res) {
   });
   res.write('\n');
 
-  ee.on('message', function(data) {
+  var listener = function(data) {
     messageCount++;
 
     if (typeof data !== 'string')
@@ -31,8 +29,11 @@ exports.middleware = function(req, res) {
 
     res.write('id: ' + messageCount + '\n');
     res.write('data: ' + data + '\n\n');
-  });
+  };
+
+  ee.on('message', listener);
 
   req.on('close', function() {
+    ee.removeListener('message', listener);
   });
 };
