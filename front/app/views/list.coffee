@@ -25,7 +25,7 @@ class App.ListView extends Backbone.View
     @
 
   createOnEnter: (e) ->
-    return if e.which != 13  # ENTER_KEY
+    return if e.which != App.keys.enter
     title = @input.val().trim()
     @input.val ''
     @collection.create title: title if title
