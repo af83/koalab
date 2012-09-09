@@ -1,7 +1,7 @@
 Boardz
 ======
 
-A scrum-like board powered by nginx, nodejs, mongodb and backbone.
+A scrum-like board powered by nginx, nodejs, mongodb, backbone and html5.
 
 How to run it in local?
 -----------------------

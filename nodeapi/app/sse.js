@@ -1,6 +1,8 @@
 var EventEmitter = require('events').EventEmitter,
     ee = new EventEmitter();
 
+ee.setMaxListeners(100);
+
 exports = module.exports = function broadcast(action, Model, model) {
   var data = {
     action : action,
