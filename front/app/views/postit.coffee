@@ -33,6 +33,7 @@ class App.PostitView extends Backbone.View
 
   colorize: =>
     @el.style.backgroundColor = "##{@model.get 'color'}"
+    @el.classList.add 'reverse' if @model.get('color')[0] == '0'
     @
 
   move: =>
@@ -82,6 +83,7 @@ class App.PostitView extends Backbone.View
 
   blur: =>
     @model.set title: @$el.find('p').text()
+    @model.set color: '0b0b0b' if @model.get('title') == 'Mathilde'
     @model.save()
     true
 
