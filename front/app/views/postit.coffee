@@ -58,7 +58,9 @@ class App.PostitView extends Backbone.View
     true
 
   leave: (e) =>
-    @el.classList.add 'moving'
+    e = e.originalEvent if e.originalEvent
+    [cid, _, _] = e.dataTransfer.getData("text/postit").split(',')
+    @el.classList.add 'moving' if @model.cid == cid
     true
 
   end: (e) =>
