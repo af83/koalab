@@ -1,5 +1,6 @@
 @App =
   init: ->
+    App.source = new App.SSE()
     main = new App.MainView()
     main.render()
 
