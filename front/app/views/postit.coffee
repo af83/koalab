@@ -15,6 +15,7 @@ class App.PostitView extends Backbone.View
     @model.on 'change:color',  @colorize
     @model.on 'change:coords', @move
     @model.on 'change:size',   @resize
+    @model.on 'change:angle',  @rotate
 
   render: ->
     @el.id = "postit-#{@model.cid}"
@@ -23,6 +24,7 @@ class App.PostitView extends Backbone.View
     @colorize()
     @move()
     @resize()
+    @rotate()
     @
 
   update: =>
@@ -44,6 +46,12 @@ class App.PostitView extends Backbone.View
     size = @model.get "size"
     @el.style.width  = "#{size.w}px"
     @el.style.height = "#{size.h}px"
+    @
+
+  rotate: =>
+    prop = "rotate(#{@model.get 'angle'}deg)"
+    @el.style.MozTransform = prop
+    @el.style.transform = prop
     @
 
   start: (e) =>
