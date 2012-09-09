@@ -6,7 +6,9 @@ class App.BoardView extends Backbone.View
     'click #add-postit-green': 'addPostitGreen'
     'click #add-postit-yellow': 'addPostitYellow'
     'click #add-postit-rose': 'addPostitRose'
-    'click #add-line': 'addLine'
+    'click #add-line-h': 'addLineH'
+    'click #add-line-v': 'addLineV'
+    'click #add-line-d': 'addLineD'
     'click .toggle-menu': 'toggleMenu'
 
   initialize: ->
@@ -36,9 +38,18 @@ class App.BoardView extends Backbone.View
   addPostitRose: ->
     @addPostit 'f878d2'
 
-  addLine: ->
-    @model.addLine
+  addLine: (dir) ->
+    @model.addLine dir
     false
+
+  addLineH: ->
+    @addLine 'horizontal'
+
+  addLineV: ->
+    @addLine 'vertical'
+
+  addLineD: ->
+    @addLine 'diagonal'
 
   toggleMenu: ->
     @$el.find('aside').toggleClass 'closed'
