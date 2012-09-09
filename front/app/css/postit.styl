@@ -87,7 +87,17 @@ body
   cursor: move
   box-shadow: -4px 4px 4px #aaa
   p
+    z-index: 5
     text-align: center
+  .gradient
+    position: absolute
+    top: 0
+    left: 0
+    z-index: 4
+    width: 100%
+    height: 100%
+    background: -moz-linear-gradient(top, #000 0%, #fff 75%)
+    opacity: 0.1
 
 .line
   position: fixed
