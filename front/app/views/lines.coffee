@@ -14,5 +14,5 @@ class App.LinesView extends Backbone.View
     y = line.y2 - line.y1
     line.length = Math.floor Math.sqrt(x*x + y*y)
     line.angle = Math.atan y/x
-    line.angle = -line.angle * 180 / Math.PI
+    line.angle = line.angle * 180 / Math.PI
     @$el.append JST.line line
