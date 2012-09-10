@@ -1,6 +1,14 @@
 var express = require('express'),
     errors  = require('./errors'),
-    broadcast = require('./sse');
+    sse     = require('./sse');
+
+var broadcast = sse(function(action, type, model) {
+  return {
+    action : action,
+    type   : type.modelName,
+    model  : model
+  };
+});
 
 function loader(Model, id) {
   return function(req, res, next) {
@@ -95,5 +103,5 @@ module.exports = function(app, db) {
     });
   });
 
-  app.get('/sse', broadcast.middleware);
+  app.get('/sse', sse.middleware());
 };
