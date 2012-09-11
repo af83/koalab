@@ -15,6 +15,7 @@ class App.PostitView extends Backbone.View
     @model.on 'change:color',  @colorize
     @model.on 'change:coords', @move
     @model.on 'change:size',   @resize
+    @model.on 'change:angle',  @rotate
 
   render: ->
     @el.id = "postit-#{@model.cid}"
@@ -23,6 +24,7 @@ class App.PostitView extends Backbone.View
     @colorize()
     @move()
     @resize()
+    @rotate()
     @
 
   update: =>
@@ -31,6 +33,7 @@ class App.PostitView extends Backbone.View
 
   colorize: =>
     @el.style.backgroundColor = "##{@model.get 'color'}"
+    @el.classList.add 'reverse' if @model.get('color')[0] == '0'
     @
 
   move: =>
@@ -46,6 +49,12 @@ class App.PostitView extends Backbone.View
     @el.style.height = "#{size.h}px"
     @
 
+  rotate: =>
+    prop = "rotate(#{@model.get 'angle'}deg)"
+    @el.style.MozTransform = prop
+    @el.style.transform = prop
+    @
+
   start: (e) =>
     e = e.originalEvent if e.originalEvent
     x = e.clientX - parseInt @el.style.left, 10
@@ -58,7 +67,9 @@ class App.PostitView extends Backbone.View
     true
 
   leave: (e) =>
-    @el.classList.add 'moving'
+    e = e.originalEvent if e.originalEvent
+    [cid, _, _] = e.dataTransfer.getData("text/postit").split(',')
+    @el.classList.add 'moving' if @model.cid == cid
     true
 
   end: (e) =>
@@ -72,6 +83,7 @@ class App.PostitView extends Backbone.View
 
   blur: =>
     @model.set title: @$el.find('p').text()
+    @model.set color: '0b0b0b' if @model.get('title') == 'Mathilde'
     @model.save()
     true
 

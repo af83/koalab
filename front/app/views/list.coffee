@@ -28,5 +28,7 @@ class App.ListView extends Backbone.View
     return if e.which != App.keys.enter
     title = @input.val().trim()
     @input.val ''
-    @collection.create title: title if title
+    model = title: title
+    options = wait: true
+    @collection.create model, options if title
     false

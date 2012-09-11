@@ -28,5 +28,6 @@ _testmain.go
 
 /front/docs
 /front/node_modules
+/front/public/*.css
 /front/public/*.js
 /front/tmp

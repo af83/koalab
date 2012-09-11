@@ -1,13 +1,13 @@
-upstream boardz {
+upstream koalab {
 	server 127.0.0.1:8080;
 }
 
 server {
 	listen 127.0.0.1:80;
-	server_name boardz.lo;
-	access_log /var/log/nginx/boardz.access.log;
-	error_log /var/log/nginx/boardz.error.log;
-	root /home/nono/dev/boardz/front/public;
+	server_name koalab.lo;
+	access_log /var/log/nginx/koalab.access.log;
+	error_log /var/log/nginx/koalab.error.log;
+	root /home/nono/dev/koalab/front/public;
 
 	location / {
 		try_files $uri $uri/index.html @app;
@@ -21,6 +21,6 @@ server {
 		proxy_redirect    off;
 		proxy_buffering   off;
 
-		proxy_pass http://boardz;
+		proxy_pass http://koalab;
 	}
 }
