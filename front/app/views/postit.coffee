@@ -52,6 +52,7 @@ class App.PostitView extends Backbone.View
   rotate: =>
     prop = "rotate(#{@model.get 'angle'}deg)"
     @el.style.MozTransform = prop
+    @el.style.WebkitTransform = prop
     @el.style.transform = prop
     @
 
@@ -83,6 +84,7 @@ class App.PostitView extends Backbone.View
 
   blur: =>
     @model.set title: @$el.find('p').text()
+    @model.set title: App.Postit.defaultTitle if @model.get('title') == ''
     @model.set color: '0b0b0b' if @model.get('title') == 'Mathilde'
     @model.save()
     true

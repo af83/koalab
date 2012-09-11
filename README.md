@@ -6,7 +6,7 @@ A scrum-like board powered by nginx, nodejs, mongodb, backbone and html5.
 How to run it in local?
 -----------------------
 
-1. Admin
+Admin
 
 ```
 git clone git@github.com:AF83/koalab.git
@@ -17,7 +17,7 @@ su -
 # /etc/init.d/nginx reload
 ```
 
-2. Restful API
+Restful API
 
 ```
 cd nodeapi
@@ -25,13 +25,11 @@ npm install
 node app.js
 ```
 
-3. Front
+Front
 
 ```
 cd front
 npm install grunt -g
-npm install grunt-contrib
-npm install grunt-coffeelint
+npm install grunt-contrib grunt-coffeelint
 grunt
 ```
-

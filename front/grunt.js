@@ -37,6 +37,7 @@ module.exports = function(grunt) {
     handlebars: {
       compile: {
         options: {
+          wrapped: true,
           namespace: "JST",
           processName: function(filename) {
             return path.basename(filename, ".hbs");
