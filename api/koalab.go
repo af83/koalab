@@ -1,6 +1,7 @@
 package main
 
 import (
+	"code.google.com/p/gorilla/securecookie"
 	"encoding/json"
 	"flag"
 	"github.com/bmizerany/pat"
@@ -14,6 +15,7 @@ import (
 
 var host string
 var db *mgo.Database
+var scookie *securecookie.SecureCookie
 
 type BrowserIDResponse struct {
 	Status, Email, Audience, Issuer string
@@ -54,6 +56,22 @@ func (b BrowserIDResponse) Okay() bool {
 	return b.Status == "okay"
 }
 
+func initSecureCookie(filename string) {
+	key, err := ioutil.ReadFile(filename)
+	if err != nil {
+		key = securecookie.GenerateRandomKey(32)
+		if key == nil {
+			log.Fatal("Can't generate a secret!")
+		}
+		err = ioutil.WriteFile(filename, key, 0600)
+		if err != nil {
+			log.Fatal("Can't read or write .secret", err)
+		}
+	}
+
+	scookie = securecookie.New(key, nil)
+}
+
 func SignInUser(w http.ResponseWriter, r *http.Request) {
 	user := make(map[string]interface{})
 	body, _ := ioutil.ReadAll(r.Body)
@@ -87,6 +105,18 @@ func SignInUser(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		http.Error(w, err.Error(), 500)
 		return
+	}
+
+	if response.Email == "" {
+		http.Error(w, "Invalid authentication", 403)
+		return
+	}
+
+	// Store the cookie
+	encoded, err := scookie.Encode("email", response.Email)
+	if err == nil {
+		cookie := &http.Cookie{Name: "email", Value: encoded, Path: "/"}
+		http.SetCookie(w, cookie)
 	}
 
 	w.Header().Add("content-type", "application/json")
@@ -178,6 +208,24 @@ func CreatePostit(w http.ResponseWriter, r *http.Request) {
 	w.Write(bytes)
 }
 
+func ApiHandlerFunc(handler http.HandlerFunc) http.HandlerFunc {
+	wrapped := func(w http.ResponseWriter, r *http.Request) {
+		cookie, err := r.Cookie("email");
+		if err != nil {
+			http.Error(w, "Authentication required", 403)
+			return
+		}
+		email := ""
+		err = scookie.Decode("email", cookie.Value, &email)
+		if err != nil {
+			http.Error(w, "Authentication required", 403)
+			return
+		}
+		handler(w, r)
+	}
+	return http.HandlerFunc(wrapped)
+}
+
 func main() {
 	// Parse the command-line
 	var addr string
@@ -197,14 +245,17 @@ func main() {
 	defer session.Close()
 	db = session.DB(dbase)
 
+	// Init secure cookie
+	initSecureCookie(".secret")
+
 	// Routing
 	m := pat.New()
 	m.Post("/api/user", http.HandlerFunc(SignInUser))
-	m.Get("/api/boards", http.HandlerFunc(ListBoards))
-	m.Post("/api/boards", http.HandlerFunc(CreateBoard))
-	m.Get("/api/boards/:id", http.HandlerFunc(ShowBoard))
-	m.Get("/api/boards/:id/postits", http.HandlerFunc(ListPostits))
-	m.Post("/api/boards/:id/postits", http.HandlerFunc(CreatePostit))
+	m.Get("/api/boards", ApiHandlerFunc(ListBoards))
+	m.Post("/api/boards", ApiHandlerFunc(CreateBoard))
+	m.Get("/api/boards/:id", ApiHandlerFunc(ShowBoard))
+	m.Get("/api/boards/:id/postits", ApiHandlerFunc(ListPostits))
+	m.Post("/api/boards/:id/postits", ApiHandlerFunc(CreatePostit))
 	//m.Put("/boards/:bid/postits/:id", http.HandlerFunc(UpdatePostit))
 
 	// Start the HTTP server
