@@ -199,12 +199,12 @@ func main() {
 
 	// Routing
 	m := pat.New()
-	m.Post("/user", http.HandlerFunc(SignInUser))
-	m.Get("/boards", http.HandlerFunc(ListBoards))
-	m.Post("/boards", http.HandlerFunc(CreateBoard))
-	m.Get("/boards/:id", http.HandlerFunc(ShowBoard))
-	m.Get("/boards/:id/postits", http.HandlerFunc(ListPostits))
-	m.Post("/boards/:id/postits", http.HandlerFunc(CreatePostit))
+	m.Post("/api/user", http.HandlerFunc(SignInUser))
+	m.Get("/api/boards", http.HandlerFunc(ListBoards))
+	m.Post("/api/boards", http.HandlerFunc(CreateBoard))
+	m.Get("/api/boards/:id", http.HandlerFunc(ShowBoard))
+	m.Get("/api/boards/:id/postits", http.HandlerFunc(ListPostits))
+	m.Post("/api/boards/:id/postits", http.HandlerFunc(CreatePostit))
 	//m.Put("/boards/:bid/postits/:id", http.HandlerFunc(UpdatePostit))
 
 	// Start the HTTP server

@@ -1,5 +1,5 @@
 class App.User extends Backbone.Model
-  url: '/user'
+  url: '/api/user'
 
   defaults:
     email: null
