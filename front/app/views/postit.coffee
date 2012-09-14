@@ -19,7 +19,6 @@ class App.PostitView extends Backbone.View
 
   render: ->
     @el.id = "postit-#{@model.cid}"
-    @el.draggable = true
     @update()
     @colorize()
     @move()
@@ -29,6 +28,7 @@ class App.PostitView extends Backbone.View
 
   update: =>
     @$el.html JST.postit @model.toJSON()
+    @el.querySelector('.gradient').draggable = true
     @
 
   colorize: =>

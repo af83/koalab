@@ -3,7 +3,7 @@ upstream koalab {
 }
 
 server {
-	listen 127.0.0.1:80;
+	listen 80;
 	server_name koalab.lo;
 	access_log /var/log/nginx/koalab.access.log;
 	error_log /var/log/nginx/koalab.error.log;
