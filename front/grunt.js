@@ -26,9 +26,6 @@ module.exports = function(grunt) {
     },
     coffee: {
       compile: {
-//         options: {
-//           bare: true
-//         },
         files: {
           "tmp/app.js": ["app/app.coffee", "app/models/*.coffee", "app/collections/*.coffee", "app/views/*.coffee"]
         }
@@ -37,6 +34,7 @@ module.exports = function(grunt) {
     handlebars: {
       compile: {
         options: {
+          wrapped: true,
           namespace: "JST",
           processName: function(filename) {
             return path.basename(filename, ".hbs");

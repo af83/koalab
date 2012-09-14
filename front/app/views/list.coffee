@@ -17,7 +17,7 @@ class App.ListView extends Backbone.View
 
   add: (board) =>
     @list.append JST.listitem board.toJSON()
-    @$el.find(".board-link:last").focus()
+    @$el.find(".board-link").eq(-1).focus()
     @
 
   fetch: (boards) =>

@@ -36,7 +36,7 @@ module.exports = function(app, db) {
     res.render('index');
   });
 
-  app.get('/boards', function(req, res, next) {
+  app.get('/api/boards', function(req, res, next) {
     var boards = Board.find({}, function(err, boards) {
       if(err) return next(err);
       res.send(boards);
@@ -44,7 +44,7 @@ module.exports = function(app, db) {
   });
 
   // Create Board
-  app.post('/boards', function(req, res, next) {
+  app.post('/api/boards', function(req, res, next) {
     var board = new Board(req.body);
     board.save(function(err) {
       if (err) return next(err);
@@ -54,12 +54,12 @@ module.exports = function(app, db) {
   });
 
   // Get Board
-  app.get('/boards/:bid', loader(Board, 'bid'), function(req, res) {
+  app.get('/api/boards/:bid', loader(Board, 'bid'), function(req, res) {
     res.send(req.board);
   });
 
   // Update Board
-  app.put('/boards/:bid', function(req, res, next) {
+  app.put('/api/boards/:bid', function(req, res, next) {
     delete req.body._id;
     Board.findByIdAndUpdate(req.params.bid, req.body, function(err, board) {
       if (err) return next(err);
@@ -69,7 +69,7 @@ module.exports = function(app, db) {
   });
 
   // Create Postit
-  app.post('/boards/:bid/postits', function(req, res, next) {
+  app.post('/api/boards/:bid/postits', function(req, res, next) {
     req.body.board_id = req.params.bid;
     var postit = new Postit(req.body);
     postit.save(function(err) {
@@ -80,7 +80,7 @@ module.exports = function(app, db) {
   });
 
   // Get postits
-  app.get('/boards/:bid/postits', function(req, res, next) {
+  app.get('/api/boards/:bid/postits', function(req, res, next) {
     var bid = req.params.bid;
     Postit.find({ board_id : bid }, function(err, postits) {
       if (err) return next(new Error());
@@ -89,12 +89,12 @@ module.exports = function(app, db) {
   });
 
   // Get postit
-  app.get('/boards/:bid/postits/:pid', loader(Postit, 'pid'), function(req, res) {
+  app.get('/api/boards/:bid/postits/:pid', loader(Postit, 'pid'), function(req, res) {
     res.send(req.postit);
   });
 
   // Update postit
-  app.put('/boards/:bid/postits/:pid', function(req, res, next) {
+  app.put('/api/boards/:bid/postits/:pid', function(req, res, next) {
     delete req.body._id;
     Postit.findByIdAndUpdate(req.params.pid, req.body, function(err, postit) {
       if (err) return next(err);

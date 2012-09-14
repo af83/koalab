@@ -6,13 +6,38 @@ class App.MainView extends Backbone.View
     'click .board-link': 'openBoard'
 
   initialize: ->
-    @boards = new App.BoardsCollection()  # FIXME
-    @view = new App.ListView collection: @boards
-    @boards.fetch()
+    navigator.id.watch
+      loggedInEmail: @model.get 'email'
+      onlogin: @onLogin
+      onlogout: @onLogout
+    @model.on 'change', =>
+      @chooseView()
+      @render()
+    @chooseView()
+
+  chooseView: =>
+    if @model.isLogged()
+      @listBoard()
+    else
+      @signIn()
 
   render: ->
     @$el.html @view.render().el
     @
+
+  onLogin: (assertion) =>
+    @model.save assertion: assertion
+
+  onLogout: =>
+    @model.destroy()
+
+  signIn: ->
+    @view = new App.SignInView()
+
+  listBoard: ->
+    @boards = new App.BoardsCollection()
+    @view = new App.ListView collection: @boards
+    @boards.fetch()
 
   openBoard: (e) ->
     board = @boards.get e.target.dataset.id
