@@ -10,6 +10,7 @@ server {
 	root /home/nono/dev/koalab/front/public;
 
 	location / {
+		rewrite ^(/boards.*)$ /;
 		try_files $uri $uri/index.html @app;
 	}
 
