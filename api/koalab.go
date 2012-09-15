@@ -48,8 +48,8 @@ type Postit struct {
 		W int `json:"w"`
 		H int `json:"h"`
 	} `json:"size"`
-	angle int    `json:"angle"`
-	Color string `json:"color"`
+	Angle float64 `json:"angle"`
+	Color string  `json:"color"`
 }
 
 func (b BrowserIDResponse) Okay() bool {
@@ -188,7 +188,7 @@ func ListPostits(w http.ResponseWriter, r *http.Request) {
 
 func CreatePostit(w http.ResponseWriter, r *http.Request) {
 	id := bson.NewObjectId()
-	bid := bson.ObjectId(r.URL.Query().Get(":id"))
+	bid := bson.ObjectIdHex(r.URL.Query().Get(":id"))
 	postit := Postit{Id: id, BoardId: bid}
 	body, _ := ioutil.ReadAll(r.Body)
 	err := json.Unmarshal(body, &postit)
@@ -210,7 +210,7 @@ func CreatePostit(w http.ResponseWriter, r *http.Request) {
 
 func ApiHandlerFunc(handler http.HandlerFunc) http.HandlerFunc {
 	wrapped := func(w http.ResponseWriter, r *http.Request) {
-		cookie, err := r.Cookie("email");
+		cookie, err := r.Cookie("email")
 		if err != nil {
 			http.Error(w, "Authentication required", 403)
 			return
