@@ -16,6 +16,7 @@ class App.User extends Backbone.Model
     @save assertion: assertion
 
   onLogout: =>
+    @clone.destroy()
     @clear()
 
   isLogged: ->

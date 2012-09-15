@@ -28,7 +28,7 @@ class App.MainView extends Backbone.View
       @view.remove() if @view
       @view = new App.BoardView model: board
     else
-      console.log "Board not found!"
+      App.router.navigate 'boards', trigger: true
     @
 
   openBoard: (e) ->

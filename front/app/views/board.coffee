@@ -12,8 +12,9 @@ class App.BoardView extends Backbone.View
     'click .toggle-menu': 'toggleMenu'
 
   initialize: ->
-    @lines = new App.LinesView model: @model
+    @lines = new App.LinesView collection: @model.lines
     @postits = new App.PostitsView collection: @model.postits
+    @model.lines.fetch()
     @model.postits.fetch()
 
   render: ->
@@ -23,7 +24,7 @@ class App.BoardView extends Backbone.View
     @
 
   addPostit: (color) ->
-    @model.addPostit color
+    @model.postits.create color: color
     false
 
   addPostitBlue: ->
@@ -38,18 +39,17 @@ class App.BoardView extends Backbone.View
   addPostitRose: ->
     @addPostit 'f878d2'
 
-  addLine: (dir) ->
-    @model.addLine dir
+  addLineH: ->
+    @model.lines.createHorizontal()
     false
 
-  addLineH: ->
-    @addLine 'horizontal'
-
   addLineV: ->
-    @addLine 'vertical'
+    @model.lines.createVertical()
+    false
 
   addLineD: ->
-    @addLine 'diagonal'
+    @model.lines.createDiagonal()
+    false
 
   toggleMenu: ->
     @$el.find('aside').toggleClass 'closed'
