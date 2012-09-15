@@ -8,6 +8,6 @@ class App.Postit extends Backbone.Model
     size:
       w: 150
       h: 150
-    angle: Math.floor(Math.random() * 150) / 10 - 7
+    angle: (Math.random() * 15).toFixed(1) - 7
 
 App.Postit.defaultTitle = "New post-it"

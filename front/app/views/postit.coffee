@@ -7,8 +7,7 @@ class App.PostitView extends Backbone.View
     'dragleave': 'leave'
     'dragend': 'end'
     'focus p': 'focus'
-    'blur p': 'blur'
-    'keypress p': 'saveOnEnter'
+    'keyup p': 'updateTitle'
 
   initialize: ->
     @model.on 'change:title',  @update
@@ -16,9 +15,13 @@ class App.PostitView extends Backbone.View
     @model.on 'change:coords', @move
     @model.on 'change:size',   @resize
     @model.on 'change:angle',  @rotate
+    fn = => @model.save {}, {silent: true}
+    @throttledSave = _.throttle fn, 2000
 
   render: ->
+    @$el.html JST.postit @model.toJSON()
     @el.id = "postit-#{@model.cid}"
+    @el.querySelector('.gradient').draggable = true
     @update()
     @colorize()
     @move()
@@ -27,8 +30,29 @@ class App.PostitView extends Backbone.View
     @
 
   update: =>
-    @$el.html JST.postit @model.toJSON()
-    @el.querySelector('.gradient').draggable = true
+    @$el.find('p').text @model.get 'title'
+    setTimeout @adjustFontSize, 0
+    @
+
+  adjustFontSize: =>
+    size = 3
+    p = @$el.find 'p'
+    w = _(p.text().split(/\s+/)).max (s) -> s.length
+    c = p.clone()
+         .text(w)
+         .css(display: 'inline', visibility: 'hidden', fontSize: "#{size}em")
+         .appendTo 'body'
+    p = p[0]
+    while c.width() > @model.get('size').w
+      break if size < 0.4
+      size *= 0.85
+      c.css fontSize: "#{size.toFixed 1}em"
+    c.remove()
+    p.style.fontSize = "#{size.toFixed 1}em"
+    while p.clientHeight > @model.get('size').h - 30  # 30px for margins
+      break if size < 0.4
+      size *= 0.85
+      p.style.fontSize = "#{size.toFixed 1}em"
     @
 
   colorize: =>
@@ -82,14 +106,12 @@ class App.PostitView extends Backbone.View
     p.text "" if p.text() == App.Postit.defaultTitle
     true
 
-  blur: =>
-    @model.set title: @$el.find('p').text()
-    @model.set title: App.Postit.defaultTitle if @model.get('title') == ''
-    @model.set color: '0b0b0b' if @model.get('title') == 'Mathilde'
-    @model.save()
+  updateTitle: (e) =>
+    title = @$el.find('p').text()
+    title = App.Postit.defaultTitle if title == ''
+    return if title == @model.get('title')
+    @model.set color: '0b0b0b' if title == 'Mathilde'
+    @model.set {title: title}, {silent: true}
+    @adjustFontSize()
+    @throttledSave()
     true
-
-  saveOnEnter: (e) =>
-    return if e.which != App.keys.enter
-    @$el.find('p').blur()
-    false
