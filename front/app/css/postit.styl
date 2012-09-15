@@ -92,7 +92,6 @@ body
   position: fixed
   padding: 25px 5px 10px
   box-shadow: -4px 4px 4px #aaa
-  cursor: move
   .gradient
     position: absolute
     top: 0
@@ -103,6 +102,16 @@ body
     background: -webkit-linear-gradient(top, #000 0%, #fff 75%)
     background: linear-gradient(top, #000 0%, #fff 75%)
     opacity: 0.1
+    cursor: move
+  .resize
+    position: absolute
+    bottom: 0
+    right: 0
+    z-index: 3
+    width: 19px
+    height: 19px
+    background-image: url("/images/resize.png")
+    cursor: se-resize
   p
     z-index: 5
     margin: 0

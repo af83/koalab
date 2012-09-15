@@ -13,7 +13,7 @@ class App.PostitsView extends Backbone.View
 
   render: ->
     @$el.html ''
-    @el.setAttribute 'dropzone', 'move string:text/postit'
+    @el.setAttribute 'dropzone', 'move string:text/postit string:text/corner'
     @$el.append view.render().el for view in @views
     @
 
@@ -30,14 +30,30 @@ class App.PostitsView extends Backbone.View
   dragover: (e) =>
     e = e.originalEvent if e.originalEvent
     e.preventDefault()
+    for type in e.dataTransfer.types
+      if type == "text/corner"
+        [cid, x, y] = e.dataTransfer.getData(type).split(',')
+        el = @collection.getByCid cid
+        el.set size:
+          w: e.clientX - x
+          h: e.clientY - y
     false
 
   drop: (e) =>
     e = e.originalEvent if e.originalEvent
-    [cid, x, y] = e.dataTransfer.getData("text/postit").split(',')
-    el = @collection.getByCid cid
-    el.set coords:
-      x: e.clientX - x
-      y: e.clientY - y
-    el.save()
+    for type in e.dataTransfer.types
+      if type == "text/corner"
+        [cid, x, y] = e.dataTransfer.getData(type).split(',')
+        el = @collection.getByCid cid
+        el.set size:
+          w: e.clientX - x
+          h: e.clientY - y
+        el.save()
+      else if type == "text/postit"
+        [cid, x, y] = e.dataTransfer.getData(type).split(',')
+        el = @collection.getByCid cid
+        el.set coords:
+          x: e.clientX - x
+          y: e.clientY - y
+        el.save()
     false

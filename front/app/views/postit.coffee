@@ -22,6 +22,7 @@ class App.PostitView extends Backbone.View
     @$el.html JST.postit @model.toJSON()
     @el.id = "postit-#{@model.cid}"
     @el.querySelector('.gradient').draggable = true
+    @el.querySelector('.resize').draggable = true
     @update()
     @colorize()
     @move()
@@ -82,13 +83,19 @@ class App.PostitView extends Backbone.View
 
   start: (e) =>
     e = e.originalEvent if e.originalEvent
-    x = e.clientX - parseInt @el.style.left, 10
-    y = e.clientY - parseInt @el.style.top, 10
-    e.dataTransfer.setData 'text/postit', "#{@model.cid},#{x},#{y}"
-    e.dataTransfer.dropEffect = 'move'
-    img = document.createElement 'img'
-    img.src = '/images/koala.png'
-    e.dataTransfer.setDragImage img, 0, 0
+    if e.target.classList.contains 'resize'
+      x = e.clientX - @model.get('size').w
+      y = e.clientY - @model.get('size').h
+      e.dataTransfer.setData 'text/corner', "#{@model.cid},#{x},#{y}"
+      e.dataTransfer.dropEffect = 'move'
+    else
+      x = e.clientX - parseInt @el.style.left, 10
+      y = e.clientY - parseInt @el.style.top, 10
+      e.dataTransfer.setData 'text/postit', "#{@model.cid},#{x},#{y}"
+      e.dataTransfer.dropEffect = 'move'
+      img = document.createElement 'img'
+      img.src = '/images/koala.png'
+      e.dataTransfer.setDragImage img, 0, 0
     true
 
   leave: (e) =>
@@ -99,6 +106,7 @@ class App.PostitView extends Backbone.View
 
   end: (e) =>
     e = e.originalEvent if e.originalEvent
+    @adjustFontSize()
     true
 
   focus: =>
