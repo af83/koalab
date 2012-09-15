@@ -175,7 +175,7 @@ func ShowBoard(w http.ResponseWriter, r *http.Request) {
 
 func ListPostits(w http.ResponseWriter, r *http.Request) {
 	var postits []Postit
-	id := r.URL.Query().Get(":id")
+	id := bson.ObjectIdHex(r.URL.Query().Get(":id"))
 	err := db.C("postits").Find(bson.M{"board_id": id}).All(&postits)
 	if err != nil {
 		http.Error(w, err.Error(), 500)
@@ -187,9 +187,7 @@ func ListPostits(w http.ResponseWriter, r *http.Request) {
 }
 
 func CreatePostit(w http.ResponseWriter, r *http.Request) {
-	id := bson.NewObjectId()
-	bid := bson.ObjectIdHex(r.URL.Query().Get(":id"))
-	postit := Postit{Id: id, BoardId: bid}
+	postit := Postit{}
 	body, _ := ioutil.ReadAll(r.Body)
 	err := json.Unmarshal(body, &postit)
 	if err != nil {
@@ -197,7 +195,31 @@ func CreatePostit(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	postit.Id = bson.NewObjectId()
+	postit.BoardId = bson.ObjectIdHex(r.URL.Query().Get(":id"))
 	err = db.C("postits").Insert(postit)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	bytes, _ := json.Marshal(postit)
+	w.Header().Add("content-type", "application/json")
+	w.Write(bytes)
+}
+
+func UpdatePostit(w http.ResponseWriter, r *http.Request) {
+	postit := Postit{}
+	body, _ := ioutil.ReadAll(r.Body)
+	err := json.Unmarshal(body, &postit)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	postit.Id = bson.ObjectIdHex(r.URL.Query().Get(":id"))
+	postit.BoardId = bson.ObjectIdHex(r.URL.Query().Get(":bid"))
+	err = db.C("postits").UpdateId(postit.Id, postit)
 	if err != nil {
 		http.Error(w, err.Error(), 500)
 		return
@@ -256,7 +278,7 @@ func main() {
 	m.Get("/api/boards/:id", ApiHandlerFunc(ShowBoard))
 	m.Get("/api/boards/:id/postits", ApiHandlerFunc(ListPostits))
 	m.Post("/api/boards/:id/postits", ApiHandlerFunc(CreatePostit))
-	//m.Put("/boards/:bid/postits/:id", http.HandlerFunc(UpdatePostit))
+	m.Put("/api/boards/:bid/postits/:id", http.HandlerFunc(UpdatePostit))
 
 	// Start the HTTP server
 	http.Handle("/", m)
