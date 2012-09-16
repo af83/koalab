@@ -1,5 +1,6 @@
 @App =
   init: ->
+    App.koala  = (-> i = new Image(); i.src = '/images/koala.png'; i)()
     App.user   = new App.User()
     App.source = new App.SSE()
     App.router = new App.Router()
