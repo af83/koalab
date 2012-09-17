@@ -2,30 +2,22 @@ class App.LinesView extends Backbone.View
   id: 'lines-view'
 
   initialize: ->
-    @model.on 'add:lines', @add
+    @collection.on 'add', @add
+    @collection.on 'reset', @fetch
+    @views = []
+    @views.push new App.LineView model: m for m in @collection.models
 
   render: ->
     @$el.html ""
-    @add line for line in @model.get "lines"
+    @$el.append view.render().el for view in @views
     @
 
-  # TODO create a LineView
-  # TODO create a Line model and move length/angle in it
   add: (line) =>
-    x = line.x2 - line.x1
-    y = line.y2 - line.y1
-    length = Math.floor Math.sqrt(x*x + y*y)
-    angle = Math.atan(y/x) * 180 / Math.PI
-    el = document.createElement 'div'
-    el.classList.add 'line'
-    el.style.left = "#{line.x1}px"
-    el.style.top  = "#{line.y1}px"
-    el.style.width = "#{length}px"
-    @$el.append @rotate el, angle
-    @
+    view = new App.LineView model: line
+    @views.push view
+    @$el.append view.render().el
 
-  rotate: (el, angle) ->
-    el.style.MozTransform = "rotate(#{angle}deg)"
-    el.style.WebkitTransform = "rotate(#{angle}deg)"
-    el.style.transform = "rotate(#{angle}deg)"
-    el
+  fetch: =>
+    @views = []
+    @views.push new App.LineView model: m for m in @collection.models
+    @render()

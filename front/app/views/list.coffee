@@ -12,7 +12,7 @@ class App.ListView extends Backbone.View
     @$el.html JST.list boards: @collection.toJSON()
     @list = @$el.find "#list-of-boards"
     @input = @$el.find "#new-board"
-    @add board for board in @collection
+    @add board for board in @collection.models
     @
 
   add: (board) =>
@@ -21,6 +21,7 @@ class App.ListView extends Backbone.View
     @
 
   fetch: (boards) =>
+    @list.html ''
     @add board for board in @collection.models
     @
 

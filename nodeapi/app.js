@@ -30,5 +30,5 @@ app.configure('production', function() {
 
 db.once('open', function () {
   require('./app/controller')(app, db);
-  app.listen(process.env.PORT || 8080);
+  app.listen(process.env.PORT || 8080);
 });

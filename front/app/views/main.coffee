@@ -1,4 +1,3 @@
-# TODO use a Router instead of a view for this class
 class App.MainView extends Backbone.View
   el: '#app'
 
@@ -6,45 +5,32 @@ class App.MainView extends Backbone.View
     'click .board-link': 'openBoard'
 
   initialize: ->
-    navigator.id.watch
-      loggedInEmail: @model.get 'email'
-      onlogin: @onLogin
-      onlogout: @onLogout
-    @model.on 'change', =>
-      @chooseView()
-      @render()
-    @chooseView()
-
-  chooseView: =>
-    if @model.isLogged()
-      @listBoard()
-    else
-      @signIn()
+    @boards = new App.BoardsCollection()
 
   render: ->
     @$el.html @view.render().el
     @
 
-  onLogin: (assertion) =>
-    @model.save assertion: assertion
-
-  onLogout: =>
-    @model.destroy()
-
   signIn: ->
+    @view.remove() if @view
     @view = new App.SignInView()
+    @
 
-  listBoard: ->
-    @boards = new App.BoardsCollection()
+  listBoards: ->
+    @view.remove() if @view
     @view = new App.ListView collection: @boards
     @boards.fetch()
+    @
+
+  showBoard: (id) ->
+    board = @boards.get id
+    if board
+      @view.remove() if @view
+      @view = new App.BoardView model: board
+    else
+      App.router.navigate 'boards', trigger: true
+    @
 
   openBoard: (e) ->
-    board = @boards.get e.target.dataset.id
-    if board
-      @view.remove()
-      @view = new App.BoardView model: board
-      @render()
-    else
-      console.log "Board not found!"
+    App.router.navigate e.target.pathname.slice(1), trigger: true
     false

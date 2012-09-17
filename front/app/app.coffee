@@ -1,8 +1,10 @@
 @App =
   init: ->
+    App.koala  = (-> i = new Image(); i.src = '/images/koala.png'; i)()
+    App.user   = new App.User()
     App.source = new App.SSE()
-    main = new App.MainView model: App.User.current()
-    main.render()
+    App.router = new App.Router()
+    Backbone.history.start pushState: true
   keys:
     enter: 13
 
