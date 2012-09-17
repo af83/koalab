@@ -10,11 +10,12 @@ class App.PostitView extends Backbone.View
     'keyup p': 'updateTitle'
 
   initialize: ->
-    @model.on 'change:title',  @update
-    @model.on 'change:color',  @colorize
-    @model.on 'change:coords', @move
-    @model.on 'change:size',   @resize
-    @model.on 'change:angle',  @rotate
+    @model.on 'change:title',     @update
+    @model.on 'change:color',     @colorize
+    @model.on 'change:coords',    @move
+    @model.on 'change:size',      @resize
+    @model.on 'change:angle',     @rotate
+    @model.on 'change:updatedAt', @updated
     fn = => @model.save {}, {silent: true}
     @throttledSave = _.throttle fn, 2000
 
@@ -28,6 +29,7 @@ class App.PostitView extends Backbone.View
     @move()
     @resize()
     @rotate()
+    @bringOut()
     @
 
   update: =>
@@ -81,6 +83,14 @@ class App.PostitView extends Backbone.View
     @el.style.transform = prop
     @
 
+  bringOut: =>
+    @el.style.zIndex = @model.collection.indexOf @model
+    @
+
+  updated: =>
+    @model.collection.sort silent: true
+    @bringOut()
+
   start: (e) =>
     e = e.originalEvent if e.originalEvent
     if e.target.classList.contains 'resize'
@@ -105,6 +115,7 @@ class App.PostitView extends Backbone.View
   end: (e) =>
     e = e.originalEvent if e.originalEvent
     @adjustFontSize()
+    @el.style.zIndex = 999
     true
 
   focus: =>

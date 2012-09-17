@@ -11,6 +11,7 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"time"
 )
 
 var host string
@@ -48,8 +49,9 @@ type Postit struct {
 		W int `json:"w"`
 		H int `json:"h"`
 	} `json:"size"`
-	Angle float64 `json:"angle"`
-	Color string  `json:"color"`
+	Angle     float64   `json:"angle"`
+	Color     string    `json:"color"`
+	UpdatedAt time.Time `json:"updatedAt"`
 }
 
 func (b BrowserIDResponse) Okay() bool {
@@ -197,6 +199,7 @@ func CreatePostit(w http.ResponseWriter, r *http.Request) {
 
 	postit.Id = bson.NewObjectId()
 	postit.BoardId = bson.ObjectIdHex(r.URL.Query().Get(":id"))
+	postit.UpdatedAt = time.Now()
 	err = db.C("postits").Insert(postit)
 	if err != nil {
 		http.Error(w, err.Error(), 500)
@@ -219,6 +222,7 @@ func UpdatePostit(w http.ResponseWriter, r *http.Request) {
 
 	postit.Id = bson.ObjectIdHex(r.URL.Query().Get(":id"))
 	postit.BoardId = bson.ObjectIdHex(r.URL.Query().Get(":bid"))
+	postit.UpdatedAt = time.Now()
 	err = db.C("postits").UpdateId(postit.Id, postit)
 	if err != nil {
 		http.Error(w, err.Error(), 500)
