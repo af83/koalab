@@ -31,10 +31,10 @@ type Board struct {
 type Line struct {
 	Id      bson.ObjectId `json:"_id" bson:"_id"`
 	BoardId bson.ObjectId `json:"board_id" bson:"board_id"`
-	X1      int
-	X2      int
-	Y1      int
-	Y2      int
+	X1      int `json:"x1"`
+	X2      int `json:"x2"`
+	Y1      int `json:"y1"`
+	Y2      int `json:"y2"`
 }
 
 type Postit struct {
