@@ -30,7 +30,7 @@ type Board struct {
 
 type Line struct {
 	Id      bson.ObjectId `json:"_id" bson:"_id"`
-	BoardId bson.ObjectId
+	BoardId bson.ObjectId `json:"board_id" bson:"board_id"`
 	X1      int
 	X2      int
 	Y1      int
@@ -234,6 +234,63 @@ func UpdatePostit(w http.ResponseWriter, r *http.Request) {
 	w.Write(bytes)
 }
 
+func ListLines(w http.ResponseWriter, r *http.Request) {
+	var lines []Line
+	id := bson.ObjectIdHex(r.URL.Query().Get(":id"))
+	err := db.C("lines").Find(bson.M{"board_id": id}).All(&lines)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+	bytes, _ := json.Marshal(lines)
+	w.Header().Add("content-type", "application/json")
+	w.Write(bytes)
+}
+
+func CreateLine(w http.ResponseWriter, r *http.Request) {
+	line := Line{}
+	body, _ := ioutil.ReadAll(r.Body)
+	err := json.Unmarshal(body, &line)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	line.Id = bson.NewObjectId()
+	line.BoardId = bson.ObjectIdHex(r.URL.Query().Get(":id"))
+	err = db.C("lines").Insert(line)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	bytes, _ := json.Marshal(line)
+	w.Header().Add("content-type", "application/json")
+	w.Write(bytes)
+}
+
+func UpdateLine(w http.ResponseWriter, r *http.Request) {
+	line := Line{}
+	body, _ := ioutil.ReadAll(r.Body)
+	err := json.Unmarshal(body, &line)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	line.Id = bson.ObjectIdHex(r.URL.Query().Get(":id"))
+	line.BoardId = bson.ObjectIdHex(r.URL.Query().Get(":bid"))
+	err = db.C("lines").UpdateId(line.Id, line)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	bytes, _ := json.Marshal(line)
+	w.Header().Add("content-type", "application/json")
+	w.Write(bytes)
+}
+
 func ApiHandlerFunc(handler http.HandlerFunc) http.HandlerFunc {
 	wrapped := func(w http.ResponseWriter, r *http.Request) {
 		cookie, err := r.Cookie("email")
@@ -283,6 +340,9 @@ func main() {
 	m.Get("/api/boards/:id/postits", ApiHandlerFunc(ListPostits))
 	m.Post("/api/boards/:id/postits", ApiHandlerFunc(CreatePostit))
 	m.Put("/api/boards/:bid/postits/:id", http.HandlerFunc(UpdatePostit))
+	m.Get("/api/boards/:id/lines", ApiHandlerFunc(ListLines))
+	m.Post("/api/boards/:id/lines", ApiHandlerFunc(CreateLine))
+	m.Put("/api/boards/:bid/lines/:id", http.HandlerFunc(UpdateLine))
 
 	// Start the HTTP server
 	http.Handle("/", m)
