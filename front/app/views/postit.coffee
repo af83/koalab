@@ -115,7 +115,7 @@ class App.PostitView extends Backbone.View
   end: (e) =>
     e = e.originalEvent if e.originalEvent
     @adjustFontSize()
-    @el.style.zIndex = 999
+    @el.style.zIndex = 998
     true
 
   focus: =>
