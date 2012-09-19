@@ -1,3 +1,4 @@
+/.secret
 /docs
 /node_modules
 /public/*.css
