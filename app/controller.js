@@ -26,11 +26,25 @@ function loader(Model, id) {
   };
 }
 
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) { return next(); }
+  res.send(403, 'Forbidden')
+}
+
 module.exports = function(app, db, pass) {
   var models = require('./models')(db),
       Board  = models.Board,
       Postit = models.Postit,
       Lines  = models.Lines;
+
+  app.get('/login', function(req, res) {
+    res.render('index', { email: '' });
+  });
+
+  app.get('/', function(req, res) {
+    if (!req.isAuthenticated()) { return res.redirect('/login'); }
+    res.render('index', { email: req.user.email });
+  });
 
   app.post("/api/user", pass.authenticate('browserid', {
     successRedirect: '/',
@@ -38,13 +52,7 @@ module.exports = function(app, db, pass) {
     failureFlash: true
   }));
 
-  app.get('/', function(req, res) {
-    var email = req.user ? req.user.email : '';
-    console.log("email = ", email);
-    res.render('index', {email: email});
-  });
-
-  app.get('/api/boards', function(req, res, next) {
+  app.get('/api/boards', ensureAuthenticated, function(req, res, next) {
     var boards = Board.find({}, function(err, boards) {
       if(err) return next(err);
       res.send(boards);
@@ -52,7 +60,7 @@ module.exports = function(app, db, pass) {
   });
 
   // Create Board
-  app.post('/api/boards', function(req, res, next) {
+  app.post('/api/boards', ensureAuthenticated, function(req, res, next) {
     var board = new Board(req.body);
     board.save(function(err) {
       if (err) return next(err);
@@ -62,13 +70,13 @@ module.exports = function(app, db, pass) {
   });
 
   // Get Board
-  app.get('/api/boards/:bid', loader(Board, 'bid'), function(req, res) {
+  app.get('/api/boards/:bid', ensureAuthenticated, loader(Board, 'bid'), function(req, res) {
     console.log(req.session);
     res.send(req.board, { email: "bruno.michel@af83.com" });
   });
 
   // Update Board
-  app.put('/api/boards/:bid', function(req, res, next) {
+  app.put('/api/boards/:bid', ensureAuthenticated, function(req, res, next) {
     delete req.body._id;
     Board.findByIdAndUpdate(req.params.bid, req.body, function(err, board) {
       if (err) return next(err);
@@ -78,7 +86,7 @@ module.exports = function(app, db, pass) {
   });
 
   // Create Postit
-  app.post('/api/boards/:bid/postits', function(req, res, next) {
+  app.post('/api/boards/:bid/postits', ensureAuthenticated, function(req, res, next) {
     req.body.board_id = req.params.bid;
     var postit = new Postit(req.body);
     postit.save(function(err) {
@@ -89,7 +97,7 @@ module.exports = function(app, db, pass) {
   });
 
   // Get postits
-  app.get('/api/boards/:bid/postits', function(req, res, next) {
+  app.get('/api/boards/:bid/postits', ensureAuthenticated, function(req, res, next) {
     var bid = req.params.bid;
     Postit.find({ board_id : bid }, function(err, postits) {
       if (err) return next(new Error());
@@ -98,12 +106,12 @@ module.exports = function(app, db, pass) {
   });
 
   // Get postit
-  app.get('/api/boards/:bid/postits/:pid', loader(Postit, 'pid'), function(req, res) {
+  app.get('/api/boards/:bid/postits/:pid', ensureAuthenticated, loader(Postit, 'pid'), function(req, res) {
     res.send(req.postit);
   });
 
   // Update postit
-  app.put('/api/boards/:bid/postits/:pid', function(req, res, next) {
+  app.put('/api/boards/:bid/postits/:pid', ensureAuthenticated, function(req, res, next) {
     delete req.body._id;
     Postit.findByIdAndUpdate(req.params.pid, req.body, function(err, postit) {
       if (err) return next(err);

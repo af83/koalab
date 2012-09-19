@@ -1,7 +1,7 @@
 class App.Router extends Backbone.Router
   routes:
-    '': 'index'
-    'boards': 'list'
+    'login': 'index'
+    '': 'list'
     'boards/:id': 'show'
 
   initialize: ->
