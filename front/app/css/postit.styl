@@ -29,7 +29,7 @@ body
   aside
     position: fixed
     bottom: 50px
-    z-index: 3
+    z-index: 999
     width: 300px
     border: 1px solid #aaa
     background-color: #fff
@@ -77,6 +77,8 @@ body
     left: -270px
     .toggle-menu
       background-image: url("/images/chevron_droit.png")
+  aside + aside
+    bottom: 100px
 
 #postits-view
   position: fixed

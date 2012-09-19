@@ -1,14 +1,23 @@
 class App.LineView extends Backbone.View
   className: 'line'
 
-  initialize: ->
-    @model.on 'change', @render
+  initialize: (viewport: @viewport) ->
+    @viewport.on 'change', @move
+    @model.on    'change', @render
 
   render: =>
-    @el.style.left = "#{@model.get 'x1'}px"
-    @el.style.top  = "#{@model.get 'y1'}px"
-    @el.style.width = "#{Math.floor @model.length()}px"
+    @move()
     @rotate()
+    @
+
+  move: =>
+    len = @model.length() * @viewport.get('zoom')
+    coords = @viewport.toScreen
+      x: @model.get('x1')
+      y: @model.get('y1')
+    @el.style.left = "#{coords.x}px"
+    @el.style.top  = "#{coords.y}px"
+    @el.style.width = "#{Math.floor len}px"
     @
 
   rotate: ->

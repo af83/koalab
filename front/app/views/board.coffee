@@ -2,18 +2,25 @@ class App.BoardView extends Backbone.View
   id: 'board-view'
 
   events:
-    'click #add-postit-blue': 'addPostitBlue'
-    'click #add-postit-green': 'addPostitGreen'
+    'click #add-postit-blue':   'addPostitBlue'
+    'click #add-postit-green':  'addPostitGreen'
     'click #add-postit-yellow': 'addPostitYellow'
-    'click #add-postit-rose': 'addPostitRose'
+    'click #add-postit-rose':   'addPostitRose'
     'click #add-line-h': 'addLineH'
     'click #add-line-v': 'addLineV'
     'click #add-line-d': 'addLineD'
     'click .toggle-menu': 'toggleMenu'
+    'click .zoom-in':  'zoomIn'
+    'click .zoom-out': 'zoomOut'
+    'click .move-up':    'moveUp'
+    'click .move-down':  'moveDown'
+    'click .move-left':  'moveLeft'
+    'click .move-right': 'moveRight'
 
   initialize: ->
-    @lines = new App.LinesView collection: @model.lines
-    @postits = new App.PostitsView collection: @model.postits
+    @viewport = new App.Viewport()
+    @lines = new App.LinesView collection: @model.lines, viewport: @viewport
+    @postits = new App.PostitsView collection: @model.postits, viewport: @viewport
     @model.lines.fetch()
     @model.postits.fetch()
 
@@ -52,5 +59,47 @@ class App.BoardView extends Backbone.View
     false
 
   toggleMenu: ->
-    @$el.find('aside').toggleClass 'closed'
+    @el.querySelector('aside').classList.toggle 'closed'
+    false
+
+  zoomIn: ->
+    z = @viewport.get 'zoom'
+    z *= 1.4
+    @viewport.set zoom: z unless z > 3
+    false
+
+  zoomOut: ->
+    z = @viewport.get 'zoom'
+    z /= 1.4
+    @viewport.set zoom: z unless z < 0.3
+    false
+
+  moveUp: ->
+    offset = @viewport.get 'offset'
+    offset.y += 100
+    @viewport.set offset: offset
+    # FIXME it seeems backbone don't trigger the 'change' event here
+    # Is it a bug? I should try the head version
+    @viewport.trigger 'change'
+    false
+
+  moveDown: ->
+    offset = @viewport.get 'offset'
+    offset.y -= 100
+    @viewport.set offset: offset
+    @viewport.trigger 'change'
+    false
+
+  moveLeft: ->
+    offset = @viewport.get 'offset'
+    offset.x += 100
+    @viewport.set offset: offset
+    @viewport.trigger 'change'
+    false
+
+  moveRight: ->
+    offset = @viewport.get 'offset'
+    offset.x -= 100
+    @viewport.set offset: offset
+    @viewport.trigger 'change'
     false
