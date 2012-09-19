@@ -7,7 +7,7 @@ server {
 	server_name koalab.lo;
 	access_log /var/log/nginx/koalab.access.log;
 	error_log /var/log/nginx/koalab.error.log;
-	root /home/nono/dev/koalab/front/public;
+	root /home/nono/dev/koalab/public;
 
 	location / {
 		rewrite ^(/boards.*)$ /;

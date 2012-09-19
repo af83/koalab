@@ -10,9 +10,9 @@ module.exports = function(grunt) {
 
   // Project configuration.
   grunt.initConfig({
+    pkg: '<json:package.json>',
     meta: {
-      version: '0.1.0',
-      banner: '/*! Boardz - v<%= meta.version %> - ' +
+      banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
         '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
         ' * https://github.com/AF83/koalab\n' +
         ' * Copyright (c) <%= grunt.template.today("yyyy") %> ' +
@@ -23,12 +23,12 @@ module.exports = function(grunt) {
       files: ['grunt.js']
     },
     coffeelint: {
-      files: ['app/**/*.coffee']
+      files: ['assets/**/*.coffee']
     },
     coffee: {
       compile: {
         files: {
-          "tmp/app.js": ["app/app.coffee", "app/router.coffee", "app/models/*.coffee", "app/collections/*.coffee", "app/views/*.coffee"]
+          "tmp/app.js": ["assets/app.coffee", "assets/router.coffee", "assets/models/*.coffee", "assets/collections/*.coffee", "assets/views/*.coffee"]
         }
       }
     },
@@ -42,14 +42,14 @@ module.exports = function(grunt) {
           }
         },
         files: {
-          "tmp/templates.js": ["app/templates/*.hbs"]
+          "tmp/templates.js": ["assets/templates/*.hbs"]
         }
       }
     },
     copy: {
       dev: {
         files: {
-          "public/": "vendor/*"
+          "public/": "assets/vendor/*"
         }
       }
     },
@@ -61,24 +61,20 @@ module.exports = function(grunt) {
     },
     min: {
       dist: {
-        src: ['<banner:meta.banner>', 'vendor/**/*.js', '<config:concat.dist.dest>'],
+        src: ['<banner:meta.banner>', 'assets/vendor/**/*.js', '<config:concat.dist.dest>'],
         dest: 'public/koalab.min.js'
       }
-    },
-    server: {
-      port: 8000,
-      base: 'public'
     },
     uglify: {},
     stylus: {
       compile: {
         files: {
-          'public/koalab.css': 'app/css/*.styl'
+          'public/koalab.css': 'assets/css/*.styl'
         }
       }
     },
     watch: {
-      files: ['<config:coffeelint.files>', 'app/templates/*.hbs', 'app/css/*.styl'],
+      files: ['<config:coffeelint.files>', 'assets/templates/*.hbs', 'assets/css/*.styl'],
       tasks: 'coffeelint stylus handlebars coffee concat'
     }
   });

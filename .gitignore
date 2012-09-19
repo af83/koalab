@@ -1,8 +1,5 @@
-/api/.secret
-/api/koalab
-
-/front/docs
-/front/node_modules
-/front/public/*.css
-/front/public/*.js
-/front/tmp
+/docs
+/node_modules
+/public/*.css
+/public/*.js
+/tmp

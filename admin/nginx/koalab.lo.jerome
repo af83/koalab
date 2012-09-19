@@ -7,7 +7,7 @@ server {
 	server_name koalab.lo;
 	access_log logs/access.log;
 	error_log logs/error.log;
-	root /Users/jandrieux/Sources/koalab/front/public;
+	root /Users/jandrieux/Sources/koalab/public;
 
 	location / {
 		rewrite ^(/boards.*)$ /;
