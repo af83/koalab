@@ -9,5 +9,5 @@ class App.SignInView extends Backbone.View
     @
 
   requestAssertion: ->
-    navigator.id.request()
+    navigator.id.request siteName: 'Koalab'
     false

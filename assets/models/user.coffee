@@ -8,7 +8,7 @@ class App.User extends Backbone.Model
     email = document.cookie.match /email=(\w+)/
     @set email: email
     navigator.id.watch
-      loggedInEmail: email
+      loggedInUser: email
       onlogin: @onLogin
       onlogout: @onLogout
 
