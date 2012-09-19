@@ -9,6 +9,7 @@ class App.PostitsView extends Backbone.View
     @viewport = @options.viewport
     @collection.on 'add', @add
     @collection.on 'reset', @fetch
+    @collection.on 'sort', @sort
     @views = []
 
   render: ->
@@ -25,6 +26,9 @@ class App.PostitsView extends Backbone.View
   fetch: =>
     @views = []
     @render()
+
+  sort: =>
+    view.bringOut() for view in @views
 
   dragover: (e) =>
     e = e.originalEvent if e.originalEvent

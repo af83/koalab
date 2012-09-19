@@ -10,13 +10,13 @@ class App.PostitView extends Backbone.View
     'keyup p': 'updateTitle'
 
   initialize: (viewport: @viewport) ->
-    @viewport.on 'change',        @redraw
-    @model.on 'change:title',     @update
-    @model.on 'change:color',     @colorize
-    @model.on 'change:coords',    @move
-    @model.on 'change:size',      @resize
-    @model.on 'change:angle',     @rotate
-    @model.on 'change:updatedAt', @updated
+    @viewport.on 'change',         @redraw
+    @model.on 'change:title',      @update
+    @model.on 'change:color',      @colorize
+    @model.on 'change:coords',     @move
+    @model.on 'change:size',       @resize
+    @model.on 'change:angle',      @rotate
+    @model.on 'change:updated_at', @updated
     fn = => @model.save {}, {silent: true}
     @throttledSave = _.throttle fn, 2000
 
@@ -99,7 +99,8 @@ class App.PostitView extends Backbone.View
 
   updated: =>
     @model.collection.sort silent: true
-    @bringOut()
+    @model.collection.trigger 'sort'
+    @
 
   start: (e) =>
     zoom = @viewport.get 'zoom'

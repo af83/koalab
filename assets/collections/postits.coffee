@@ -10,4 +10,4 @@ class App.PostitsCollection extends Backbone.Collection
       @get(postit._id).set postit if postit.board_id == @board.id
 
   comparator: (postit) ->
-    postit.get 'updatedAt'
+    postit.get 'updated_at'

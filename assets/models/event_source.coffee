@@ -9,7 +9,7 @@ class App.SSE
 
   onMessage: (e) =>
     try
-      msg = $.parseJSON e.data
+      msg = JSON.parse e.data
       @trigger "#{msg.action}-#{msg.type}", msg.model
     catch err
       console.log err if window.console

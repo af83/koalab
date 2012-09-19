@@ -88,6 +88,7 @@ module.exports = function(app, db, pass) {
   // Create Postit
   app.post('/api/boards/:bid/postits', ensureAuthenticated, function(req, res, next) {
     req.body.board_id = req.params.bid;
+    req.body.updated_at = new Date();
     var postit = new Postit(req.body);
     postit.save(function(err) {
       if (err) return next(err);
@@ -113,6 +114,7 @@ module.exports = function(app, db, pass) {
   // Update postit
   app.put('/api/boards/:bid/postits/:pid', ensureAuthenticated, function(req, res, next) {
     delete req.body._id;
+    req.body.updated_at = new Date();
     Postit.findByIdAndUpdate(req.params.pid, req.body, function(err, postit) {
       if (err) return next(err);
       res.send(200, postit);
