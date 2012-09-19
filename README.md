@@ -36,18 +36,17 @@ And our killer features are:
 How to run it in local?
 -----------------------
 
+Install [Git](http://git-scm.com/), [NodeJS](http://www.nodejs.org/),
+[MongoDB](http://www.mongodb.org/) and run these commands:
+
 ```
 git clone git@github.com:AF83/koalab.git
 cd koalab
-su -
-# echo "127.0.0.1 koalab.lo >> /etc/hosts"
-# cp admin/nginx/koalab.lo /etc/nginx/site-enabled/
-# /etc/init.d/nginx reload
-# exit
 npm install .
 npm install grunt -g
 grunt
-node app.js
+node koalab.js
+firefox http://localhost:8080/
 ```
 
 

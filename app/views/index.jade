@@ -1,0 +1,24 @@
+doctype
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    title Koalab
+    meta(name="description", content="A scrum-like board")
+    meta(name="author", content="af83")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    link(rel="shortcut icon", href="/favicon.ico")
+    link(rel="apple-touch-icon", href="/apple-touch-icon.png")
+    link(rel="stylesheet", href="/normalize.css")
+    link(rel="stylesheet", href="/persona-buttons.css")
+    link(rel="stylesheet", href="/koalab.css")
+  body
+    section#app
+    script(src="https://login.persona.org/include.js")
+    script(src="/zepto.js")
+    script(src="/json2.js")
+    script(src="/handlebars.runtime.js")
+    script(src="/lodash.js")
+    script(src="/backbone.js")
+    script(src="/koalab.js")
+    script
+      App.user = new App.User({email: '#{email}'});

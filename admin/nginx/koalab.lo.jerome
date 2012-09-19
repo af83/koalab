@@ -11,7 +11,7 @@ server {
 
 	location / {
 		rewrite ^(/boards.*)$ /;
-		try_files $uri $uri/index.html @app;
+		try_files $uri @app;
 	}
 
 	location @app {

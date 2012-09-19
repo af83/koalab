@@ -5,10 +5,8 @@ class App.User extends Backbone.Model
     email: null
 
   initialize: ->
-    email = document.cookie.match /email=(\w+)/
-    @set email: email
     navigator.id.watch
-      loggedInUser: email
+      loggedInUser: @get 'email'
       onlogin: @onLogin
       onlogout: @onLogout
 
