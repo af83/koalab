@@ -30,6 +30,6 @@ Front
 ```
 cd front
 npm install grunt -g
-npm install grunt-contrib grunt-coffeelint
+npm install grunt-contrib grunt-coffeelint grunt-shell-completion
 grunt
 ```

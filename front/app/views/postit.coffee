@@ -9,12 +9,14 @@ class App.PostitView extends Backbone.View
     'focus p': 'focus'
     'keyup p': 'updateTitle'
 
-  initialize: ->
-    @model.on 'change:title',  @update
-    @model.on 'change:color',  @colorize
-    @model.on 'change:coords', @move
-    @model.on 'change:size',   @resize
-    @model.on 'change:angle',  @rotate
+  initialize: (viewport: @viewport) ->
+    @viewport.on 'change',        @redraw
+    @model.on 'change:title',     @update
+    @model.on 'change:color',     @colorize
+    @model.on 'change:coords',    @move
+    @model.on 'change:size',      @resize
+    @model.on 'change:angle',     @rotate
+    @model.on 'change:updatedAt', @updated
     fn = => @model.save {}, {silent: true}
     @throttledSave = _.throttle fn, 2000
 
@@ -28,6 +30,13 @@ class App.PostitView extends Backbone.View
     @move()
     @resize()
     @rotate()
+    @bringOut()
+    @
+
+  redraw: =>
+    @move()
+    @resize()
+    @adjustFontSize()
     @
 
   update: =>
@@ -44,13 +53,15 @@ class App.PostitView extends Backbone.View
          .css(display: 'inline', visibility: 'hidden', fontSize: "#{size}em")
          .appendTo 'body'
     p = p[0]
-    while c.width() > @model.get('size').w
+    max = @model.get('size').w * @viewport.get('zoom')
+    while c.width() > max
       break if size < 0.4
       size *= 0.85
       c.css fontSize: "#{size.toFixed 1}em"
     c.remove()
     p.style.fontSize = "#{size.toFixed 1}em"
-    while p.clientHeight > @model.get('size').h - 30  # 30px for margins
+    max = @model.get('size').h * @viewport.get('zoom') - 30
+    while p.clientHeight > max
       break if size < 0.4
       size *= 0.85
       p.style.fontSize = "#{size.toFixed 1}em"
@@ -62,7 +73,7 @@ class App.PostitView extends Backbone.View
     @
 
   move: =>
-    coords = @model.get "coords"
+    coords = @viewport.toScreen @model.get "coords"
     @el.style.left = "#{coords.x}px"
     @el.style.top  = "#{coords.y}px"
     @el.classList.remove 'moving'
@@ -70,8 +81,9 @@ class App.PostitView extends Backbone.View
 
   resize: =>
     size = @model.get "size"
-    @el.style.width  = "#{size.w}px"
-    @el.style.height = "#{size.h}px"
+    zoom = @viewport.get "zoom"
+    @el.style.width  = "#{size.w * zoom}px"
+    @el.style.height = "#{size.h * zoom}px"
     @
 
   rotate: =>
@@ -81,16 +93,27 @@ class App.PostitView extends Backbone.View
     @el.style.transform = prop
     @
 
+  bringOut: =>
+    @el.style.zIndex = @model.collection.indexOf @model
+    @
+
+  updated: =>
+    @model.collection.sort silent: true
+    @bringOut()
+
   start: (e) =>
+    zoom = @viewport.get 'zoom'
     e = e.originalEvent if e.originalEvent
     if e.target.classList.contains 'resize'
-      x = e.clientX - @model.get('size').w
-      y = e.clientY - @model.get('size').h
+      size = @model.get('size')
+      x = e.clientX - size.w * zoom
+      y = e.clientY - size.h * zoom
       e.dataTransfer.setData 'text/corner', "#{@model.cid},#{x},#{y}"
       e.dataTransfer.dropEffect = 'move'
     else
-      x = e.clientX - parseInt @el.style.left, 10
-      y = e.clientY - parseInt @el.style.top, 10
+      coords = @viewport.toScreen @model.get('coords')
+      x = e.clientX - coords.x
+      y = e.clientY - coords.y
       e.dataTransfer.setData 'text/postit', "#{@model.cid},#{x},#{y}"
       e.dataTransfer.dropEffect = 'move'
       e.dataTransfer.setDragImage App.koala, 0, 0
@@ -105,6 +128,7 @@ class App.PostitView extends Backbone.View
   end: (e) =>
     e = e.originalEvent if e.originalEvent
     @adjustFontSize()
+    @el.style.zIndex = 998
     true
 
   focus: =>

@@ -2,22 +2,21 @@ class App.LinesView extends Backbone.View
   id: 'lines-view'
 
   initialize: ->
+    @viewport = @options.viewport
     @collection.on 'add', @add
     @collection.on 'reset', @fetch
     @views = []
-    @views.push new App.LineView model: m for m in @collection.models
 
   render: ->
     @$el.html ""
-    @$el.append view.render().el for view in @views
+    @add line for line in @collection.models
     @
 
   add: (line) =>
-    view = new App.LineView model: line
+    view = new App.LineView model: line, viewport: @viewport
     @views.push view
     @$el.append view.render().el
 
   fetch: =>
     @views = []
-    @views.push new App.LineView model: m for m in @collection.models
     @render()
