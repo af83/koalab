@@ -49,7 +49,7 @@ module.exports = function(grunt) {
     copy: {
       dev: {
         files: {
-          "public": "vendor/*"
+          "public/": "vendor/*"
         }
       }
     },
