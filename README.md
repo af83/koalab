@@ -42,6 +42,7 @@ Install [Git](http://git-scm.com/), [NodeJS](http://www.nodejs.org/),
 ```
 git clone git@github.com:AF83/koalab.git
 cd koalab
+cp config.json.example config.json
 npm install .
 npm install grunt -g
 grunt

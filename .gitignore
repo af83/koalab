@@ -1,4 +1,5 @@
 /.secret
+/config.json
 /docs
 /node_modules
 /public/*.css

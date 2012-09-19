@@ -5,7 +5,9 @@ var fs        = require('fs'),
     BrowserID = require('passport-browserid').Strategy,
     mongoose  = require('mongoose');
 
-var db, app = express();
+var db,
+    app    = express(),
+    config = require('./config.json');
 
 function useSecret(callback) {
   fs.readFile('.secret', 'utf8', function(err, secret) {
@@ -27,7 +29,7 @@ pass.deserializeUser(function(email, done) {
 });
 
 pass.use('browserid', new BrowserID({
-    audience: 'http://localhost:8080'
+    audience: config.persona.audience
   },
   function(email, done) {
     process.nextTick(function () {
@@ -38,7 +40,6 @@ pass.use('browserid', new BrowserID({
 
 useSecret(function(secret) {
   app.configure(function() {
-    app.set('port', process.env.PORT || 8080);
     app.set('view engine', 'jade');
     app.set('views', __dirname + '/app/views');
 
@@ -50,7 +51,7 @@ useSecret(function(secret) {
     app.use(express.methodOverride());
     app.use(app.router);
 
-    db = mongoose.createConnection('localhost', 'koalab');
+    db = mongoose.createConnection(config.mongodb.host, config.mongodb.database);
   });
 
   app.configure('development', function() {
@@ -65,8 +66,8 @@ useSecret(function(secret) {
 
   db.once('open', function () {
     require('./app/controller')(app, db, pass);
-    app.listen(app.get('port'), function() {
-      console.log('Express server listening on port ' + app.get('port'));
+    app.listen(config.port, function() {
+      console.log('Express server listening on port ' + config.port);
     });
   });
 });
