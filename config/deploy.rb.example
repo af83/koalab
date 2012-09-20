@@ -51,13 +51,11 @@ task :deploy => :environment do
     invoke 'git:clone'
     invoke 'deploy:link_shared_paths'
 
-    to :prepare do
+    to :launch do
       queue 'npm install'
       queue 'grunt'
-    end
-
-    to :launch do
-      queue 'forever -l logs/forever.log -o logs/out.log -e logs/err.log --pidfile pids/koalab.pid koalab.js'
+      queue 'forever stop koalab.js'
+      queue "forever start -a -l #{deploy_to}/shared/logs/forever.log -o logs/out.log -e logs/err.log --pidfile pids/koalab.pid koalab.js"
       invoke 'deploy:cleanup'
     end
   end
