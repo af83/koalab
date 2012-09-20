@@ -38,19 +38,30 @@ module.exports = function(app, db, pass) {
       Lines  = models.Lines;
 
   app.get('/login', function(req, res) {
-    res.render('index', { email: '' });
+    res.render('login');
   });
+
+  app.post( '/api/user'
+          , pass.authenticate( 'browserid', { failureRedirect: '/login' })
+          , function(req,res) { res.send(204); }
+          );
 
   app.get('/', function(req, res) {
     if (!req.isAuthenticated()) { return res.redirect('/login'); }
     res.render('index', { email: req.user.email });
   });
 
-  app.post("/api/user", pass.authenticate('browserid', {
-    successRedirect: '/',
-    failureRedirect: '/',
-    failureFlash: true
-  }));
+  app.get('/boards/:bid', loader(Board, 'bid'), function(req, res) {
+    if (!req.isAuthenticated()) { return res.redirect('/login'); }
+    var bid = req.params.bid;
+    Postit.find({ board_id : bid }, function(err, postits) {
+      if (err) return next(new Error());
+      res.render('board', { email: req.user.email
+                          , board: JSON.stringify(req.board)
+                          , postits: JSON.stringify(postits)
+                          });
+    });
+  });
 
   app.get('/api/boards', ensureAuthenticated, function(req, res, next) {
     var boards = Board.find({}, function(err, boards) {
@@ -72,7 +83,7 @@ module.exports = function(app, db, pass) {
   // Get Board
   app.get('/api/boards/:bid', ensureAuthenticated, loader(Board, 'bid'), function(req, res) {
     console.log(req.session);
-    res.send(req.board, { email: "bruno.michel@af83.com" });
+    res.send(req.board);
   });
 
   // Update Board

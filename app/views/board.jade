@@ -3,3 +3,5 @@ extends layout
 block content
   script
     App.user = new App.User({email: '#{email}'});
+    board = new App.Board(#{board});
+    board.postits.reset(#{postits});

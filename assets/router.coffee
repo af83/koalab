@@ -5,8 +5,9 @@ class App.Router extends Backbone.Router
     'boards/:id': 'show'
 
   initialize: ->
-    @main = new App.MainView model: App.user
     App.user.on 'change', @change
+    @main = new App.MainView model: App.user
+    @main.boards.add window.board if window.board
 
   change: =>
     if App.user.isLogged()
