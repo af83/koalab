@@ -11,10 +11,10 @@ class App.User extends Backbone.Model
       onlogout: @onLogout
 
   onLogin: (assertion) =>
-    @save assertion: assertion
+    @save {assertion: assertion}, {wait: true}
 
   onLogout: =>
-    @clone.destroy()
+    @clone().destroy()
     @clear()
 
   isLogged: ->

@@ -19,8 +19,12 @@ class App.BoardView extends Backbone.View
 
   initialize: ->
     @viewport = new App.Viewport()
-    @lines = new App.LinesView collection: @model.lines, viewport: @viewport
-    @postits = new App.PostitsView collection: @model.postits, viewport: @viewport
+    @lines = new App.LinesView
+      collection: @model.lines
+      viewport: @viewport
+    @postits = new App.PostitsView
+      collection: @model.postits
+      viewport: @viewport
     @model.lines.fetch()
     @model.postits.fetch()
 

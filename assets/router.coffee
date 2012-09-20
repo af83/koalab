@@ -1,8 +1,8 @@
 class App.Router extends Backbone.Router
   routes:
-    'login': 'index'
     '': 'list'
     'boards/:id': 'show'
+    'login': 'login'
 
   initialize: ->
     App.user.on 'change', @change
@@ -11,11 +11,11 @@ class App.Router extends Backbone.Router
 
   change: =>
     if App.user.isLogged()
-      @navigate 'boards', trigger: true
+      @navigate 'login', trigger: true
     else
       @navigate '', trigger: true
 
-  index: =>
+  login: =>
     @main.signIn().render()
 
   list: =>

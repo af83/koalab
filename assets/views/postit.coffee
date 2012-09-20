@@ -5,8 +5,9 @@ class App.PostitView extends Backbone.View
   events:
     'dragstart': 'start'
     'dragleave': 'leave'
-    'dragend': 'end'
+    'dragend':   'end'
     'focus p': 'focus'
+    'blur  p': 'blur'
     'keyup p': 'updateTitle'
 
   initialize: (viewport: @viewport) ->
@@ -40,6 +41,7 @@ class App.PostitView extends Backbone.View
     @
 
   update: =>
+    return if @inEdition
     @$el.find('p').text @model.get 'title'
     setTimeout @adjustFontSize, 0
     @
@@ -133,13 +135,19 @@ class App.PostitView extends Backbone.View
     true
 
   focus: =>
+    @inEdition = true
     p = @$el.find('p')
     p.text "" if p.text() == App.Postit.defaultTitle
     true
 
+  blur: =>
+    @inEdition = false
+    p.text App.Postit.defaultTitle if p.text() == ''
+    true
+
   updateTitle: (e) =>
     title = @$el.find('p').text()
-    title = App.Postit.defaultTitle if title == ''
+    return if title == ''
     return if title == @model.get('title')
     @model.set color: '0b0b0b' if title == 'Mathilde'
     @model.set {title: title}, {silent: true}
