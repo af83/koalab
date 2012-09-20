@@ -7,7 +7,7 @@ var fs        = require('fs'),
 
 var db,
     app    = express(),
-    config = require('./config.json');
+    config = require('./config/server.json');
 
 function useSecret(callback) {
   fs.readFile('.secret', 'utf8', function(err, secret) {

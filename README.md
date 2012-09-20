@@ -51,6 +51,16 @@ firefox http://localhost:8080/
 ```
 
 
+And for production?
+-------------------
+
+In production, we are using:
+
+- nginx (you can find an example of the vhost config in the admin/nginx directory)
+- [forever](https://github.com/nodejitsu/forever) (`npm install forever -g` on the server)
+- and [mina](http://nadarei.co/mina/) for deployments.
+
+
 Credits
 -------
 

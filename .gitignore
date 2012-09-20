@@ -1,7 +1,10 @@
 /.secret
-/config.json
+/config/deploy.rb
+/config/server.json
 /docs
+/logs
 /node_modules
+/pids
 /public/*.css
 /public/*.js
 /tmp
