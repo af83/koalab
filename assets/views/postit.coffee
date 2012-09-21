@@ -42,13 +42,13 @@ class App.PostitView extends Backbone.View
 
   update: =>
     return if @inEdition
-    @$el.find('p').text @model.get 'title'
+    @$('p').text @model.get 'title'
     setTimeout @adjustFontSize, 0
     @
 
   adjustFontSize: =>
     size = 3
-    p = @$el.find 'p'
+    p = @$ 'p'
     w = _(p.text().split(/\s+/)).max (s) -> s.length
     c = p.clone()
          .text(w)
@@ -136,12 +136,13 @@ class App.PostitView extends Backbone.View
 
   focus: =>
     @inEdition = true
-    p = @$el.find('p')
+    p = @$ 'p'
     p.text "" if p.text() == App.Postit.defaultTitle
     true
 
   blur: =>
     @inEdition = false
+    p = @$ 'p'
     p.text App.Postit.defaultTitle if p.text() == ''
     true
 

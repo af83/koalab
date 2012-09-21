@@ -10,14 +10,14 @@ class App.ListView extends Backbone.View
 
   render: ->
     @$el.html JST.list boards: @collection.toJSON()
-    @list = @$el.find "#list-of-boards"
-    @input = @$el.find "#new-board"
+    @list = @$ "#list-of-boards"
+    @input = @$ "#new-board"
     @add board for board in @collection.models
     @
 
   add: (board) =>
     @list.append JST.listitem board.toJSON()
-    @$el.find(".board-link").eq(-1).focus()
+    @$(".board-link").eq(-1).focus()
     @
 
   fetch: (boards) =>
