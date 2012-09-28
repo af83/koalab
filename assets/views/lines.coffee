@@ -1,8 +1,5 @@
 class App.LinesView extends Backbone.View
-  id: 'lines-view'
-
   events:
-    'dragover': 'dragover'
     'drop': 'drop'
 
   initialize: ->
@@ -12,8 +9,7 @@ class App.LinesView extends Backbone.View
     @views = []
 
   render: ->
-    @$el.html ""
-    @el.setAttribute 'dropzone', 'move string:text/line'
+    @$(".line").remove()
     @add line for line in @collection.models
     @
 
@@ -25,11 +21,6 @@ class App.LinesView extends Backbone.View
   fetch: =>
     @views = []
     @render()
-
-  dragover: (e) =>
-    e = e.originalEvent if e.originalEvent
-    e.preventDefault()
-    false
 
   drop: (e) =>
     zoom = @viewport.get 'zoom'

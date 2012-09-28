@@ -1,6 +1,4 @@
 class App.PostitsView extends Backbone.View
-  id: 'postits-view'
-
   events:
     'dragover': 'dragover'
     'drop': 'drop'
@@ -13,8 +11,7 @@ class App.PostitsView extends Backbone.View
     @views = []
 
   render: ->
-    @$el.html ''
-    @el.setAttribute 'dropzone', 'move string:text/postit string:text/corner'
+    @$(".postit").remove()
     @add postit for postit in @collection.models
     @
 

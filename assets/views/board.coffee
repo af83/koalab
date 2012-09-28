@@ -22,16 +22,19 @@ class App.BoardView extends Backbone.View
     @lines = new App.LinesView
       collection: @model.lines
       viewport: @viewport
+      el: @el
     @postits = new App.PostitsView
       collection: @model.postits
       viewport: @viewport
+      el: @el
     @model.lines.fetch()
     @model.postits.fetch()
 
   render: ->
     @$el.html JST.board @model.toJSON()
-    @$el.append @lines.render().el
-    @$el.append @postits.render().el
+    @lines.render()
+    @postits.render()
+    @el.setAttribute 'dropzone', 'move string:text/postit string:text/corner string:text/line'
     @
 
   addPostit: (color) ->
