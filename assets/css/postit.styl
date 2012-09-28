@@ -26,7 +26,7 @@ body
     padding-left: 350px
 
 #board-view
-  aside
+  .actions
     position: fixed
     bottom: 50px
     z-index: 999
@@ -73,12 +73,51 @@ body
       font-size: 1.5em
       text-decoration: none
       background-image: url("/images/chevron_gauche.png")
-  aside.closed
-    left: -270px
-    .toggle-menu
-      background-image: url("/images/chevron_droit.png")
-  aside + aside
-    bottom: 100px
+    &.closed
+      left: -270px
+      .toggle-menu
+        background-image: url("/images/chevron_droit.png")
+  .navigation
+    a
+      z-index: 999
+      position: fixed
+      color: transparent
+    .zoom-in
+      top: 33px
+      left: 33px
+      width: 31px
+      height: 32px
+      background-image: url("/images/plus.png")
+    .zoom-out
+      top: 77px
+      left: 33px
+      width: 31px
+      height: 8px
+      background-image: url("/images/minus.png")
+    .move-left
+      top: 135px
+      left: 15px
+      width: 15px
+      height: 25px
+      background-image: url("/images/caret-left.png")
+    .move-down
+      top: 165px
+      left: 35px
+      width: 26px
+      height: 15px
+      background-image: url("/images/caret-down.png")
+    .move-up
+      top: 115px
+      left: 35px
+      width: 26px
+      height: 15px
+      background-image: url("/images/caret-up.png")
+    .move-right
+      top: 134px
+      left: 66px
+      width: 15px
+      height: 26px
+      background-image: url("/images/caret-right.png")
 
 #postits-view
   position: fixed

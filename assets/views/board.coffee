@@ -80,7 +80,7 @@ class App.BoardView extends Backbone.View
 
   moveUp: ->
     offset = @viewport.get 'offset'
-    offset.y += 100
+    offset.y -= 100
     @viewport.set offset: offset
     # FIXME it seeems backbone don't trigger the 'change' event here
     # Is it a bug? I should try the head version
@@ -89,21 +89,21 @@ class App.BoardView extends Backbone.View
 
   moveDown: ->
     offset = @viewport.get 'offset'
-    offset.y -= 100
+    offset.y += 100
     @viewport.set offset: offset
     @viewport.trigger 'change'
     false
 
   moveLeft: ->
     offset = @viewport.get 'offset'
-    offset.x += 100
+    offset.x -= 100
     @viewport.set offset: offset
     @viewport.trigger 'change'
     false
 
   moveRight: ->
     offset = @viewport.get 'offset'
-    offset.x -= 100
+    offset.x += 100
     @viewport.set offset: offset
     @viewport.trigger 'change'
     false
