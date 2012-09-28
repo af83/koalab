@@ -1,6 +1,9 @@
 class App.LineView extends Backbone.View
   className: 'line'
 
+  events:
+    'dragstart': 'start'
+
   initialize: (viewport: @viewport) ->
     @viewport.on 'change', @move
     @model.on    'change', @render
@@ -15,6 +18,7 @@ class App.LineView extends Backbone.View
     coords = @viewport.toScreen
       x: @model.get('x1')
       y: @model.get('y1')
+    @el.draggable = true
     @el.style.left = "#{coords.x}px"
     @el.style.top  = "#{coords.y}px"
     @el.style.width = "#{Math.floor len}px"
@@ -26,3 +30,11 @@ class App.LineView extends Backbone.View
     @el.style.WebkitTransform = "rotate(#{angle}deg)"
     @el.style.transform = "rotate(#{angle}deg)"
     @
+
+  start: (e) =>
+    e = e.originalEvent if e.originalEvent
+    x = e.clientX
+    y = e.clientY
+    e.dataTransfer.setData 'text/line', "#{@model.cid},#{x},#{y}"
+    e.dataTransfer.dropEffect = 'move'
+    true

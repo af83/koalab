@@ -119,12 +119,15 @@ body
       height: 26px
       background-image: url("/images/caret-right.png")
 
-#postits-view
+#postits-view, #lines-view
   position: fixed
   top: 0
   width: 100%
   height: 100%
   overflow: hidden
+
+#postits-view
+  pointer-events: none
 
 .moving
   opacity: 0.4
@@ -169,6 +172,7 @@ body
   position: fixed
   background-image: url("/images/trait.png")
   height: 10px
+  cursor: move
   -moz-transform-origin: 0
   -webkit-transform-origin: 0
   transform-origin: 0
