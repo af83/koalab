@@ -28,7 +28,14 @@ module.exports = function(grunt) {
     coffee: {
       compile: {
         files: {
-          "tmp/app.js": ["assets/app.coffee", "assets/router.coffee", "assets/models/*.coffee", "assets/collections/*.coffee", "assets/views/*.coffee"]
+          "tmp/app.js": [
+            "assets/app.coffee",
+            "assets/router.coffee",
+            "assets/source.coffee",
+            "assets/models/*.coffee",
+            "assets/collections/*.coffee",
+            "assets/views/*.coffee"
+          ]
         }
       }
     },

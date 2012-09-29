@@ -1,4 +1,4 @@
-class App.SSE
+class SSE
 
   constructor: ->
     _.extend @, Backbone.Events
@@ -16,3 +16,5 @@ class App.SSE
 
   onError: (e) ->
     console.log "onError", e if window.console
+
+App.source = new SSE()
