@@ -21,11 +21,15 @@ class App.PostitView extends Backbone.View
     fn = => @model.save {}, {silent: true}
     @throttledSave = _.throttle fn, 2000
 
+  inEdition: ->
+    document.activeElement == @p
+
   render: ->
     @$el.html JST.postit @model.toJSON()
     @el.id = "postit-#{@model.cid}"
     @el.querySelector('.gradient').draggable = true
     @el.querySelector('.resize').draggable = true
+    @p = @el.querySelector 'p'
     @update()
     @colorize()
     @move()
@@ -41,32 +45,31 @@ class App.PostitView extends Backbone.View
     @
 
   update: =>
-    return if @inEdition
-    @$('p').text @model.get 'title'
+    return if @inEdition()
+    ($ @p).text @model.get 'title'
     setTimeout @adjustFontSize, 0
     @
 
   adjustFontSize: =>
     size = 3
-    p = @$ 'p'
+    p = $ @p
     w = _(p.text().split(/\s+/)).max (s) -> s.length
     c = p.clone()
          .text(w)
          .css(display: 'inline', visibility: 'hidden', fontSize: "#{size}em")
          .appendTo 'body'
-    p = p[0]
     max = @model.get('size').w * @viewport.get('zoom')
     while c.width() > max
       break if size < 0.4
       size *= 0.85
       c.css fontSize: "#{size.toFixed 1}em"
     c.remove()
-    p.style.fontSize = "#{size.toFixed 1}em"
+    @p.style.fontSize = "#{size.toFixed 1}em"
     max = @model.get('size').h * @viewport.get('zoom') - 30
     while p.clientHeight > max
       break if size < 0.4
       size *= 0.85
-      p.style.fontSize = "#{size.toFixed 1}em"
+      @p.style.fontSize = "#{size.toFixed 1}em"
     @
 
   colorize: =>
@@ -135,19 +138,15 @@ class App.PostitView extends Backbone.View
     true
 
   focus: =>
-    @inEdition = true
-    p = @$ 'p'
-    p.text "" if p.text() == App.Postit.defaultTitle
+    ($ @p).text "" if p.text() == App.Postit.defaultTitle
     true
 
   blur: =>
-    @inEdition = false
-    p = @$ 'p'
-    p.text App.Postit.defaultTitle if p.text() == ''
+    ($ @p).text App.Postit.defaultTitle if p.text() == ''
     true
 
   updateTitle: (e) =>
-    title = @$el.find('p').text()
+    title = ($ @p).text()
     return if title == ''
     return if title == @model.get('title')
     @model.set color: '0b0b0b' if title == 'Mathilde'
