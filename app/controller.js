@@ -28,6 +28,7 @@ function loader(Model, id) {
 
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
+  req.session.destroy();
   res.send(403, 'Forbidden')
 }
 
@@ -35,7 +36,7 @@ module.exports = function(app, db, pass) {
   var models = require('./models')(db),
       Board  = models.Board,
       Postit = models.Postit,
-      Lines  = models.Lines;
+      Line   = models.Line;
 
   app.get('/login', function(req, res) {
     res.render('login');
@@ -56,10 +57,14 @@ module.exports = function(app, db, pass) {
     var bid = req.params.bid;
     Postit.find({ board_id : bid }, function(err, postits) {
       if (err) return next(new Error());
-      res.render('board', { email: req.user.email
-                          , board: JSON.stringify(req.board)
-                          , postits: JSON.stringify(postits)
-                          });
+      Line.find({ board_id : bid }, function(err, lines) {
+        if (err) return next(new Error());
+        res.render('board', { email: req.user.email
+                            , board: JSON.stringify(req.board)
+                            , postits: JSON.stringify(postits)
+                            , lines: JSON.stringify(lines)
+                            });
+      });
     });
   });
 
@@ -82,7 +87,6 @@ module.exports = function(app, db, pass) {
 
   // Get Board
   app.get('/api/boards/:bid', ensureAuthenticated, loader(Board, 'bid'), function(req, res) {
-    console.log(req.session);
     res.send(req.board);
   });
 
@@ -130,6 +134,41 @@ module.exports = function(app, db, pass) {
       if (err) return next(err);
       res.send(200, postit);
       broadcast('update', Postit, postit);
+    });
+  });
+
+  // Create Line
+  app.post('/api/boards/:bid/lines', ensureAuthenticated, function(req, res, next) {
+    req.body.board_id = req.params.bid;
+    var line = new Line(req.body);
+    line.save(function(err) {
+      if (err) return next(err);
+      res.send(201, line);
+      broadcast('create', Line, line);
+    });
+  });
+
+  // Get lines
+  app.get('/api/boards/:bid/lines', ensureAuthenticated, function(req, res, next) {
+    var bid = req.params.bid;
+    Line.find({ board_id : bid }, function(err, lines) {
+      if (err) return next(new Error());
+      res.send(lines);
+    });
+  });
+
+  // Get line
+  app.get('/api/boards/:bid/lines/:lid', ensureAuthenticated, loader(Line, 'lid'), function(req, res) {
+    res.send(req.line);
+  });
+
+  // Update line
+  app.put('/api/boards/:bid/lines/:lid', ensureAuthenticated, function(req, res, next) {
+    delete req.body._id;
+    Line.findByIdAndUpdate(req.params.lid, req.body, function(err, line) {
+      if (err) return next(err);
+      res.send(200, line);
+      broadcast('update', Line, line);
     });
   });
 
