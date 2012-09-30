@@ -20,13 +20,11 @@ class App.PostitView extends Backbone.View
     @model.on 'change:updated_at', @updated
     fn = => @model.save {}, {silent: true}
     @throttledSave = _.throttle fn, 2000
+    @el.id = "postit-#{@model.cid}"
 
   render: ->
     @$el.html JST.postit @model.toJSON()
-    @el.id = "postit-#{@model.cid}"
-    @el.querySelector('.gradient').draggable = true
-    @el.querySelector('.resize').draggable = true
-    @$p = @$ 'p'
+    @buildSelector()
     @update()
     @colorize()
     @move()
@@ -41,12 +39,21 @@ class App.PostitView extends Backbone.View
     @adjustFontSize()
     @
 
+  buildSelector: ->
+    @$p = @$ 'p'
+    @shadow = @el.querySelector '.shadow'
+    @gradient = @el.querySelector '.gradient'
+    @gradient.draggable = true
+    @el.querySelector('.resize').draggable = true
+    @
+
   update: =>
     return if @inEdition
     @$p.text @model.get 'title'
     setTimeout @adjustFontSize, 0
     @
 
+  # TODO make this function a jQuery plugin
   adjustFontSize: =>
     size = 3
     w = _(@$p.text().split(/\s+/)).max (s) -> s.length
@@ -70,7 +77,10 @@ class App.PostitView extends Backbone.View
     @
 
   colorize: =>
-    @el.style.backgroundColor = "##{@model.get 'color'}"
+    c = App.Colors.mix (@model.get 'color'), '#000000', 0.9
+    @gradient.style.background = "-moz-linear-gradient(top, #{c} 0%, ##{@model.get 'color'} 75%)"
+    @gradient.style.background = "-webkit-linear-gradient(top, #{c} 0%, ##{@model.get 'color'} 75%)"
+    @gradient.style.background = "linear-gradient(top, #{c} 0%, ##{@model.get 'color'} 75%)"
     @el.classList.add 'reverse' if @model.get('color')[0] == '0'
     @
 
@@ -86,6 +96,9 @@ class App.PostitView extends Backbone.View
     zoom = @viewport.get "zoom"
     @el.style.width  = "#{size.w * zoom}px"
     @el.style.height = "#{size.h * zoom}px"
+    offset = 2 + Math.floor size.h * zoom / 40
+    radius = Math.floor size.h * zoom / 15
+    @shadow.style.boxShadow = "-#{offset}px 0 #{radius}px #999"
     @
 
   rotate: =>

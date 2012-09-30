@@ -32,6 +32,7 @@ module.exports = function(grunt) {
             "assets/app.coffee",
             "assets/router.coffee",
             "assets/source.coffee",
+            "assets/helpers/*.coffee",
             "assets/models/*.coffee",
             "assets/collections/*.coffee",
             "assets/views/*.coffee"
