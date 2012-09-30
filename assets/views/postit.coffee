@@ -40,8 +40,8 @@ class App.PostitView extends Backbone.View
     @
 
   buildSelector: ->
-    @$p = @$ 'p'
-    @shadow = @el.querySelector '.shadow'
+    @p        = @el.querySelector 'p'
+    @shadow   = @el.querySelector '.shadow'
     @gradient = @el.querySelector '.gradient'
     @gradient.draggable = true
     @el.querySelector('.resize').draggable = true
@@ -49,38 +49,40 @@ class App.PostitView extends Backbone.View
 
   update: =>
     return if @inEdition
-    @$p.text @model.get 'title'
+    @p.textContent = @model.get 'title'
     setTimeout @adjustFontSize, 0
     @
 
   # TODO make this function a jQuery plugin
   adjustFontSize: =>
     size = 3
-    w = _(@$p.text().split(/\s+/)).max (s) -> s.length
-    c = @$p.clone()
-           .text(w)
-           .css(display: 'inline', visibility: 'hidden', fontSize: "#{size}em")
-           .appendTo 'body'
+    w = _(@p.textContent.split(/\s+/)).max (s) -> s.length
+    c = @p.cloneNode true
+    c.textContent = w
+    c.style.display = 'inline'
+    c.style.visibility = 'hidden'
+    c.style.fontSize = "#{size}em"
+    document.body.appendChild c
     max = @model.get('size').w * @viewport.get('zoom')
-    while c.width() > max
+    while c.scrollWidth > max
       break if size < 0.4
       size *= 0.85
-      c.css fontSize: "#{size.toFixed 1}em"
-    c.remove()
-    p = @$p[0]
-    p.style.fontSize = "#{size.toFixed 1}em"
-    max = @model.get('size').h * @viewport.get('zoom') - 30
-    while p.clientHeight > max
+      c.style.fontSize = "#{size.toFixed 1}em"
+    document.body.removeChild c
+    @p.style.fontSize = "#{size.toFixed 1}em"
+    max = @model.get('size').h * @viewport.get('zoom')
+    while @p.scrollHeight > max
       break if size < 0.4
       size *= 0.85
-      p.style.fontSize = "#{size.toFixed 1}em"
+      @p.style.fontSize = "#{size.toFixed 1}em"
     @
 
   colorize: =>
     c = App.Colors.mix (@model.get 'color'), '#000000', 0.9
-    @gradient.style.background = "-moz-linear-gradient(top, #{c} 0%, ##{@model.get 'color'} 75%)"
-    @gradient.style.background = "-webkit-linear-gradient(top, #{c} 0%, ##{@model.get 'color'} 75%)"
-    @gradient.style.background = "linear-gradient(top, #{c} 0%, ##{@model.get 'color'} 75%)"
+    gradient = "linear-gradient(top, #{c} 0%, ##{@model.get 'color'} 75%)"
+    @gradient.style.background = "-moz-#{gradient}"
+    @gradient.style.background = "-webkit-#{gradient}"
+    @gradient.style.background = gradient
     @el.classList.add 'reverse' if @model.get('color')[0] == '0'
     @
 
@@ -149,16 +151,16 @@ class App.PostitView extends Backbone.View
 
   focus: =>
     @inEdition = true
-    @$p.text "" if @$p.text() == App.Postit.defaultTitle
+    @p.textContent = "" if @p.textContent == App.Postit.defaultTitle
     true
 
   blur: =>
     @inEdition = false
-    @model.set title: App.Postit.defaultTitle if @$p.text() == ''
+    @model.set title: App.Postit.defaultTitle if @p.textContent == ''
     true
 
   updateTitle: (e) =>
-    title = @$p.text()
+    title = @p.textContent
     return if title == ''
     return if title == @model.get('title')
     @model.set color: '0b0b0b' if title == 'Mathilde'
