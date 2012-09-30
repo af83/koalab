@@ -31,11 +31,5 @@ class App.LinesView extends Backbone.View
         el = @collection.getByCid cid
         dx = (e.clientX - x) / zoom
         dy = (e.clientY - y) / zoom
-        was = el.toJSON()
-        el.set
-          x1: was.x1 + dx
-          y1: was.y1 + dy
-          x2: was.x2 + dx
-          y2: was.y2 + dy
-        el.save()
+        el.move dx, dy, @collection.board.postits.models
     false
