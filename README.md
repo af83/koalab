@@ -10,6 +10,12 @@ profit of the most advanced features of html5, thus you should only use it
 with a modern browser like Mozilla Firefox or Google Chrome.
 
 
+Screenshot
+----------
+
+![Our board](https://raw.github.com/AF83/koalab/master/public/screenshots/board.png)
+
+
 Features
 --------
 
