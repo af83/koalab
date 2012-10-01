@@ -12,10 +12,9 @@ class App.Postit extends Backbone.Model
 
   move: (dx, dy) ->
     was = @get 'coords'
-    @set coords:
+    @save coords:
       x: was.x + dx
       y: was.y + dy
-    @save()
 
   # We project the post-it (a square) and [a,b] on D,
   # the straight line perpendicular to (a,c) that goes through a,

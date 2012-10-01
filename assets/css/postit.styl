@@ -201,3 +201,18 @@ body
   -moz-transform-origin: 0
   -webkit-transform-origin: 0
   transform-origin: 0
+  .start
+    left: 0
+  .stop
+    right: 0
+  .handle
+    display: none
+    position: fixed
+    width: 6px
+    height: 6px
+    background-color: #fff
+    border: 1px solid #aaa
+    cursor: crosshair
+  &:hover
+    .handle
+      display: block

@@ -43,8 +43,6 @@ class App.PostitView extends Backbone.View
     @p        = @el.querySelector 'p'
     @shadow   = @el.querySelector '.shadow'
     @gradient = @el.querySelector '.gradient'
-    @gradient.draggable = true
-    @el.querySelector('.resize').draggable = true
     @
 
   update: =>
@@ -127,14 +125,13 @@ class App.PostitView extends Backbone.View
       x = e.clientX - size.w * zoom
       y = e.clientY - size.h * zoom
       e.dataTransfer.setData 'text/corner', "#{@model.cid},#{x},#{y}"
-      e.dataTransfer.dropEffect = 'move'
     else
       coords = @viewport.toScreen @model.get('coords')
       x = e.clientX - coords.x
       y = e.clientY - coords.y
       e.dataTransfer.setData 'text/postit', "#{@model.cid},#{x},#{y}"
-      e.dataTransfer.dropEffect = 'move'
       e.dataTransfer.setDragImage App.koala, 0, 0
+    e.dataTransfer.dropEffect = 'move'
     true
 
   leave: (e) =>

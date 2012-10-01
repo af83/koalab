@@ -26,8 +26,7 @@ class App.Line extends Backbone.Model
       y1: was.y1 + dy
       x2: was.x2 + dx
       y2: was.y2 + dy
-    @set now
-    @save()
+    @save now
     a = x: was.x1, y: was.y1
     b = x: was.x2, y: was.y2
     c = x: now.x1, y: now.y1

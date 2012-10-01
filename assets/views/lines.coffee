@@ -32,4 +32,13 @@ class App.LinesView extends Backbone.View
         dx = (e.clientX - x) / zoom
         dy = (e.clientY - y) / zoom
         el.move dx, dy, @collection.board.postits.models
+      else if type == "text/handle"
+        [cid, x, y, n] = e.dataTransfer.getData(type).split(',')
+        el = @collection.getByCid cid
+        dx = (e.clientX - x) / zoom
+        dy = (e.clientY - y) / zoom
+        coords = {}
+        coords["x#{n}"] = dx + el.get "x#{n}"
+        coords["y#{n}"] = dy + el.get "y#{n}"
+        el.save coords
     false

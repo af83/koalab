@@ -47,16 +47,14 @@ class App.PostitsView extends Backbone.View
       if type == "text/corner"
         [cid, x, y] = e.dataTransfer.getData(type).split(',')
         el = @collection.getByCid cid
-        el.set size:
+        el.save size:
           w: (e.clientX - x) / zoom
           h: (e.clientY - y) / zoom
-        el.save()
       else if type == "text/postit"
         [cid, x, y] = e.dataTransfer.getData(type).split(',')
         el = @collection.getByCid cid
         coords = @viewport.fromScreen
           x: e.clientX - x
           y: e.clientY - y
-        el.set coords: coords
-        el.save()
+        el.save coords: coords
     false

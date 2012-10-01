@@ -9,6 +9,7 @@ class App.LineView extends Backbone.View
     @model.on    'change', @render
 
   render: =>
+    @$el.html JST.line
     @move()
     @rotate()
     @
@@ -35,6 +36,10 @@ class App.LineView extends Backbone.View
     e = e.originalEvent if e.originalEvent
     x = e.clientX
     y = e.clientY
-    e.dataTransfer.setData 'text/line', "#{@model.cid},#{x},#{y}"
+    if e.target.classList.contains 'handle'
+      side = if e.target.classList.contains 'start' then 1 else 2
+      e.dataTransfer.setData 'text/handle', "#{@model.cid},#{x},#{y},#{side}"
+    else
+      e.dataTransfer.setData 'text/line', "#{@model.cid},#{x},#{y}"
     e.dataTransfer.dropEffect = 'move'
     true

@@ -34,8 +34,9 @@ class App.BoardView extends Backbone.View
     @$el.html JST.board @model.toJSON()
     @lines.render()
     @postits.render()
-    accepts = ("string:text/#{type}" for type in ['postit', 'corner', 'line'])
-    @el.setAttribute 'dropzone', "move #{accepts.join ' '}"
+    types = ['postit', 'corner', 'line', 'handle']
+    accepts = ("string:text/#{type}" for type in types).join ' '
+    @el.setAttribute 'dropzone', "move #{accepts}"
     @
 
   addPostit: (color) ->
