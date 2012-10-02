@@ -11,7 +11,8 @@ class App.PostitView extends Backbone.View
     'keyup p': 'updateTitle'
 
   initialize: (viewport: @viewport) ->
-    @viewport.on 'change',         @redraw
+    @viewport.on 'change:zoom',    @redraw
+    @viewport.on 'change:offset',  @move
     @model.on 'change:title',      @update
     @model.on 'change:color',      @colorize
     @model.on 'change:coords',     @move
