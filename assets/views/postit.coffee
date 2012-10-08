@@ -3,12 +3,16 @@ class App.PostitView extends Backbone.View
   className: 'postit'
 
   events:
-    'dragstart': 'start'
-    'dragleave': 'leave'
-    'dragend':   'end'
-    'focus p': 'focus'
-    'blur  p': 'blur'
-    'keyup p': 'updateTitle'
+    'focus p':     'focus'
+    'blur  p':     'blur'
+    'keyup p':     'updateTitle'
+    'dragstart':   'dragstart'
+    'dragleave':   'dragleave'
+    'dragend':     'dragend'
+    'touchstart':  'touchstart'
+    'touchcancel': 'touchcancel'
+    'touchmove':   'touchmove'
+    'touchend':    'touchend'
 
   initialize: (viewport: @viewport) ->
     @viewport.on 'change:zoom',    @redraw
@@ -118,7 +122,7 @@ class App.PostitView extends Backbone.View
     @model.collection.trigger 'sort'
     @
 
-  start: (e) =>
+  dragstart: (e) =>
     zoom = @viewport.get 'zoom'
     e = e.originalEvent if e.originalEvent
     if e.target.classList.contains 'resize'
@@ -135,17 +139,46 @@ class App.PostitView extends Backbone.View
     e.dataTransfer.dropEffect = 'move'
     true
 
-  leave: (e) =>
+  dragleave: (e) =>
     e = e.originalEvent if e.originalEvent
     [cid, _, _] = e.dataTransfer.getData("text/postit").split(',')
     @el.classList.add 'moving' if @model.cid == cid
     true
 
-  end: (e) =>
-    e = e.originalEvent if e.originalEvent
+  dragend: =>
     @adjustFontSize()
     @el.style.zIndex = 998
     true
+
+  swipe: (e) =>
+    console.log e
+    true
+
+  touchstart: (e) =>
+    e = e.originalEvent if e.originalEvent
+    e.preventDefault()  # Prevent image drag
+    data = if e.touches then e.touches[0] else e
+    @startTouch = x: data.pageX, y: data.pageY
+    false
+
+  touchmove: (e) =>
+    e = e.originalEvent if e.originalEvent
+    data = if e.touches then e.touches[0] else e
+    @stopTouch = x: data.pageX, y: data.pageY
+    true
+
+  touchcancel: =>
+    @startTouch = @stopTouch = null
+    true
+
+  touchend: (e) =>
+    return unless @startTouch and @stopTouch
+    zoom = @viewport.get 'zoom'
+    x = (@stopTouch.x - @startTouch.x) / zoom
+    y = (@stopTouch.y - @startTouch.y) / zoom
+    @model.move x, y
+    @startTouch = @stopTouch = null
+    @dragend()
 
   focus: =>
     @inEdition = true
