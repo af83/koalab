@@ -150,10 +150,6 @@ class App.PostitView extends Backbone.View
     @el.style.zIndex = 998
     true
 
-  swipe: (e) =>
-    console.log e
-    true
-
   touchstart: (e) =>
     e = e.originalEvent if e.originalEvent
     e.preventDefault()  # Prevent image drag
