@@ -8,6 +8,10 @@ class App.LineView extends Backbone.View
     @viewport.on 'change', @move
     @model.on    'change', @render
 
+  dispose: ->
+    @viewport.off null, null, @
+    Backbone.View.prototype.dispose.call @
+
   render: =>
     @$el.html JST.line
     @move()

@@ -30,6 +30,11 @@ class App.BoardView extends Backbone.View
     @model.lines.fetch()
     @model.postits.fetch()
 
+  remove: ->
+    @postits.remove()
+    @lines.remove()
+    Backbone.View.prototype.remove.call @
+
   render: ->
     @$el.html JST.board @model.toJSON()
     @lines.render()

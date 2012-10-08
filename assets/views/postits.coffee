@@ -10,6 +10,14 @@ class App.PostitsView extends Backbone.View
     @collection.on 'sort', @sort
     @views = []
 
+  dispose: ->
+    @viewport.off null, null, @
+    Backbone.View.prototype.dispose.call @
+
+  remove: ->
+    view.remove() for view in @views
+    Backbone.View.prototype.remove.call @
+
   render: ->
     @$(".postit").remove()
     @add postit for postit in @collection.models

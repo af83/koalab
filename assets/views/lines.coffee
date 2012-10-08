@@ -8,6 +8,14 @@ class App.LinesView extends Backbone.View
     @collection.on 'reset', @fetch
     @views = []
 
+  dispose: ->
+    @viewport.off null, null, @
+    Backbone.View.prototype.dispose.call @
+
+  remove: ->
+    view.remove() for view in @views
+    Backbone.View.prototype.remove.call @
+
   render: ->
     @$(".line").remove()
     @add line for line in @collection.models

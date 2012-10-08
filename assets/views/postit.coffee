@@ -27,6 +27,10 @@ class App.PostitView extends Backbone.View
     @throttledSave = _.throttle fn, 2000
     @el.id = "postit-#{@model.cid}"
 
+  dispose: ->
+    @viewport.off null, null, @
+    Backbone.View.prototype.dispose.call @
+
   render: ->
     @$el.html JST.postit @model.toJSON()
     @buildSelector()
