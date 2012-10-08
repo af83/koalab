@@ -2,6 +2,10 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 module.exports = function(db) {
+  var boardSchema = new Schema({
+    title: String
+  });
+
   var postitSchema = new Schema({
     board_id: String,
     title:    String,
@@ -26,17 +30,12 @@ module.exports = function(db) {
     y2: Number
   });
 
-  var boardSchema = new Schema({
-    title: String
-  });
-
-  var Board  = db.model('board', boardSchema);
-  var Postit = db.model('postit', postitSchema);
-  var Line   = db.model('line', lineSchema);
+  postitSchema.index({ board_id: 1 });
+  lineSchema.index({ board_id: 1 });
 
   return {
-    Board:  Board,
-    Postit: Postit,
-    Line:   Line
+    Board:  db.model('board', boardSchema),
+    Postit: db.model('postit', postitSchema),
+    Line:   db.model('line', lineSchema)
   };
 };
