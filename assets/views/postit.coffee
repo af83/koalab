@@ -150,7 +150,6 @@ class App.PostitView extends Backbone.View
     true
 
   dragend: =>
-    @adjustFontSize()
     @el.style.zIndex = 998
     true
 
@@ -158,26 +157,31 @@ class App.PostitView extends Backbone.View
     e = e.originalEvent if e.originalEvent
     e.preventDefault()  # Prevent image drag
     data = if e.touches then e.touches[0] else e
-    @startTouch = x: data.pageX, y: data.pageY
+    zoom = @viewport.get 'zoom'
+    init = @model.get 'coords'
+    @touch =
+      x: init.x - data.pageX / zoom
+      y: init.y - data.pageY / zoom
     false
 
   touchmove: (e) =>
     e = e.originalEvent if e.originalEvent
+    zoom = @viewport.get 'zoom'
     data = if e.touches then e.touches[0] else e
-    @stopTouch = x: data.pageX, y: data.pageY
+    @model.set coords:
+      x: @touch.x + data.pageX / zoom
+      y: @touch.y + data.pageY / zoom
     true
 
   touchcancel: =>
-    @startTouch = @stopTouch = null
+    return unless @touch
+    @touch = null
     true
 
   touchend: (e) =>
-    return unless @startTouch and @stopTouch
-    zoom = @viewport.get 'zoom'
-    x = (@stopTouch.x - @startTouch.x) / zoom
-    y = (@stopTouch.y - @startTouch.y) / zoom
-    @model.move x, y
-    @startTouch = @stopTouch = null
+    return unless @touch
+    @touch = null
+    @model.save()
     @dragend()
 
   focus: =>
