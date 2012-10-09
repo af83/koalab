@@ -60,28 +60,10 @@ class App.PostitView extends Backbone.View
     setTimeout @adjustFontSize, 0
     @
 
-  # TODO make this function a jQuery plugin
   adjustFontSize: =>
-    size = 3
-    w = _(@p.textContent.split(/\s+/)).max (s) -> s.length
-    c = @p.cloneNode true
-    c.textContent = w
-    c.style.display = 'inline'
-    c.style.visibility = 'hidden'
-    c.style.fontSize = "#{size}em"
-    document.body.appendChild c
-    max = @model.get('size').w * @viewport.get('zoom')
-    while c.scrollWidth > max
-      break if size < 0.4
-      size *= 0.85
-      c.style.fontSize = "#{size.toFixed 1}em"
-    document.body.removeChild c
-    @p.style.fontSize = "#{size.toFixed 1}em"
-    max = @model.get('size').h * @viewport.get('zoom')
-    while @p.scrollHeight > max
-      break if size < 0.4
-      size *= 0.85
-      @p.style.fontSize = "#{size.toFixed 1}em"
+    size = @model.get 'size'
+    zoom = @viewport.get 'zoom'
+    App.FontSize.adjust @p, size.w * zoom, size.h * zoom
     @
 
   colorize: =>
