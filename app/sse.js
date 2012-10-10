@@ -74,7 +74,10 @@ function middleware() {
     var sender = newSender(res);
     emitter.addListener('message', sender);
 
+    var ping = setInterval(function() { res.write('::\n\n'); }, 30000);
+
     req.on('close', function() {
+      clearInterval(ping);
       emitter.removeListener('message', sender);
     });
 
