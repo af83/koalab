@@ -6,7 +6,7 @@ class App.LineView extends Backbone.View
 
   initialize: (viewport: @viewport) ->
     @viewport.on 'change', @move
-    @model.on    'change', @render
+    @model.on    'change', @update
 
   dispose: ->
     @viewport.off null, null, @
@@ -14,6 +14,10 @@ class App.LineView extends Backbone.View
 
   render: =>
     @$el.html JST.line
+    @update()
+    @
+
+  update: =>
     @move()
     @rotate()
     @
