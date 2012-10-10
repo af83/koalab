@@ -40,7 +40,6 @@ body
     width: 300px
     border: 1px solid #aaa
     background-color: #fff
-    -moz-transition: left .5s ease-out
     -webkit-transition: left .5s ease-out
     transition: left .5s ease-out
     button
@@ -84,16 +83,13 @@ body
       font-size: 1.5em
       text-decoration: none
       background-image: url("/images/chevron_gauche.png")
-      -moz-transform: rotate(0deg)
       -webkit-transform: rotate(0deg)
       transform: rotate(0deg)
-      -moz-transition: -moz-transform .5s
       -webkit-transition: -webkit-transform .5s
       transition: transform .5s
     &.closed
       left: -270px
       .toggle-menu
-        -moz-transform: rotate(180deg)
         -webkit-transform: rotate(180deg)
         transform: rotate(180deg)
   .navigation
@@ -159,10 +155,8 @@ body
     bottom: 5%
     width: 5%
     height: 90%
-    -moz-transform-origin: 0 100%
     -webkit-transform-origin: 0 100%
     transform-origin: 0 100%
-    -moz-transform: rotate(5deg)
     -webkit-transform: rotate(5deg)
     transform: rotate(5deg)
   .gradient
@@ -199,7 +193,6 @@ body
   background-image: url("/images/trait.png")
   height: 10px
   cursor: move
-  -moz-transform-origin: 0
   -webkit-transform-origin: 0
   transform-origin: 0
   .start

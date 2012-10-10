@@ -68,10 +68,9 @@ class App.PostitView extends Backbone.View
 
   colorize: =>
     c = App.Colors.mix (@model.get 'color'), '#000000', 0.9
-    gradient = "linear-gradient(top, #{c} 0%, ##{@model.get 'color'} 75%)"
-    @gradient.style.background = "-moz-#{gradient}"
-    @gradient.style.background = "-webkit-#{gradient}"
-    @gradient.style.background = gradient
+    colors = "#{c} 0%, ##{@model.get 'color'} 75%"
+    @gradient.style.background = "-webkit-linear-gradient(top, #{colors})"
+    @gradient.style.background = "linear-gradient(to bottom, #{colors})"
     @el.classList.add 'reverse' if @model.get('color')[0] == '0'
     @
 
@@ -94,7 +93,6 @@ class App.PostitView extends Backbone.View
 
   rotate: =>
     prop = "rotate(#{@model.get 'angle'}deg)"
-    @el.style.MozTransform = prop
     @el.style.WebkitTransform = prop
     @el.style.transform = prop
     @
