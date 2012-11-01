@@ -1,3 +1,5 @@
+@import "font-awesome"
+
 @font-face
   font-family: 'Indie Flower'
   font-style: normal
@@ -37,13 +39,15 @@ body
     left: 0
     bottom: 50px
     z-index: 999
-    width: 300px
+    width: 280px
+    height: 32px
     border: 1px solid #aaa
     background-color: #fff
+    line-height: 0  /* Hack fore firefox to hide spaces */
     -webkit-transition: left .5s ease-out
     transition: left .5s ease-out
     button
-      margin: 3px
+      margin: 4px 2px
       width: 24px
       height: 24px
     .add-postit
@@ -66,6 +70,8 @@ body
         background-image: url("/images/note_rose_roll.png")
     .add-line
       border: 1px solid #aaa
+      -moz-box-sizing: border-box
+      box-sizing: border-box
     #add-line-h
       background: url("/images/horizontal.png") no-repeat center
     #add-line-v
@@ -75,73 +81,64 @@ body
     .toggle-menu
       display: block
       float: right
-      margin: 9px 6px 7px
-      width: 14px
-      height: 22px
+      margin: 4px
+      height: 24px
+      width: 12px
+      line-height: 28px
       outline: none
       color: #333
-      font-size: 1.5em
-      text-decoration: none
-      background-image: url("/images/chevron_gauche.png")
+      icon-chevron-left()
       -webkit-transform: rotate(0deg)
       transform: rotate(0deg)
       -webkit-transition: -webkit-transform .5s
       transition: transform .5s
     &.closed
-      left: -270px
+      left: -250px
       .toggle-menu
         -webkit-transform: rotate(180deg)
         transform: rotate(180deg)
   .navigation
     position: fixed
     z-index: 999
-    top: 106px
-    left: 6px
-    width: 80px
-    height: 80px
-    border-radius: 40px
+    top: 59px
+    left: 10px
+    width: 84px
+    height: 84px
+    border-radius: 42px
     border: 1px solid #aaa
     background-color: #fff
     a
       z-index: 999
       position: fixed
-      color: transparent
+      color: #333
+      font-size: 28px
+      outline: none
     .zoom-in
-      top: 33px
-      left: 33px
-      width: 31px
-      height: 32px
-      background-image: url("/images/plus.png")
+      top: 20px
+      left: 12px
+      font-size: 36px
+      icon-zoom-in()
     .zoom-out
-      top: 77px
-      left: 33px
-      width: 31px
-      height: 8px
-      background-image: url("/images/minus.png")
+      top: 20px
+      left: 64px
+      font-size: 36px
+      icon-zoom-out()
     .move-left
-      top: 135px
+      top: 90px
       left: 15px
-      width: 15px
-      height: 25px
-      background-image: url("/images/caret-left.png")
+      icon-circle-arrow-left()
     .move-down
-      top: 165px
-      left: 35px
-      width: 26px
-      height: 15px
-      background-image: url("/images/caret-down.png")
-    .move-up
       top: 115px
-      left: 35px
-      width: 26px
-      height: 15px
-      background-image: url("/images/caret-up.png")
+      left: 42px
+      icon-circle-arrow-down()
+    .move-up
+      top: 65px
+      left: 42px
+      icon-circle-arrow-up()
     .move-right
-      top: 134px
-      left: 66px
-      width: 15px
-      height: 26px
-      background-image: url("/images/caret-right.png")
+      top: 90px
+      left: 69px
+      icon-circle-arrow-right()
 
 .moving
   opacity: 0.4
@@ -211,3 +208,4 @@ body
   &:hover
     .handle
       display: block
+

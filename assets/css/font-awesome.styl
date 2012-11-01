@@ -1,0 +1,671 @@
+/*!   Font Awesome
+ *    the iconic font designed for use with Twitter Bootstrap
+ *    -------------------------------------------------------
+ *    The full suite of pictographic icons, examples, and documentation
+ *    can be found at: http://fortawesome.github.com/Font-Awesome/
+ *
+ *    License
+ *    -------------------------------------------------------
+ *    The Font Awesome webfont, CSS, and LESS files are licensed under CC BY 3.0:
+ *    http://creativecommons.org/licenses/by/3.0/ A mention of
+ *    'Font Awesome - http://fortawesome.github.com/Font-Awesome' in human-readable
+ *    source code is considered acceptable attribution (most common on the web).
+ *    If human readable source code is not available to the end user, a mention in
+ *    an 'About' or 'Credits' screen is considered acceptable (most common in desktop
+ *    or mobile software).
+ *
+ *    Contact
+ *    -------------------------------------------------------
+ *    Email: dave@davegandy.com
+ *    Twitter: http://twitter.com/fortaweso_me
+ *    Work: Lead Product Designer @ http://kyruus.com
+ */
+
+@font-face
+  font-family: 'FontAwesome'
+  font-style: normal
+  font-weight: normal
+  src: local('FontAwesome'), url('/fonts/FontAwesome.ttf') format('truetype')
+
+icon(char)
+  &:before
+    content char
+    display: inline-block
+    font-family: FontAwesome
+    font-weight: normal
+    font-style: normal
+    text-decoration: none
+
+/* Font Awesome uses the Unicode Private Use Area (PUA) to ensure screen
+ * readers do not read off random characters that represent icons
+ */
+icon-glass()
+  icon("\f000")
+
+icon-music()
+  icon("\f001")
+
+icon-search()
+  icon("\f002")
+
+icon-envelope()
+  icon("\f003")
+
+icon-heart()
+  icon("\f004")
+
+icon-star()
+  icon("\f005")
+
+icon-star-empty()
+  icon("\f006")
+
+icon-user()
+  icon("\f007")
+
+icon-film()
+  icon("\f008")
+
+icon-th-large()
+  icon("\f009")
+
+icon-th()
+  icon("\f00a")
+
+icon-th-list()
+  icon("\f00b")
+
+icon-ok()
+  icon("\f00c")
+
+icon-remove()
+  icon("\f00d")
+
+icon-zoom-in()
+  icon("\f00e")
+
+icon-zoom-out()
+  icon("\f010")
+
+icon-off()
+  icon("\f011")
+
+icon-signal()
+  icon("\f012")
+
+icon-cog()
+  icon("\f013")
+
+icon-trash()
+  icon("\f014")
+
+icon-home()
+  icon("\f015")
+
+icon-file()
+  icon("\f016")
+
+icon-time()
+  icon("\f017")
+
+icon-road()
+  icon("\f018")
+
+icon-download-alt()
+  icon("\f019")
+
+icon-download()
+  icon("\f01a")
+
+icon-upload()
+  icon("\f01b")
+
+icon-inbox()
+  icon("\f01c")
+
+icon-play-circle()
+  icon("\f01d")
+
+icon-repeat()
+  icon("\f01e")
+
+/* \f020 doesn't work in Safari. all shifted one down */
+icon-refresh()
+  icon("\f021")
+
+icon-list-alt()
+  icon("\f022")
+
+icon-lock()
+  icon("\f023")
+
+icon-flag()
+  icon("\f024")
+
+icon-headphones()
+  icon("\f025")
+
+icon-volume-off()
+  icon("\f026")
+
+icon-volume-down()
+  icon("\f027")
+
+icon-volume-up()
+  icon("\f028")
+
+icon-qrcode()
+  icon("\f029")
+
+icon-barcode()
+  icon("\f02a")
+
+icon-tag()
+  icon("\f02b")
+
+icon-tags()
+  icon("\f02c")
+
+icon-book()
+  icon("\f02d")
+
+icon-bookmark()
+  icon("\f02e")
+
+icon-print()
+  icon("\f02f")
+
+icon-camera()
+  icon("\f030")
+
+icon-font()
+  icon("\f031")
+
+icon-bold()
+  icon("\f032")
+
+icon-italic()
+  icon("\f033")
+
+icon-text-height()
+  icon("\f034")
+
+icon-text-width()
+  icon("\f035")
+
+icon-align-left()
+  icon("\f036")
+
+icon-align-center()
+  icon("\f037")
+
+icon-align-right()
+  icon("\f038")
+
+icon-align-justify()
+  icon("\f039")
+
+icon-list()
+  icon("\f03a")
+
+icon-indent-left()
+  icon("\f03b")
+
+icon-indent-right()
+  icon("\f03c")
+
+icon-facetime-video()
+  icon("\f03d")
+
+icon-picture()
+  icon("\f03e")
+
+icon-pencil()
+  icon("\f040")
+
+icon-map-marker()
+  icon("\f041")
+
+icon-adjust()
+  icon("\f042")
+
+icon-tint()
+  icon("\f043")
+
+icon-edit()
+  icon("\f044")
+
+icon-share()
+  icon("\f045")
+
+icon-check()
+  icon("\f046")
+
+icon-move()
+  icon("\f047")
+
+icon-step-backward()
+  icon("\f048")
+
+icon-fast-backward()
+  icon("\f049")
+
+icon-backward()
+  icon("\f04a")
+
+icon-play()
+  icon("\f04b")
+
+icon-pause()
+  icon("\f04c")
+
+icon-stop()
+  icon("\f04d")
+
+icon-forward()
+  icon("\f04e")
+
+icon-fast-forward()
+  icon("\f050")
+
+icon-step-forward()
+  icon("\f051")
+
+icon-eject()
+  icon("\f052")
+
+icon-chevron-left()
+  icon("\f053")
+
+icon-chevron-right()
+  icon("\f054")
+
+icon-plus-sign()
+  icon("\f055")
+
+icon-minus-sign()
+  icon("\f056")
+
+icon-remove-sign()
+  icon("\f057")
+
+icon-ok-sign()
+  icon("\f058")
+
+icon-question-sign()
+  icon("\f059")
+
+icon-info-sign()
+  icon("\f05a")
+
+icon-screenshot()
+  icon("\f05b")
+
+icon-remove-circle()
+  icon("\f05c")
+
+icon-ok-circle()
+  icon("\f05d")
+
+icon-ban-circle()
+  icon("\f05e")
+
+icon-arrow-left()
+  icon("\f060")
+
+icon-arrow-right()
+  icon("\f061")
+
+icon-arrow-up()
+  icon("\f062")
+
+icon-arrow-down()
+  icon("\f063")
+
+icon-share-alt()
+  icon("\f064")
+
+icon-resize-full()
+  icon("\f065")
+
+icon-resize-small()
+  icon("\f066")
+
+icon-plus()
+  icon("\f067")
+
+icon-minus()
+  icon("\f068")
+
+icon-asterisk()
+  icon("\f069")
+
+icon-exclamation-sign()
+  icon("\f06a")
+
+icon-gift()
+  icon("\f06b")
+
+icon-leaf()
+  icon("\f06c")
+
+icon-fire()
+  icon("\f06d")
+
+icon-eye-open()
+  icon("\f06e")
+
+icon-eye-close()
+  icon("\f070")
+
+icon-warning-sign()
+  icon("\f071")
+
+icon-plane()
+  icon("\f072")
+
+icon-calendar()
+  icon("\f073")
+
+icon-random()
+  icon("\f074")
+
+icon-comment()
+  icon("\f075")
+
+icon-magnet()
+  icon("\f076")
+
+icon-chevron-up()
+  icon("\f077")
+
+icon-chevron-down()
+  icon("\f078")
+
+icon-retweet()
+  icon("\f079")
+
+icon-shopping-cart()
+  icon("\f07a")
+
+icon-folder-close()
+  icon("\f07b")
+
+icon-folder-open()
+  icon("\f07c")
+
+icon-resize-vertical()
+  icon("\f07d")
+
+icon-resize-horizontal()
+  icon("\f07e")
+
+icon-bar-chart()
+  icon("\f080")
+
+icon-twitter-sign()
+  icon("\f081")
+
+icon-facebook-sign()
+  icon("\f082")
+
+icon-camera-retro()
+  icon("\f083")
+
+icon-key()
+  icon("\f084")
+
+icon-cogs()
+  icon("\f085")
+
+icon-comments()
+  icon("\f086")
+
+icon-thumbs-up()
+  icon("\f087")
+
+icon-thumbs-down()
+  icon("\f088")
+
+icon-star-half()
+  icon("\f089")
+
+icon-heart-empty()
+  icon("\f08a")
+
+icon-signout()
+  icon("\f08b")
+
+icon-linkedin-sign()
+  icon("\f08c")
+
+icon-pushpin()
+  icon("\f08d")
+
+icon-external-link()
+  icon("\f08e")
+
+icon-signin()
+  icon("\f090")
+
+icon-trophy()
+  icon("\f091")
+
+icon-github-sign()
+  icon("\f092")
+
+icon-upload-alt()
+  icon("\f093")
+
+icon-lemon()
+  icon("\f094")
+
+icon-phone()
+  icon("\f095")
+
+icon-check-empty()
+  icon("\f096")
+
+icon-bookmark-empty()
+  icon("\f097")
+
+icon-phone-sign()
+  icon("\f098")
+
+icon-twitter()
+  icon("\f099")
+
+icon-facebook()
+  icon("\f09a")
+
+icon-github()
+  icon("\f09b")
+
+icon-unlock()
+  icon("\f09c")
+
+icon-credit-card()
+  icon("\f09d")
+
+icon-rss()
+  icon("\f09e")
+
+icon-hdd()
+  icon("\f0a0")
+
+icon-bullhorn()
+  icon("\f0a1")
+
+icon-bell()
+  icon("\f0a2")
+
+icon-certificate()
+  icon("\f0a3")
+
+icon-hand-right()
+  icon("\f0a4")
+
+icon-hand-left()
+  icon("\f0a5")
+
+icon-hand-up()
+  icon("\f0a6")
+
+icon-hand-down()
+  icon("\f0a7")
+
+icon-circle-arrow-left()
+  icon("\f0a8")
+
+icon-circle-arrow-right()
+  icon("\f0a9")
+
+icon-circle-arrow-up()
+  icon("\f0aa")
+
+icon-circle-arrow-down()
+  icon("\f0ab")
+
+icon-globe()
+  icon("\f0ac")
+
+icon-wrench()
+  icon("\f0ad")
+
+icon-tasks()
+  icon("\f0ae")
+
+icon-filter()
+  icon("\f0b0")
+
+icon-briefcase()
+  icon("\f0b1")
+
+icon-fullscreen()
+  icon("\f0b2")
+
+icon-group()
+  icon("\f0c0")
+
+icon-link()
+  icon("\f0c1")
+
+icon-cloud()
+  icon("\f0c2")
+
+icon-beaker()
+  icon("\f0c3")
+
+icon-cut()
+  icon("\f0c4")
+
+icon-copy()
+  icon("\f0c5")
+
+icon-paper-clip()
+  icon("\f0c6")
+
+icon-save()
+  icon("\f0c7")
+
+icon-sign-blank()
+  icon("\f0c8")
+
+icon-reorder()
+  icon("\f0c9")
+
+icon-list-ul()
+  icon("\f0ca")
+
+icon-list-ol()
+  icon("\f0cb")
+
+icon-strikethrough()
+  icon("\f0cc")
+
+icon-underline()
+  icon("\f0cd")
+
+icon-table()
+  icon("\f0ce")
+
+icon-magic()
+  icon("\f0d0")
+
+icon-truck()
+  icon("\f0d1")
+
+icon-pinterest()
+  icon("\f0d2")
+
+icon-pinterest-sign()
+  icon("\f0d3")
+
+icon-google-plus-sign()
+  icon("\f0d4")
+
+icon-google-plus()
+  icon("\f0d5")
+
+icon-money()
+  icon("\f0d6")
+
+icon-caret-down()
+  icon("\f0d7")
+
+icon-caret-up()
+  icon("\f0d8")
+
+icon-caret-left()
+  icon("\f0d9")
+
+icon-caret-right()
+  icon("\f0da")
+
+icon-columns()
+  icon("\f0db")
+
+icon-sort()
+  icon("\f0dc")
+
+icon-sort-down()
+  icon("\f0dd")
+
+icon-sort-up()
+  icon("\f0de")
+
+icon-envelope-alt()
+  icon("\f0e0")
+
+icon-linkedin()
+  icon("\f0e1")
+
+icon-undo()
+  icon("\f0e2")
+
+icon-legal()
+  icon("\f0e3")
+
+icon-dashboard()
+  icon("\f0e4")
+
+icon-comment-alt()
+  icon("\f0e5")
+
+icon-comments-alt()
+  icon("\f0e6")
+
+icon-bolt()
+  icon("\f0e7")
+
+icon-sitemap()
+  icon("\f0e8")
+
+icon-umbrella()
+  icon("\f0e9")
+
+icon-paste()
+  icon("\f0ea")
+
+icon-user-md()
+  icon("\f200")
