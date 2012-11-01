@@ -1,9 +1,9 @@
 Koalab
 ======
 
-[Koalab](https://github.com:AF83/koalab) is a scrum-like board for
-brainstorming, [Scrum](http://en.wikipedia.org/wiki/Scrum_\(development\)) or to
-manage your [family chores](http://scrum4kids.blogspot.fr/2010/09/using-scrum-for-saturday-chores.html).
+[Koalab](https://github.com:AF83/koalab) is a board for brainstorming,
+[Scrum](http://en.wikipedia.org/wiki/Scrum_\(development\)) or managing your
+[family chores](http://scrum4kids.blogspot.fr/2010/09/using-scrum-for-saturday-chores.html).
 
 It's powered by nginx, nodejs, mongodb, grunt, backbone and html5. It takes
 profit of the most advanced features of html5, thus you should only use it
@@ -50,8 +50,7 @@ git clone git@github.com:AF83/koalab.git
 cd koalab
 cp config/server.json.example config/server.json
 npm install .
-npm install grunt -g
-grunt
+./node_modules/grunt/bin/grunt
 node koalab.js
 firefox http://localhost:8080/
 ```
