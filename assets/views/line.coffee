@@ -35,7 +35,7 @@ class App.LineView extends Backbone.View
 
   rotate: ->
     angle = @model.angle()
-    @el.style.WebkitTransform = "rotate(#{angle}deg)"
+    @el.style.WebkitTransform = "rotate(#{angle}deg) translateZ(0)"
     @el.style.transform = "rotate(#{angle}deg)"
     @
 

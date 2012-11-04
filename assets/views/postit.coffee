@@ -7,8 +7,8 @@ class App.PostitView extends Backbone.View
     'blur  p':     'blur'
     'keyup p':     'updateTitle'
     'dragstart':   'dragstart'
-    'dragleave':   'dragleave'
     'dragend':     'dragend'
+    'dragcancel':  'dragcancel'
     'touchstart':  'touchstart'
     'touchcancel': 'touchcancel'
     'touchmove':   'touchmove'
@@ -78,7 +78,6 @@ class App.PostitView extends Backbone.View
     coords = @viewport.toScreen @model.get "coords"
     @el.style.left = "#{coords.x}px"
     @el.style.top  = "#{coords.y}px"
-    @el.classList.remove 'moving'
     @
 
   resize: =>
@@ -93,7 +92,7 @@ class App.PostitView extends Backbone.View
 
   rotate: =>
     prop = "rotate(#{@model.get 'angle'}deg)"
-    @el.style.WebkitTransform = prop
+    @el.style.WebkitTransform = "#{prop} translateZ(0)"
     @el.style.transform = prop
     @
 
@@ -107,55 +106,58 @@ class App.PostitView extends Backbone.View
     @
 
   dragstart: (e) =>
-    zoom = @viewport.get 'zoom'
     e = e.originalEvent if e.originalEvent
     if e.target.classList.contains 'resize'
+      zoom = @viewport.get 'zoom'
       size = @model.get('size')
-      x = e.clientX - size.w * zoom
-      y = e.clientY - size.h * zoom
+      x = e.clientX / zoom - size.w
+      y = e.clientY / zoom - size.h
       e.dataTransfer.setData 'text/corner', "#{@model.cid},#{x},#{y}"
     else
-      coords = @viewport.toScreen @model.get('coords')
-      x = e.clientX - coords.x
-      y = e.clientY - coords.y
+      contact = @viewport.fromScreen x: e.clientX, y: e.clientY
+      topleft = @model.get 'coords'
+      x = contact.x - topleft.x
+      y = contact.y - topleft.y
+      @el.classList.add 'moving'
       e.dataTransfer.setData 'text/postit', "#{@model.cid},#{x},#{y}"
-      e.dataTransfer.setDragImage App.koala, 0, 0
     e.dataTransfer.dropEffect = 'move'
     true
 
-  dragleave: (e) =>
-    e = e.originalEvent if e.originalEvent
-    [cid, _, _] = e.dataTransfer.getData("text/postit").split(',')
-    @el.classList.add 'moving' if @model.cid == cid
+  dragend: =>
+    @el.classList.remove 'moving'
+    @el.style.zIndex = 998
     true
 
-  dragend: =>
-    @el.style.zIndex = 998
+  dragcancel: =>
+    @el.classList.remove 'moving'
     true
 
   touchstart: (e) =>
     e = e.originalEvent if e.originalEvent
     e.preventDefault()  # Prevent image drag
     data = if e.touches then e.touches[0] else e
-    zoom = @viewport.get 'zoom'
-    init = @model.get 'coords'
+    contact = @viewport.fromScreen x: data.pageX, y: data.pageY
+    topleft = @model.get 'coords'
     @touch =
-      x: init.x - data.pageX / zoom
-      y: init.y - data.pageY / zoom
+      x: contact.x - topleft.x
+      y: contact.y - topleft.y
+    @el.classList.add 'moving'
     false
 
   touchmove: (e) =>
+    return unless @touch
     e = e.originalEvent if e.originalEvent
-    zoom = @viewport.get 'zoom'
     data = if e.touches then e.touches[0] else e
+    contact = @viewport.fromScreen x: data.pageX, y: data.pageY
     @model.set coords:
-      x: @touch.x + data.pageX / zoom
-      y: @touch.y + data.pageY / zoom
+      x: contact.x - @touch.x
+      y: contact.y - @touch.y
     true
 
   touchcancel: =>
     return unless @touch
     @touch = null
+    @el.classList.remove 'moving'
     true
 
   touchend: (e) =>

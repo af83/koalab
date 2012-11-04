@@ -41,11 +41,18 @@ class App.PostitsView extends Backbone.View
     for type in e.dataTransfer.types
       if type == "text/corner"
         [cid, x, y] = e.dataTransfer.getData(type).split(',')
-        el = @collection.getByCid cid
         zoom = @viewport.get 'zoom'
-        el.set size:
-          w: (e.clientX - x) / zoom
-          h: (e.clientY - y) / zoom
+        if el = @collection.getByCid cid
+          el.set size:
+            w: e.clientX / zoom - x
+            h: e.clientY / zoom - y
+      else if type == "text/postit"
+        contact = @viewport.fromScreen x: e.clientX, y: e.clientY
+        [cid, x, y] = e.dataTransfer.getData(type).split(',')
+        if el = @collection.getByCid cid
+          el.set coords:
+            x: contact.x - x
+            y: contact.y - y
     false
 
   drop: (e) =>
@@ -56,13 +63,13 @@ class App.PostitsView extends Backbone.View
         [cid, x, y] = e.dataTransfer.getData(type).split(',')
         el = @collection.getByCid cid
         el.save size:
-          w: (e.clientX - x) / zoom
-          h: (e.clientY - y) / zoom
+          w: e.clientX / zoom - x
+          h: e.clientY / zoom - y
       else if type == "text/postit"
+        contact = @viewport.fromScreen x: e.clientX, y: e.clientY
         [cid, x, y] = e.dataTransfer.getData(type).split(',')
         el = @collection.getByCid cid
-        coords = @viewport.fromScreen
-          x: e.clientX - x
-          y: e.clientY - y
-        el.save coords: coords
+        el.save coords:
+          x: contact.x - x
+          y: contact.y - y
     false
