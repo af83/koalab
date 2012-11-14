@@ -12,6 +12,8 @@ html(lang="en")
     link(rel="stylesheet", href="/persona-buttons.css")
     link(rel="stylesheet", href="/koalab.css")
   body
+    <!--[if IE]><p>Sorry, your browser don't support some features needed for Koalab. You should try a modern browser like <a href="http://www.mozilla.org/">Firefox</a></p><![endif]-->
+    <!--[if !IE]><!-->
     section#app
     script(src="https://login.persona.org/include.js")
     script(src="/zepto.js")
@@ -21,3 +23,4 @@ html(lang="en")
     script(src="/backbone.js")
     script(src="/koalab.js")
     block content
+    <!--<![endif]-->
