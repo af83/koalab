@@ -4,6 +4,7 @@ DefaultLength = SpaceBetweenLines * 5
 
 class App.LinesCollection extends Backbone.Collection
   model: App.Line
+
   url: ->
     "#{@board.url()}/lines"
 

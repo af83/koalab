@@ -55,9 +55,14 @@ module.exports = function(grunt) {
       }
     },
     copy: {
-      dev: {
+      vendor: {
         files: {
           "public/": "assets/vendor/*"
+        }
+      },
+      js: {
+        files: {
+          "public/": "assets/js/*"
         }
       }
     },

@@ -1,5 +1,12 @@
 extends layout
 
 block content
-  script
-    App.user = new App.User({email: null});
+  section#login
+    h1 Koalab
+    img(src="/images/koalab-logo.png", alt="", id="logo")
+    p
+      a(href="#", class="signin persona-button dark")
+        span Sign in with your Email
+  script(src="https://login.persona.org/include.js")
+  script(src="/zepto.js")
+  script(src="login.js")

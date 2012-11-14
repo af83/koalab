@@ -38,20 +38,39 @@ module.exports = function(app, db, pass) {
       Postit = models.Postit,
       Line   = models.Line;
 
+  // Show the login page
   app.get('/login', function(req, res) {
     res.render('login');
   });
 
+  // Check the persona assertion
   app.post( '/api/user'
           , pass.authenticate( 'browserid', { failureRedirect: '/login' })
           , function(req,res) { res.send(204); }
           );
 
+  // Show the list of boards
+  // TODO pagination
   app.get('/', function(req, res) {
     if (!req.isAuthenticated()) { return res.redirect('/login'); }
-    res.render('index', { email: req.user.email });
+    var boards = Board.find({}, function(err, boards) {
+      if(err) return next(err);
+      res.render('index', { boards: boards });
+    });
   });
 
+  // Create Board
+  app.post('/boards', function(req, res, next) {
+    if (!req.isAuthenticated()) { return res.redirect('/login'); }
+    var board = new Board(req.body);
+    board.save(function(err) {
+      if (err) return next(err);
+      res.redirect('/');
+      broadcast('create', Board, board);
+    });
+  });
+
+  // Show a board
   app.get('/boards/:bid', loader(Board, 'bid'), function(req, res) {
     if (!req.isAuthenticated()) { return res.redirect('/login'); }
     var bid = req.params.bid;
@@ -59,44 +78,11 @@ module.exports = function(app, db, pass) {
       if (err) return next(new Error());
       Line.find({ board_id : bid }, function(err, lines) {
         if (err) return next(new Error());
-        res.render('board', { email: req.user.email
-                            , board: JSON.stringify(req.board)
+        res.render('board', { board: JSON.stringify(req.board)
                             , postits: JSON.stringify(postits)
                             , lines: JSON.stringify(lines)
                             });
       });
-    });
-  });
-
-  app.get('/api/boards', ensureAuthenticated, function(req, res, next) {
-    var boards = Board.find({}, function(err, boards) {
-      if(err) return next(err);
-      res.send(boards);
-    });
-  });
-
-  // Create Board
-  app.post('/api/boards', ensureAuthenticated, function(req, res, next) {
-    var board = new Board(req.body);
-    board.save(function(err) {
-      if (err) return next(err);
-      res.send(201, board);
-      broadcast('create', Board, board);
-    });
-  });
-
-  // Get Board
-  app.get('/api/boards/:bid', ensureAuthenticated, loader(Board, 'bid'), function(req, res) {
-    res.send(req.board);
-  });
-
-  // Update Board
-  app.put('/api/boards/:bid', ensureAuthenticated, function(req, res, next) {
-    delete req.body._id;
-    Board.findByIdAndUpdate(req.params.bid, req.body, function(err, board) {
-      if (err) return next(err);
-      res.send(200, board);
-      broadcast('update', Board, board);
     });
   });
 
@@ -110,20 +96,6 @@ module.exports = function(app, db, pass) {
       res.send(201, postit);
       broadcast('create', Postit, postit);
     });
-  });
-
-  // Get postits
-  app.get('/api/boards/:bid/postits', ensureAuthenticated, function(req, res, next) {
-    var bid = req.params.bid;
-    Postit.find({ board_id : bid }, function(err, postits) {
-      if (err) return next(new Error());
-      res.send(postits);
-    });
-  });
-
-  // Get postit
-  app.get('/api/boards/:bid/postits/:pid', ensureAuthenticated, loader(Postit, 'pid'), function(req, res) {
-    res.send(req.postit);
   });
 
   // Update postit
@@ -146,20 +118,6 @@ module.exports = function(app, db, pass) {
       res.send(201, line);
       broadcast('create', Line, line);
     });
-  });
-
-  // Get lines
-  app.get('/api/boards/:bid/lines', ensureAuthenticated, function(req, res, next) {
-    var bid = req.params.bid;
-    Line.find({ board_id : bid }, function(err, lines) {
-      if (err) return next(new Error());
-      res.send(lines);
-    });
-  });
-
-  // Get line
-  app.get('/api/boards/:bid/lines/:lid', ensureAuthenticated, loader(Line, 'lid'), function(req, res) {
-    res.send(req.line);
   });
 
   // Update line

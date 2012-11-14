@@ -1,4 +1,7 @@
 class App.Board extends Backbone.Model
+  url: ->
+    "/api/boards/#{@id}"
+
   defaults: ->
     title: "Foobar"
 

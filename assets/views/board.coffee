@@ -27,8 +27,6 @@ class App.BoardView extends Backbone.View
       collection: @model.postits
       viewport: @viewport
       el: @el
-    @model.lines.fetch()
-    @model.postits.fetch()
 
   remove: ->
     @postits.remove()

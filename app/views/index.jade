@@ -1,5 +1,13 @@
 extends layout
 
 block content
-  script
-    App.user = new App.User({email: '#{email}'});
+  section#list
+    img(src="/images/koalab-logo.png", alt="", id="logo")
+    section
+      h1 Koalab
+      ul#list-of-boards
+        each board in boards
+          li: a(href="/boards/#{board.id}")= board.title
+      form(action="/boards", method="post")
+        input(name="title", placeholder="Wants a new board?", autofocus, required)
+        input(type="submit", value="Create")

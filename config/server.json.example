@@ -1,4 +1,8 @@
 {
+  "authorized": [
+    "example@example.net",
+    "*@example.com"
+  ],
   "port": 8080,
   "persona": {
     "audience": "http://localhost:8080"
