@@ -10,12 +10,14 @@ class App.BoardView extends Backbone.View
     'click #add-line-v': 'addLineV'
     'click #add-line-d': 'addLineD'
     'click .toggle-menu': 'toggleMenu'
-    'click .zoom-in':  'zoomIn'
-    'click .zoom-out': 'zoomOut'
     'click .move-up':    'moveUp'
     'click .move-down':  'moveDown'
     'click .move-left':  'moveLeft'
     'click .move-right': 'moveRight'
+    'click .zoom-in':  'zoomIn'
+    'click .zoom-out': 'zoomOut'
+    'mousewheel': 'wheel'
+    'DOMMouseScroll': 'wheel'
 
   initialize: ->
     @viewport = new App.Viewport()
@@ -74,18 +76,6 @@ class App.BoardView extends Backbone.View
     @el.querySelector('aside').classList.toggle 'closed'
     false
 
-  zoomIn: ->
-    z = @viewport.get 'zoom'
-    z *= 1.4
-    @viewport.set zoom: z unless z > 3
-    false
-
-  zoomOut: ->
-    z = @viewport.get 'zoom'
-    z /= 1.4
-    @viewport.set zoom: z unless z < 0.3
-    false
-
   moveUp: ->
     was = @viewport.get 'offset'
     offset = x: was.x, y: was.y - 100
@@ -109,3 +99,21 @@ class App.BoardView extends Backbone.View
     offset = x: was.x + 100, y: was.y
     @viewport.set offset: offset
     false
+
+  zoomIn: ->
+    z = @viewport.get 'zoom'
+    z *= 1.4
+    @viewport.set zoom: z unless z > 10
+    false
+
+  zoomOut: ->
+    z = @viewport.get 'zoom'
+    z /= 1.4
+    @viewport.set zoom: z unless z < 0.1
+    false
+
+  wheel: (e) ->
+     e = e.originalEvent if e.originalEvent
+     d = e.wheelDelta || -e.detail
+     if d > 0 then @zoomIn() else @zoomOut()
+     false
