@@ -10,6 +10,7 @@ class App.BoardView extends Backbone.View
     'click #add-line-v': 'addLineV'
     'click #add-line-d': 'addLineD'
     'click .toggle-menu': 'toggleMenu'
+    'click .fit-to-content': 'fitToContent'
     'click .move-up':    'moveUp'
     'click .move-down':  'moveDown'
     'click .move-left':  'moveLeft'
@@ -84,6 +85,10 @@ class App.BoardView extends Backbone.View
 
   toggleMenu: ->
     @el.querySelector('aside').classList.toggle 'closed'
+    false
+
+  fitToContent: ->
+    @viewport.fitToContent @model, window.innerWidth, window.innerHeight
     false
 
   moveUp: ->
