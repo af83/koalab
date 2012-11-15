@@ -19,6 +19,12 @@ class App.BoardView extends Backbone.View
     'mousewheel': 'wheel'
     'DOMMouseScroll': 'wheel'
 
+  shortcuts:
+    'up':    'moveUp'
+    'down':  'moveDown'
+    'left':  'moveLeft'
+    'right': 'moveRight'
+
   initialize: ->
     @viewport = new App.Viewport()
     @viewport.on 'change:zoom', @showZoomLevel
@@ -30,6 +36,8 @@ class App.BoardView extends Backbone.View
       collection: @model.postits
       viewport: @viewport
       el: @el
+    _.extend @, new Backbone.Shortcuts
+    @delegateShortcuts()
 
   remove: ->
     @postits.remove()

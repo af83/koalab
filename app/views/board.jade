@@ -2,10 +2,12 @@ extends layout
 
 block content
   section#app
+  script(src="/keymaster.js")
   script(src="/json2.js")
   script(src="/handlebars.runtime.js")
   script(src="/lodash.js")
   script(src="/backbone.js")
+  script(src="/backbone.shortcuts.js")
   script(src="/koalab.js")
   script
     document.addEventListener("DOMContentLoaded", function() {
