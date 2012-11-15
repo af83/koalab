@@ -123,10 +123,10 @@ class App.BoardView extends Backbone.View
     false
 
   wheel: (e) ->
-     e = e.originalEvent if e.originalEvent
-     d = e.wheelDelta || -e.detail
-     if d > 0 then @zoomIn() else @zoomOut()
-     false
+    e = e.originalEvent if e.originalEvent
+    d = e.wheelDelta || -e.detail
+    if d > 0 then @zoomIn() else @zoomOut()
+    false
 
   showZoomLevel: =>
     level = Math.ceil 100 * @viewport.get 'zoom'
