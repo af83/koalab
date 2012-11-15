@@ -116,16 +116,6 @@ body
       color: #333
       font-size: 28px
       outline: none
-    .zoom-in
-      top: 20px
-      left: 12px
-      font-size: 36px
-      icon-zoom-in()
-    .zoom-out
-      top: 20px
-      left: 64px
-      font-size: 36px
-      icon-zoom-out()
     .move-left
       top: 90px
       left: 15px
@@ -142,6 +132,29 @@ body
       top: 90px
       left: 69px
       icon-circle-arrow-right()
+    .zoom-in
+      top: 20px
+      left: 12px
+      font-size: 36px
+      icon-zoom-in()
+    .zoom-out
+      top: 20px
+      left: 64px
+      font-size: 36px
+      icon-zoom-out()
+    #zoom-level
+      z-index: 999
+      position: fixed
+      top: 10px
+      left: 120px
+      width: 100px
+      padding: 6px
+      color: #fff
+      background: #333
+      font-size: 36px
+      border-radius: 3px
+      opacity: 0.3
+      text-align: center
 
 .moving
   opacity: 0.4

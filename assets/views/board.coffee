@@ -21,6 +21,7 @@ class App.BoardView extends Backbone.View
 
   initialize: ->
     @viewport = new App.Viewport()
+    @viewport.on 'change:zoom', @showZoomLevel
     @lines = new App.LinesView
       collection: @model.lines
       viewport: @viewport
@@ -37,6 +38,7 @@ class App.BoardView extends Backbone.View
 
   render: ->
     @$el.html JST.board @model.toJSON()
+    @showZoomLevel()
     @lines.render()
     @postits.render()
     types = ['postit', 'corner', 'line', 'handle']
@@ -102,13 +104,13 @@ class App.BoardView extends Backbone.View
 
   zoomIn: ->
     z = @viewport.get 'zoom'
-    z *= 1.4
+    z *= 1.3
     @viewport.set zoom: z unless z > 10
     false
 
   zoomOut: ->
     z = @viewport.get 'zoom'
-    z /= 1.4
+    z /= 1.3
     @viewport.set zoom: z unless z < 0.1
     false
 
@@ -117,3 +119,11 @@ class App.BoardView extends Backbone.View
      d = e.wheelDelta || -e.detail
      if d > 0 then @zoomIn() else @zoomOut()
      false
+
+  showZoomLevel: =>
+    level = Math.ceil 100 * @viewport.get 'zoom'
+    zoom = (@$ '#zoom-level').text("#{level} %").show()
+    clearTimeout @timer if @timer
+    @timer = setTimeout ->
+      zoom.hide()
+    , 2500
