@@ -34,7 +34,7 @@ class App.PostitView extends Backbone.View
   render: ->
     @$el.html JST.postit @model.toJSON()
     @buildSelector()
-    @update()
+    @p.textContent = @model.get 'title'
     @colorize()
     @move()
     @resize()
@@ -88,6 +88,7 @@ class App.PostitView extends Backbone.View
     offset = 2 + Math.floor size.h * zoom / 40
     radius = Math.floor size.h * zoom / 15
     @shadow.style.boxShadow = "-#{offset}px 0 #{radius}px #999"
+    @adjustFontSize()
     @
 
   rotate: =>
