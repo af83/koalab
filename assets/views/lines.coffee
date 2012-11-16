@@ -33,20 +33,18 @@ class App.LinesView extends Backbone.View
   drop: (e) =>
     zoom = @viewport.get 'zoom'
     e = e.originalEvent if e.originalEvent
-    for type in e.dataTransfer.types
-      if type == "text/line"
-        [cid, x, y] = e.dataTransfer.getData(type).split(',')
-        el = @collection.getByCid cid
-        dx = (e.clientX - x) / zoom
-        dy = (e.clientY - y) / zoom
-        el.move dx, dy, @collection.board.postits.models
-      else if type == "text/handle"
-        [cid, x, y, n] = e.dataTransfer.getData(type).split(',')
-        el = @collection.getByCid cid
-        dx = (e.clientX - x) / zoom
-        dy = (e.clientY - y) / zoom
-        coords = {}
-        coords["x#{n}"] = dx + el.get "x#{n}"
-        coords["y#{n}"] = dy + el.get "y#{n}"
-        el.save coords
+    [type, cid, x, y, n] = App.Dnd.get e
+    if type == "text/line"
+      el = @collection.getByCid cid
+      dx = (e.clientX - x) / zoom
+      dy = (e.clientY - y) / zoom
+      el.move dx, dy, @collection.board.postits.models
+    else if type == "text/handle"
+      el = @collection.getByCid cid
+      dx = (e.clientX - x) / zoom
+      dy = (e.clientY - y) / zoom
+      coords = {}
+      coords["x#{n}"] = dx + el.get "x#{n}"
+      coords["y#{n}"] = dy + el.get "y#{n}"
+      el.save coords
     false

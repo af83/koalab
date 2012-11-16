@@ -45,8 +45,8 @@ class App.LineView extends Backbone.View
     y = e.clientY
     if e.target.classList.contains 'handle'
       side = if e.target.classList.contains 'start' then 1 else 2
-      e.dataTransfer.setData 'text/handle', "#{@model.cid},#{x},#{y},#{side}"
+      App.Dnd.set e, 'text/handle', @model.cid, x, y, side
     else
-      e.dataTransfer.setData 'text/line', "#{@model.cid},#{x},#{y}"
+      App.Dnd.set e, 'text/line', @model.cid, x, y, 0
     e.dataTransfer.dropEffect = 'move'
     true
