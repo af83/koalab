@@ -50,10 +50,9 @@ module.exports = function(app, db, pass) {
           );
 
   // Show the list of boards
-  // TODO pagination
   app.get('/', function(req, res) {
     if (!req.isAuthenticated()) { return res.redirect('/login'); }
-    var boards = Board.find({}, function(err, boards) {
+    var boards = Board.find().paginate({ page: req.query.page }, function(err, boards) {
       if(err) return next(err);
       res.render('index', { boards: boards });
     });

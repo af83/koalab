@@ -1,4 +1,5 @@
 var mongoose = require('mongoose'),
+    paginate = require('paginate')({ mongoose: mongoose }),
     Schema = mongoose.Schema;
 
 module.exports = function(db) {
