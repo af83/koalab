@@ -2,6 +2,7 @@ extends layout
 
 block content
   section#list
+    a(href="#", class="logout") Logout
     img(src="/images/koalab-logo.png", alt="", id="logo")
     section
       h1 Koalab
@@ -12,3 +13,6 @@ block content
         each board in boards
           li: a(href="/boards/#{board.id}")= board.title
       != boards.pagination.render({ baseUrl: '/' })
+  script(src="https://login.persona.org/include.js")
+  script(src="/zepto.js")
+  script(src="index.js")

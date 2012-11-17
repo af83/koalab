@@ -49,6 +49,7 @@ Install [Git](http://git-scm.com/), [NodeJS](http://www.nodejs.org/),
 git clone git@github.com:AF83/koalab.git
 cd koalab
 cp config/server.json.example config/server.json
+$EDITOR config/server.json
 npm install .
 ./node_modules/grunt/bin/grunt
 node koalab.js
@@ -65,6 +66,19 @@ In production, we are using:
 - [forever](https://github.com/nodejitsu/forever) (`npm install forever -g` on the server)
 - and [mina](http://nadarei.co/mina/) for deployments.
 
+
+Configuration
+-------------
+
+The `config/server.json` file contains some configuration entries:
+
+- `authorized` is an array with the list of email addresses than can access
+  this koalab instance. `*` can be used as a joker to match one or more
+  characters: `*@example.com` will authorized everybody whose email address
+  has `example.com` as domain.
+- `port` is the TCP port the node will listen to.
+- `persona.audience` is the public hostname and port of the website.
+- `mongodb` is the database informations.
 
 Credits
 -------

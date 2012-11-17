@@ -7,7 +7,17 @@ var fs        = require('fs'),
 
 var db,
     app    = express(),
-    config = require('./config/server.json');
+    config = require('./config/server.json'),
+    authorized = [];
+
+(function prepareAuthorizedRegexps() {
+  for (var i = 0, l = config.authorized.length; i < l; i++) {
+    var pattern = config.authorized[i]
+                        .replace(/[-[\]{}()+?.,\\^$|#\s]/g, "\\$&")
+                        .replace("*", ".*");
+    authorized.push(RegExp('^' + pattern + '$'));
+  }
+})();
 
 function useSecret(callback) {
   fs.readFile('.secret', 'utf8', function(err, secret) {
@@ -32,9 +42,12 @@ pass.use('browserid', new BrowserID({
     audience: config.persona.audience
   },
   function(email, done) {
-    process.nextTick(function () {
-      return done(null, { email: email });
-    });
+    for (var i = 0, l = authorized.length; i < l; i++) {
+      if (authorized[i].test(email)) {
+        return done(null, { email: email });
+      }
+    }
+    done(null, false);
   }
 ));
 

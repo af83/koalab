@@ -45,9 +45,15 @@ module.exports = function(app, db, pass) {
 
   // Check the persona assertion
   app.post( '/api/user'
-          , pass.authenticate( 'browserid', { failureRedirect: '/login' })
+          , pass.authenticate('browserid')
           , function(req,res) { res.send(204); }
           );
+
+  // Logout
+  app.post('/logout', function(req,res) {
+    req.logout();
+    res.send(204);
+  });
 
   // Show the list of boards
   app.get('/', function(req, res) {
