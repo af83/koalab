@@ -43,8 +43,8 @@ class App.LinesView extends Backbone.View
       el = @collection.getByCid cid
       dx = (e.clientX - x) / zoom
       dy = (e.clientY - y) / zoom
-      coords = {}
-      coords["x#{n}"] = dx + el.get "x#{n}"
-      coords["y#{n}"] = dy + el.get "y#{n}"
+      coords = el.toJSON()
+      coords["x#{n}"] += dx
+      coords["y#{n}"] += dy
       el.save coords
     false

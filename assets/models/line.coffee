@@ -17,7 +17,9 @@ class App.Line extends Backbone.Model
 
   angle: ->
     radians = Math.atan(@dY() / @dX())
-    radians * 180 / Math.PI
+    a = radians * 180 / Math.PI
+    a += 180 if @dX() < 0
+    a
 
   move: (dx, dy, postits) ->
     was = @toJSON()
