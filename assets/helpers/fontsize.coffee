@@ -3,6 +3,7 @@ App.FontSize =
     clone = document.createElement 'p'
     clone.style.visibility = 'hidden'
     inner = document.createElement 'span'
+    inner.style.lineHeight = "1em"
     clone.appendChild inner
     App.FontSize.inner = inner
     App.FontSize.clone = clone

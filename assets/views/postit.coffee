@@ -1,3 +1,9 @@
+Padding =
+  top: 25
+  left: 5
+  right: 5
+  bottom: 5
+
 class App.PostitView extends Backbone.View
   tagName: 'article'
   className: 'postit'
@@ -63,7 +69,9 @@ class App.PostitView extends Backbone.View
   adjustFontSize: =>
     size = @model.get 'size'
     zoom = @viewport.get 'zoom'
-    App.FontSize.adjust @p, size.w * zoom, size.h * zoom
+    width = (size.w - Padding.left - Padding.right) * zoom
+    height = (size.h - Padding.top - Padding.bottom) * zoom
+    App.FontSize.adjust @p, width, height
     @
 
   colorize: =>
@@ -85,6 +93,12 @@ class App.PostitView extends Backbone.View
     zoom = @viewport.get "zoom"
     @el.style.width  = "#{size.w * zoom}px"
     @el.style.height = "#{size.h * zoom}px"
+    @el.style.padding = """
+      #{Padding.top * zoom}px
+      #{Padding.right * zoom}px
+      #{Padding.bottom * zoom}px
+      #{Padding.right * zoom}px
+    """
     offset = 2 + Math.floor size.h * zoom / 40
     radius = Math.floor size.h * zoom / 15
     @shadow.style.boxShadow = "-#{offset}px 0 #{radius}px #999"
