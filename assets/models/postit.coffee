@@ -6,8 +6,8 @@ class App.Postit extends Backbone.Model
       x: 50 + Math.floor(Math.random() * 100)
       y: 50 + Math.floor(Math.random() * 100)
     size:
-      w: 150
-      h: 150
+      w: 160
+      h: 160
     angle: (Math.random() * 15).toFixed(1) - 7
 
   move: (dx, dy) ->
