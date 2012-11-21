@@ -76,7 +76,7 @@ module.exports = function(app, db, pass) {
     var board = new Board(req.body);
     board.save(function(err) {
       if (err) return next(err);
-      res.redirect('/');
+      res.redirect('/boards/' + board.id);
       broadcast('create', Board, board);
     });
   });

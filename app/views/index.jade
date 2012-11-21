@@ -7,7 +7,7 @@ block content
     section
       h1 Koalab
       form(action="/boards", method="post")
-        input(name="title", placeholder="Wants a new board?", autofocus, required)
+        input(name="title", placeholder="Wants a new board?", required)
         input(type="submit", value="Create")
       ul#list-of-boards
         each board in boards

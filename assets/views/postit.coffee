@@ -107,7 +107,7 @@ class App.PostitView extends Backbone.View
 
   rotate: =>
     prop = "rotate(#{@model.get 'angle'}deg)"
-    @el.style.WebkitTransform = "#{prop} translateZ(0)"
+    @el.style.WebkitTransform = prop
     @el.style.transform = prop
     @
 
