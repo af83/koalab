@@ -12,6 +12,7 @@ class App.PostitView extends Backbone.View
     'focus p':     'focus'
     'blur  p':     'blur'
     'keyup p':     'updateTitle'
+    'keydown p':   'editTitle'
     'dragstart':   'dragstart'
     'dragend':     'dragend'
     'dragcancel':  'dragcancel'
@@ -189,6 +190,11 @@ class App.PostitView extends Backbone.View
   blur: =>
     @inEdition = false
     @model.set title: App.Postit.defaultTitle if @p.textContent == ''
+    true
+
+  editTitle: (e) =>
+    e = e.originalEvent if e.originalEvent
+    e.editing = true
     true
 
   updateTitle: (e) =>
