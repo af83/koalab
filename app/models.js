@@ -4,7 +4,8 @@ var mongoose = require('mongoose'),
 
 module.exports = function(db) {
   var boardSchema = new Schema({
-    title: String
+    title: String,
+    updated_at: Date
   });
 
   var postitSchema = new Schema({

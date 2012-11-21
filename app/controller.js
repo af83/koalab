@@ -38,6 +38,11 @@ module.exports = function(app, db, pass) {
       Postit = models.Postit,
       Line   = models.Line;
 
+  function touchBoard(req, res, next) {
+    Board.findByIdAndUpdate(req.params.bid, { updated_at: new Date() }, function() {});
+    return next();
+  }
+
   // Show the login page
   app.get('/login', function(req, res) {
     res.render('login');
@@ -58,7 +63,7 @@ module.exports = function(app, db, pass) {
   // Show the list of boards
   app.get('/', function(req, res) {
     if (!req.isAuthenticated()) { return res.redirect('/login'); }
-    var boards = Board.find().paginate({ page: req.query.page }, function(err, boards) {
+    Board.find().sort('-updated_at').paginate({ page: req.query.page }, function(err, boards) {
       if(err) return next(err);
       res.render('index', { boards: boards });
     });
@@ -67,6 +72,7 @@ module.exports = function(app, db, pass) {
   // Create Board
   app.post('/boards', function(req, res, next) {
     if (!req.isAuthenticated()) { return res.redirect('/login'); }
+    req.body.updated_at = new Date();
     var board = new Board(req.body);
     board.save(function(err) {
       if (err) return next(err);
@@ -92,7 +98,7 @@ module.exports = function(app, db, pass) {
   });
 
   // Create Postit
-  app.post('/api/boards/:bid/postits', ensureAuthenticated, function(req, res, next) {
+  app.post('/api/boards/:bid/postits', ensureAuthenticated, touchBoard, function(req, res, next) {
     req.body.board_id = req.params.bid;
     req.body.updated_at = new Date();
     var postit = new Postit(req.body);
@@ -104,7 +110,7 @@ module.exports = function(app, db, pass) {
   });
 
   // Update postit
-  app.put('/api/boards/:bid/postits/:pid', ensureAuthenticated, function(req, res, next) {
+  app.put('/api/boards/:bid/postits/:pid', ensureAuthenticated, touchBoard, function(req, res, next) {
     delete req.body._id;
     req.body.updated_at = new Date();
     Postit.findByIdAndUpdate(req.params.pid, req.body, function(err, postit) {
@@ -115,7 +121,7 @@ module.exports = function(app, db, pass) {
   });
 
   // Create Line
-  app.post('/api/boards/:bid/lines', ensureAuthenticated, function(req, res, next) {
+  app.post('/api/boards/:bid/lines', ensureAuthenticated, touchBoard, function(req, res, next) {
     req.body.board_id = req.params.bid;
     var line = new Line(req.body);
     line.save(function(err) {
