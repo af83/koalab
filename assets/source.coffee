@@ -1,8 +1,8 @@
-class SSE
+class App.Source
 
-  constructor: ->
+  constructor: (board_id) ->
     _.extend @, Backbone.Events
-    source = new EventSource "/sse"
+    source = new EventSource "/api/boards/#{board_id}/sse"
     source.addEventListener "message", @onMessage
     source.addEventListener "error",   @onError
     $(window).unload -> source.close()
@@ -16,5 +16,3 @@ class SSE
 
   onError: (e) ->
     console.log "onError", e if window.console
-
-App.source = new SSE()

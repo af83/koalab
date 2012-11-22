@@ -3,14 +3,6 @@ var express = require('express'),
     errors  = require('./errors'),
     sse     = require('./sse');
 
-var broadcast = sse(function(action, type, model) {
-  return {
-    action : action,
-    type   : type.modelName,
-    model  : model
-  };
-});
-
 function loader(Model, id) {
   return function(req, res, next) {
     var param = req.params[id];
@@ -77,7 +69,6 @@ module.exports = function(app, db, pass) {
     board.save(function(err) {
       if (err) return next(err);
       res.redirect('/boards/' + board.id);
-      broadcast('create', Board, board);
     });
   });
 
@@ -105,7 +96,7 @@ module.exports = function(app, db, pass) {
     postit.save(function(err) {
       if (err) return next(err);
       res.send(201, postit);
-      broadcast('create', Postit, postit);
+      sse.broadcast(postit.board_id, { action: 'create', type: 'postit', model: postit });
     });
   });
 
@@ -116,7 +107,7 @@ module.exports = function(app, db, pass) {
     Postit.findByIdAndUpdate(req.params.pid, req.body, function(err, postit) {
       if (err) return next(err);
       res.send(200, postit);
-      broadcast('update', Postit, postit);
+      sse.broadcast(postit.board_id, { action: 'update', type: 'postit', model: postit });
     });
   });
 
@@ -127,7 +118,7 @@ module.exports = function(app, db, pass) {
     line.save(function(err) {
       if (err) return next(err);
       res.send(201, line);
-      broadcast('create', Line, line);
+      sse.broadcast(line.board_id, { action: 'create', type: 'line', model: line });
     });
   });
 
@@ -137,9 +128,9 @@ module.exports = function(app, db, pass) {
     Line.findByIdAndUpdate(req.params.lid, req.body, function(err, line) {
       if (err) return next(err);
       res.send(200, line);
-      broadcast('update', Line, line);
+      sse.broadcast(line.board_id, { action: 'update', type: 'line', model: line });
     });
   });
 
-  app.get('/sse', sse.middleware());
+  app.get('/api/boards/:bid/sse', sse.middleware);
 };

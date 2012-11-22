@@ -4,11 +4,9 @@ class App.PostitsCollection extends Backbone.Collection
   url: ->
     "#{@board.url()}/postits"
 
-  initialize: ->
-    App.source.on "create-postit", (postit) =>
-      @add postit if postit.board_id == @board.id
-    App.source.on "update-postit", (postit) =>
-      @get(postit._id).set postit if postit.board_id == @board.id
+  initialize: (source) ->
+    source.on "create-postit", (postit) => @add postit
+    source.on "update-postit", (postit) => @get(postit._id).set postit
 
   comparator: (postit) ->
     postit.get 'updated_at'

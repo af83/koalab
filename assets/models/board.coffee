@@ -6,7 +6,8 @@ class App.Board extends Backbone.Model
     title: "Foobar"
 
   initialize: ->
-    @postits = new App.PostitsCollection
+    source = new App.Source @id
+    @postits = new App.PostitsCollection source
     @postits.board = @
-    @lines = new App.LinesCollection
+    @lines = new App.LinesCollection source
     @lines.board = @

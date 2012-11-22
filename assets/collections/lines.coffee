@@ -8,11 +8,9 @@ class App.LinesCollection extends Backbone.Collection
   url: ->
     "#{@board.url()}/lines"
 
-  initialize: ->
-    App.source.on "create-line", (line) =>
-      @add line if line.board_id == @board.id
-    App.source.on "update-line", (line) =>
-      @get(line._id).set line if line.board_id == @board.id
+  initialize: (source) ->
+    source.on "create-line", (line) => @add line
+    source.on "update-line", (line) => @get(line._id).set line
 
   exists: (attrs) ->
     !! @find (line) ->
