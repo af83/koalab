@@ -111,7 +111,16 @@ module.exports = function(app, db, pass) {
     });
   });
 
-  // Create Line
+  // Delete postit
+  app.delete('/api/boards/:bid/postits/:pid', ensureAuthenticated, loader(Postit, 'pid'), touchBoard, function(req, res, next) {
+    req.postit.remove(function(err) {
+      if (err) return next(err);
+      res.send(204);
+      sse.broadcast(req.postit.board_id, { action: 'delete', type: 'postit', model: req.postit });
+    });
+  });
+
+  // Create line
   app.post('/api/boards/:bid/lines', ensureAuthenticated, touchBoard, function(req, res, next) {
     req.body.board_id = req.params.bid;
     var line = new Line(req.body);
@@ -129,6 +138,15 @@ module.exports = function(app, db, pass) {
       if (err) return next(err);
       res.send(200, line);
       sse.broadcast(line.board_id, { action: 'update', type: 'line', model: line });
+    });
+  });
+
+  // Delete line
+  app.delete('/api/boards/:bid/lines/:lid', ensureAuthenticated, loader(Line, 'lid'), touchBoard, function(req, res, next) {
+    req.line.remove(function(err) {
+      if (err) return next(err);
+      res.send(204);
+      sse.broadcast(req.line.board_id, { action: 'delete', type: 'line', model: req.line });
     });
   });
 

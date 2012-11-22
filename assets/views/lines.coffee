@@ -5,6 +5,7 @@ class App.LinesView extends Backbone.View
   initialize: ->
     @viewport = @options.viewport
     @collection.on 'add', @add
+    @collection.on 'destroy', @destroy
     @collection.on 'reset', @fetch
     @views = []
 
@@ -26,6 +27,10 @@ class App.LinesView extends Backbone.View
     @views.push view
     @$el.append view.render().el
 
+  destroy: (line, collection, {index}) =>
+    view = @views.splice(index, 1)[0]
+    view.remove()
+
   fetch: =>
     @views = []
     @render()
@@ -35,16 +40,16 @@ class App.LinesView extends Backbone.View
     e = e.originalEvent if e.originalEvent
     [type, cid, x, y, n] = App.Dnd.get e
     if type == "text/line"
-      el = @collection.getByCid cid
-      dx = (e.clientX - x) / zoom
-      dy = (e.clientY - y) / zoom
-      el.move dx, dy, @collection.board.postits.models
+      if el = @collection.getByCid cid
+        dx = (e.clientX - x) / zoom
+        dy = (e.clientY - y) / zoom
+        el.move dx, dy, @collection.board.postits.models
     else if type == "text/handle"
-      el = @collection.getByCid cid
-      dx = (e.clientX - x) / zoom
-      dy = (e.clientY - y) / zoom
-      coords = el.toJSON()
-      coords["x#{n}"] += dx
-      coords["y#{n}"] += dy
-      el.save coords
+      if el = @collection.getByCid cid
+        dx = (e.clientX - x) / zoom
+        dy = (e.clientY - y) / zoom
+        coords = el.toJSON()
+        coords["x#{n}"] += dx
+        coords["y#{n}"] += dy
+        el.save coords
     false

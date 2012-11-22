@@ -29,6 +29,9 @@ class App.BoardView extends Backbone.View
   initialize: ->
     @viewport = new App.Viewport()
     @viewport.on 'change:zoom', @showZoomLevel
+    @trash = new App.TrashView
+      model: @model
+      el: @el
     @lines = new App.LinesView
       collection: @model.lines
       viewport: @viewport
@@ -41,6 +44,7 @@ class App.BoardView extends Backbone.View
     @delegateShortcuts()
 
   remove: ->
+    @trash.remove()
     @postits.remove()
     @lines.remove()
     Backbone.View.prototype.remove.call @
@@ -48,11 +52,10 @@ class App.BoardView extends Backbone.View
   render: ->
     @$el.html JST.board @model.toJSON()
     @showZoomLevel()
+    @trash.render()
     @lines.render()
     @postits.render()
-    types = ['postit', 'corner', 'line', 'handle']
-    accepts = ("string:text/#{type}" for type in types).join ' '
-    @el.setAttribute 'dropzone', "move #{accepts}"
+    App.Dnd.install @el, ['postit', 'corner', 'line', 'handle']
     @
 
   addPostit: (color) ->

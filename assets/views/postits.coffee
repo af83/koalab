@@ -6,6 +6,7 @@ class App.PostitsView extends Backbone.View
   initialize: ->
     @viewport = @options.viewport
     @collection.on 'add', @add
+    @collection.on 'destroy', @destroy
     @collection.on 'reset', @fetch
     @collection.on 'sort', @sort
     @views = []
@@ -27,6 +28,10 @@ class App.PostitsView extends Backbone.View
     view = new App.PostitView model: postit, viewport: @viewport
     @views.push view
     @$el.append view.render().el
+
+  destroy: (postit, collection, {index}) =>
+    view = @views.splice(index, 1)[0]
+    view.remove()
 
   fetch: =>
     @views = []
@@ -58,14 +63,14 @@ class App.PostitsView extends Backbone.View
     e = e.originalEvent if e.originalEvent
     [type, cid, x, y] = App.Dnd.get e
     if type == "text/corner"
-      el = @collection.getByCid cid
-      el.save size:
-        w: e.clientX / zoom - x
-        h: e.clientY / zoom - y
+      if el = @collection.getByCid cid
+        el.save size:
+          w: e.clientX / zoom - x
+          h: e.clientY / zoom - y
     else if type == "text/postit"
       contact = @viewport.fromScreen x: e.clientX, y: e.clientY
-      el = @collection.getByCid cid
-      el.save coords:
-        x: contact.x - x
-        y: contact.y - y
+      if el = @collection.getByCid cid
+        el.save coords:
+          x: contact.x - x
+          y: contact.y - y
     false

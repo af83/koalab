@@ -10,7 +10,8 @@ class App.LinesCollection extends Backbone.Collection
 
   initialize: (source) ->
     source.on "create-line", (line) => @add line
-    source.on "update-line", (line) => @get(line._id).set line
+    source.on "update-line", (line) => @get(line._id)?.set line
+    source.on "delete-line", (line) => @get(line._id)?.destroy()
 
   exists: (attrs) ->
     !! @find (line) ->
