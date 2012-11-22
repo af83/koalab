@@ -58,7 +58,7 @@ useSecret(function(secret) {
 
     app.use(express.bodyParser());
     app.use(express.cookieParser());
-    app.use(express.session({ secret: secret }));
+    app.use(express.cookieSession({ secret: secret }));
     app.use(pass.initialize());
     app.use(pass.session());
     app.use(express.methodOverride());
