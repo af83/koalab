@@ -44,13 +44,13 @@ class App.PostitsView extends Backbone.View
     e = e.originalEvent if e.originalEvent
     e.preventDefault()
     [type, cid, x, y] = App.Dnd.get e
-    if type == "text/corner"
+    if type == "text/koalab-corner"
       zoom = @viewport.get 'zoom'
       if el = @collection.getByCid cid
         el.set size:
           w: e.clientX / zoom - x
           h: e.clientY / zoom - y
-    else if type == "text/postit"
+    else if type == "text/koalab-postit"
       contact = @viewport.fromScreen x: e.clientX, y: e.clientY
       if el = @collection.getByCid cid
         el.set coords:
@@ -62,12 +62,12 @@ class App.PostitsView extends Backbone.View
     zoom = @viewport.get 'zoom'
     e = e.originalEvent if e.originalEvent
     [type, cid, x, y] = App.Dnd.get e
-    if type == "text/corner"
+    if type == "text/koalab-corner"
       if el = @collection.getByCid cid
         el.save size:
           w: e.clientX / zoom - x
           h: e.clientY / zoom - y
-    else if type == "text/postit"
+    else if type == "text/koalab-postit"
       contact = @viewport.fromScreen x: e.clientX, y: e.clientY
       if el = @collection.getByCid cid
         el.save coords:

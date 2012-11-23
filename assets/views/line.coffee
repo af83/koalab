@@ -45,8 +45,8 @@ class App.LineView extends Backbone.View
     y = e.clientY
     if e.target.classList.contains 'handle'
       side = if e.target.classList.contains 'start' then 1 else 2
-      App.Dnd.set e, 'text/handle', @model.cid, x, y, side
+      App.Dnd.set e, 'text/koalab-handle', @model.cid, x, y, side
     else
-      App.Dnd.set e, 'text/line', @model.cid, x, y, 0
+      App.Dnd.set e, 'text/koalab-line', @model.cid, x, y, 0
     e.dataTransfer.dropEffect = 'move'
     true

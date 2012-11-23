@@ -128,14 +128,14 @@ class App.PostitView extends Backbone.View
       size = @model.get('size')
       x = e.clientX / zoom - size.w
       y = e.clientY / zoom - size.h
-      App.Dnd.set e, 'text/corner', @model.cid, x, y
+      App.Dnd.set e, 'text/koalab-corner', @model.cid, x, y
     else
       contact = @viewport.fromScreen x: e.clientX, y: e.clientY
       topleft = @model.get 'coords'
       x = contact.x - topleft.x
       y = contact.y - topleft.y
       @el.classList.add 'moving'
-      App.Dnd.set e, 'text/postit', @model.cid, x, y
+      App.Dnd.set e, 'text/koalab-postit', @model.cid, x, y
     e.dataTransfer.dropEffect = 'move'
     true
 

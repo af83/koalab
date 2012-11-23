@@ -39,12 +39,12 @@ class App.LinesView extends Backbone.View
     zoom = @viewport.get 'zoom'
     e = e.originalEvent if e.originalEvent
     [type, cid, x, y, n] = App.Dnd.get e
-    if type == "text/line"
+    if type == "text/koalab-line"
       if el = @collection.getByCid cid
         dx = (e.clientX - x) / zoom
         dy = (e.clientY - y) / zoom
         el.move dx, dy, @collection.board.postits.models
-    else if type == "text/handle"
+    else if type == "text/koalab-handle"
       if el = @collection.getByCid cid
         dx = (e.clientX - x) / zoom
         dy = (e.clientY - y) / zoom
