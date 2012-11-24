@@ -9,10 +9,14 @@ block content
       form(action="/boards", method="post")
         input(name="title", placeholder="Wants a new board?", required)
         input(type="submit", value="Create")
-      ul#list-of-boards
-        each board in boards
-          li: a(href="/boards/#{board.id}")= board.title
-      != boards.pagination.render({ baseUrl: '/' })
+      - if (boards.length)
+        ul#list-of-boards
+          each board in boards
+            li: a(href="/boards/#{board.id}")= board.title
+        != boards.pagination.render({ baseUrl: '/' })
+      - else
+        p No boards yet, you should create one!
+        p It's easy, just type a title in the box and press enter.
   script(src="https://login.persona.org/include.js")
   script(src="/zepto.js")
   script(src="index.js")

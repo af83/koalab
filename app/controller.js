@@ -53,7 +53,7 @@ module.exports = function(app, db, pass) {
   });
 
   // Show the list of boards
-  app.get('/', function(req, res) {
+  app.get('/', function(req, res, next) {
     if (!req.isAuthenticated()) { return res.redirect('/login'); }
     Board.find().sort('-updated_at').paginate({ page: req.query.page }, function(err, boards) {
       if(err) return next(err);
