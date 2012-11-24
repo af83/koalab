@@ -5,10 +5,35 @@ var fs        = require('fs'),
     BrowserID = require('passport-browserid').Strategy,
     mongoose  = require('mongoose');
 
-var db,
-    app    = express(),
-    config = require('./config/server.json'),
+var config,
     authorized = [];
+
+function abort() {
+  console.log.apply(console, arguments);
+  process.exit(1);
+}
+
+(function loadConfig() {
+  try {
+    config = require('./config/server.json');
+  } catch(e) {
+    abort("Can't load config/server.json");
+  }
+
+  var example = ["example@example.net", "*@example.com"]
+  if (!config.authorized || !config.authorized.length) {
+    abort("Authorized is missing in config/server.json");
+  }
+  if (config.authorized.join() == example.join()) {
+    abort("Authorized is not configured in config/server.json");
+  }
+  if (!config.port) {
+    abort("Port is not configured in config/server.json");
+  }
+  if (!config.persona || !config.persona.audience) {
+    abort("Persona audience is not configured in config/server.json");
+  }
+})();
 
 (function prepareAuthorizedRegexps() {
   for (var i = 0, l = config.authorized.length; i < l; i++) {
@@ -52,6 +77,7 @@ pass.use('browserid', new BrowserID({
 ));
 
 useSecret(function(secret) {
+  var app = express();
   app.configure(function() {
     app.set('view engine', 'jade');
     app.set('views', __dirname + '/app/views');
@@ -64,7 +90,16 @@ useSecret(function(secret) {
     app.use(express.methodOverride());
     app.use(app.router);
 
-    db = mongoose.createConnection(config.mongodb.host, config.mongodb.database);
+    var db = mongoose.createConnection(config.mongodb.host, config.mongodb.database);
+    db.on('error', function(err) {
+      abort("Can't connect to mongodb: ", err);
+    });
+    db.once('open', function () {
+      require('./app/controller')(app, db, pass);
+      app.listen(config.port, function() {
+        console.log('Express server listening on port ' + config.port);
+      });
+    });
   });
 
   app.configure('development', function() {
@@ -75,12 +110,5 @@ useSecret(function(secret) {
 
   app.configure('production', function() {
     app.use(express.errorHandler());
-  });
-
-  db.once('open', function () {
-    require('./app/controller')(app, db, pass);
-    app.listen(config.port, function() {
-      console.log('Express server listening on port ' + config.port);
-    });
   });
 });
