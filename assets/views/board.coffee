@@ -95,28 +95,24 @@ class App.BoardView extends Backbone.View
     false
 
   moveUp: (e) ->
-    return true if e.editing
     was = @viewport.get 'offset'
     offset = x: was.x, y: was.y - 100
     @viewport.set offset: offset
     false
 
   moveDown: (e) ->
-    return true if e.editing
     was = @viewport.get 'offset'
     offset = x: was.x, y: was.y + 100
     @viewport.set offset: offset
     false
 
   moveLeft: (e) ->
-    return true if e.editing
     was = @viewport.get 'offset'
     offset = x: was.x - 100, y: was.y
     @viewport.set offset: offset
     false
 
   moveRight: (e) ->
-    return true if e.editing
     was = @viewport.get 'offset'
     offset = x: was.x + 100, y: was.y
     @viewport.set offset: offset

@@ -194,8 +194,7 @@ class App.PostitView extends Backbone.View
 
   editTitle: (e) =>
     e = e.originalEvent if e.originalEvent
-    e.editing = true
-    true
+    e.stopPropagation?()
 
   updateTitle: (e) =>
     title = @p.textContent
