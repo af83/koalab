@@ -80,7 +80,7 @@ module.exports = function(grunt) {
           'assets/vendor/handlebars.runtime.js',
           'assets/vendor/lodash.js',
           'assets/vendor/backbone.js',
-          'assets/vendor/backbone.shortcut.js',
+          'assets/vendor/backbone.shortcuts.js',
           '<config:concat.dist.dest>'
         ],
         dest: 'public/koalab.min.js'

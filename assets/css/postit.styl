@@ -41,7 +41,17 @@ body
     padding-left: 350px
   .pagination li
     display: inline-block
-    padding: 6px
+    margin: 0 4px
+    padding: 0 9px
+    border: 1px solid #ccc
+    border-radius: 2px
+    background-color: #eee
+    box-shadow: inset 0px 1px 0px rgba(255,255,255, .8), 0px 1px 3px rgba(0,0,0, .1)
+    &:hover
+      background-color: #ccc
+      box-shadow: none
+    a
+      color: #666
 
 #board-view
   position: fixed
