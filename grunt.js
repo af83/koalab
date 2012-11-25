@@ -98,6 +98,13 @@ module.exports = function(grunt) {
         }
       }
     },
+    mincss: {
+      dist: {
+        files: {
+          'public/koalab.min.css': ['assets/vendor/*.css', 'public/koalab.css']
+        }
+      }
+    },
     watch: {
       files: ['<config:coffeelint.files>', 'assets/templates/*.hbs', 'assets/css/*.styl'],
       tasks: 'coffeelint stylus handlebars coffee concat'
@@ -105,6 +112,6 @@ module.exports = function(grunt) {
   });
 
   // Default task.
-  grunt.registerTask('default', 'lint coffeelint clean stylus handlebars coffee copy concat min');
+  grunt.registerTask('default', 'lint coffeelint clean stylus handlebars coffee copy concat mincss min');
 
 };

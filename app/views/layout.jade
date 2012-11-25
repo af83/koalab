@@ -8,9 +8,12 @@ html(lang="en")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
     link(rel="shortcut icon", href="/favicon.png")
     link(rel="apple-touch-icon", href="/apple-touch-icon.png")
-    link(rel="stylesheet", href="/normalize.css")
-    link(rel="stylesheet", href="/persona-buttons.css")
-    link(rel="stylesheet", href="/koalab.css")
+    - if (settings.env == "production")
+      link(rel="stylesheet", href="/koalab.min.css")
+    - else
+      link(rel="stylesheet", href="/normalize.css")
+      link(rel="stylesheet", href="/persona-buttons.css")
+      link(rel="stylesheet", href="/koalab.css")
   body
     <!--[if IE]><p>Sorry, your browser don't support some features needed for Koalab. You should try a modern browser like <a href="http://www.mozilla.org/">Firefox</a></p><![endif]-->
     <!--[if !IE]><!-->
