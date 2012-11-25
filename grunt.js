@@ -30,7 +30,6 @@ module.exports = function(grunt) {
         files: {
           "tmp/app.js": [
             "assets/app.coffee",
-            "assets/router.coffee",
             "assets/source.coffee",
             "assets/helpers/*.coffee",
             "assets/models/*.coffee",
@@ -74,8 +73,21 @@ module.exports = function(grunt) {
     },
     min: {
       dist: {
-        src: ['<banner:meta.banner>', 'assets/vendor/**/*.js', '<config:concat.dist.dest>'],
+        src: [
+          '<banner:meta.banner>',
+          'assets/vendor/keymaster.js',
+          'assets/vendor/json2.js',
+          'assets/vendor/handlebars.runtime.js',
+          'assets/vendor/lodash.js',
+          'assets/vendor/backbone.js',
+          'assets/vendor/backbone.shortcut.js',
+          '<config:concat.dist.dest>'
+        ],
         dest: 'public/koalab.min.js'
+      },
+      zepto: {
+        src: ['assets/vendor/zepto.js'],
+        dest: 'public/zepto.min.js'
       }
     },
     uglify: {},
@@ -93,6 +105,6 @@ module.exports = function(grunt) {
   });
 
   // Default task.
-  grunt.registerTask('default', 'lint coffeelint clean stylus handlebars coffee copy concat');
+  grunt.registerTask('default', 'lint coffeelint clean stylus handlebars coffee copy concat min');
 
 };

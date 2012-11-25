@@ -2,13 +2,16 @@ extends layout
 
 block content
   section#app
-  script(src="/keymaster.js")
-  script(src="/json2.js")
-  script(src="/handlebars.runtime.js")
-  script(src="/lodash.js")
-  script(src="/backbone.js")
-  script(src="/backbone.shortcuts.js")
-  script(src="/koalab.js")
+  - if (settings.env == "production")
+    script(src="/koalab.min.js")
+  - else
+    script(src="/keymaster.js")
+    script(src="/json2.js")
+    script(src="/handlebars.runtime.js")
+    script(src="/lodash.js")
+    script(src="/backbone.js")
+    script(src="/backbone.shortcuts.js")
+    script(src="/koalab.js")
   script
     document.addEventListener("DOMContentLoaded", function() {
       var board = new App.Board(!{board});
