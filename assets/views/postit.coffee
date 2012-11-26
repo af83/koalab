@@ -184,12 +184,13 @@ class App.PostitView extends Backbone.View
 
   focus: =>
     @inEdition = true
-    @p.textContent = "" if @p.textContent == App.Postit.defaultTitle
+    if @p.textContent == App.Postit.defaultTitle and !$.browser.webkit
+      @p.textContent = ""
     true
 
   blur: =>
     @inEdition = false
-    @model.set title: App.Postit.defaultTitle if @p.textContent == ''
+    @p.textContent = App.Postit.defaultTitle if @p.textContent == ''
     true
 
   editTitle: (e) =>
