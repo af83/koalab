@@ -31,9 +31,9 @@ class App.TrashView extends Backbone.View
   trash: (e) ->
     e = e.originalEvent if e.originalEvent
     [type, cid] = App.Dnd.get e
-    if type == "text/line"
+    if type == "text/koalab-line"
       collection = @model.lines
-    else if type == "text/postit"
+    else if type == "text/koalab-postit"
       collection = @model.postits
     else
       return true
