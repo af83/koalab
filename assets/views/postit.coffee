@@ -184,8 +184,14 @@ class App.PostitView extends Backbone.View
 
   focus: =>
     @inEdition = true
-    if @p.textContent == App.Postit.defaultTitle and !$.browser.webkit
+    if @p.textContent == App.Postit.defaultTitle
       @p.textContent = ""
+      if $.browser.webkit
+        range = document.createRange()
+        range.selectNodeContents @p
+        sel = window.getSelection()
+        sel.removeAllRanges()
+        sel.addRange range
     true
 
   blur: =>
