@@ -9,17 +9,17 @@ class App.PostitView extends Backbone.View
   className: 'postit'
 
   events:
-    'focus p':     'focus'
-    'blur  p':     'blur'
-    'keyup p':     'updateTitle'
-    'keydown p':   'editTitle'
-    'dragstart':   'dragstart'
-    'dragend':     'dragend'
-    'dragcancel':  'dragcancel'
-    'touchstart':  'touchstart'
-    'touchcancel': 'touchcancel'
-    'touchmove':   'touchmove'
-    'touchend':    'touchend'
+    'focus p':               'focus'
+    'blur  p':               'blur'
+    'keyup p':               'updateTitle'
+    'keydown p':             'editTitle'
+    'dragstart':             'dragstart'
+    'dragend':               'dragend'
+    'dragcancel':            'dragcancel'
+    'touchstart  .gradient': 'touchstart'
+    'touchcancel .gradient': 'touchcancel'
+    'touchmove   .gradient': 'touchmove'
+    'touchend    .gradient': 'touchend'
 
   initialize: (viewport: @viewport) ->
     @viewport.on 'change:zoom',    @redraw
