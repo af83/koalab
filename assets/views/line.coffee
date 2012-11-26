@@ -2,7 +2,11 @@ class App.LineView extends Backbone.View
   className: 'line'
 
   events:
-    'dragstart': 'start'
+    'dragstart':    'start'
+    'touchstart':  'touchstart'
+    'touchcancel': 'touchcancel'
+    'touchmove':   'touchmove'
+    'touchend':    'touchend'
 
   initialize: (viewport: @viewport) ->
     @viewport.on 'change', @move
@@ -49,4 +53,38 @@ class App.LineView extends Backbone.View
     else
       App.Dnd.set e, 'text/koalab-line', @model.cid, x, y, 0
     e.dataTransfer.dropEffect = 'move'
+    true
+
+  touchstart: (e) =>
+    e = e.originalEvent if e.originalEvent
+    e.preventDefault()  # Prevent image drag
+    data = if e.touches then e.touches[0] else e
+    contact = @viewport.fromScreen x: data.pageX, y: data.pageY
+    @touch =
+      x1: contact.x - @model.get 'x1'
+      y1: contact.y - @model.get 'y1'
+      x2: contact.x - @model.get 'x2'
+      y2: contact.y - @model.get 'y2'
+    false
+
+  touchmove: (e) =>
+    return unless @touch
+    e = e.originalEvent if e.originalEvent
+    data = if e.touches then e.touches[0] else e
+    contact = @viewport.fromScreen x: data.pageX, y: data.pageY
+    @model.set
+      x1: contact.x - @touch.x1
+      y1: contact.y - @touch.y1
+      x2: contact.x - @touch.x2
+      y2: contact.y - @touch.y2
+    true
+
+  touchcancel: =>
+    @touch = null
+    true
+
+  touchend: (e) =>
+    return unless @touch
+    @touch = null
+    @model.save()
     true
