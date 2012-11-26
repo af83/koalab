@@ -7,7 +7,7 @@
     "grunt-coffeelint"      : "~0.0",
     "grunt-shell-completion": "~0.1",
     "mongoose"              : "~3.1",
-    "paginate"              : "git://github.com/nono/paginate.git#empty_collection",
+    "paginate"              : "~0.1",
     "express"               : "~3.0",
     "consolidate"           : "~0.4",
     "jade"                  : "*",
