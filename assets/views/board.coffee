@@ -17,8 +17,12 @@ class App.BoardView extends Backbone.View
     'click .move-right': 'moveRight'
     'click .zoom-in':  'zoomIn'
     'click .zoom-out': 'zoomOut'
-    'mousewheel': 'wheel'
+    'mousewheel':     'wheel'
     'DOMMouseScroll': 'wheel'
+    'touchstart':  'touchstart'
+    'touchcancel': 'touchcancel'
+    'touchmove':   'touchmove'
+    'touchend':    'touchend'
 
   shortcuts:
     'up':    'moveUp'
@@ -143,3 +147,31 @@ class App.BoardView extends Backbone.View
     @timer = setTimeout ->
       zoom.hide()
     , 2500
+
+  touchstart: (e) =>
+    e = e.originalEvent if e.originalEvent
+    data = if e.touches then e.touches[0] else e
+    offset = @viewport.get 'offset'
+    @touch =
+      x: data.pageX + offset.x
+      y: data.pageY + offset.y
+    true
+
+  touchmove: (e) =>
+    return unless @touch
+    e = e.originalEvent if e.originalEvent
+    data = if e.touches then e.touches[0] else e
+    @viewport.set offset:
+      x: @touch.x - data.pageX
+      y: @touch.y - data.pageY
+    true
+
+  touchcancel: =>
+    return unless @touch
+    @touch = null
+    true
+
+  touchend: (e) =>
+    return unless @touch
+    @touch = null
+    true

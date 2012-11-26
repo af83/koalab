@@ -2,7 +2,7 @@ class App.LineView extends Backbone.View
   className: 'line'
 
   events:
-    'dragstart':    'start'
+    'dragstart':   'start'
     'touchstart':  'touchstart'
     'touchcancel': 'touchcancel'
     'touchmove':   'touchmove'
@@ -57,7 +57,8 @@ class App.LineView extends Backbone.View
 
   touchstart: (e) =>
     e = e.originalEvent if e.originalEvent
-    e.preventDefault()  # Prevent image drag
+    e.preventDefault()   # Prevent image drag
+    e.stopPropagation()  # Avoid touchstart on the BoardView
     data = if e.touches then e.touches[0] else e
     contact = @viewport.fromScreen x: data.pageX, y: data.pageY
     @touch =

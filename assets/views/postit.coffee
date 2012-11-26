@@ -150,7 +150,8 @@ class App.PostitView extends Backbone.View
 
   touchstart: (e) =>
     e = e.originalEvent if e.originalEvent
-    e.preventDefault()  # Prevent image drag
+    e.preventDefault()   # Prevent image drag
+    e.stopPropagation()  # Avoid touchstart on the BoardView
     data = if e.touches then e.touches[0] else e
     contact = @viewport.fromScreen x: data.pageX, y: data.pageY
     topleft = @model.get 'coords'
