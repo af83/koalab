@@ -14,7 +14,7 @@ class App.Source
       $(window).on 'load', =>
         setTimeout connect, 1000
     else
-      connect
+      connect()
 
   onMessage: (e) =>
     try

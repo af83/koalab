@@ -56,36 +56,42 @@ class App.LineView extends Backbone.View
     true
 
   touchstart: (e) =>
+    return if @moving
     e = e.originalEvent if e.originalEvent
     e.preventDefault()   # Prevent image drag
     e.stopPropagation()  # Avoid touchstart on the BoardView
-    data = if e.touches then e.touches[0] else e
-    contact = @viewport.fromScreen x: data.pageX, y: data.pageY
-    @touch =
+    touch = e.changedTouches[0]
+    contact = @viewport.fromScreen x: touch.pageX, y: touch.pageY
+    @moving =
       x1: contact.x - @model.get 'x1'
       y1: contact.y - @model.get 'y1'
       x2: contact.x - @model.get 'x2'
       y2: contact.y - @model.get 'y2'
+      id: touch.identifier
     false
 
   touchmove: (e) =>
-    return unless @touch
+    return unless @moving
     e = e.originalEvent if e.originalEvent
-    data = if e.touches then e.touches[0] else e
-    contact = @viewport.fromScreen x: data.pageX, y: data.pageY
-    @model.set
-      x1: contact.x - @touch.x1
-      y1: contact.y - @touch.y1
-      x2: contact.x - @touch.x2
-      y2: contact.y - @touch.y2
+    if e.changedTouches.identifiedTouch
+      touch = e.changedTouches.identifiedTouch @moving.id
+    else  # Seems like chrome don't implement identifiedTouch
+      touch = t for t in e.changedTouches when t.identifier == @moving.id
+    if touch
+      contact = @viewport.fromScreen x: touch.pageX, y: touch.pageY
+      @model.set
+        x1: contact.x - @moving.x1
+        y1: contact.y - @moving.y1
+        x2: contact.x - @moving.x2
+        y2: contact.y - @moving.y2
     true
 
   touchcancel: =>
-    @touch = null
+    @moving = null
     true
 
-  touchend: (e) =>
-    return unless @touch
-    @touch = null
+  touchend: =>
+    return unless @moving
+    @moving = null
     @model.save()
     true

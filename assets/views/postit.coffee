@@ -154,37 +154,43 @@ class App.PostitView extends Backbone.View
     true
 
   touchstart: (e) =>
+    return if @moving
     e = e.originalEvent if e.originalEvent
     e.preventDefault()   # Prevent image drag
     e.stopPropagation()  # Avoid touchstart on the BoardView
-    data = if e.touches then e.touches[0] else e
-    contact = @viewport.fromScreen x: data.pageX, y: data.pageY
+    touch = e.changedTouches[0]
+    contact = @viewport.fromScreen x: touch.pageX, y: touch.pageY
     topleft = @model.get 'coords'
-    @touch =
+    @moving =
       x: contact.x - topleft.x
       y: contact.y - topleft.y
+      id: touch.identifier
     @el.classList.add 'moving'
     false
 
   touchmove: (e) =>
-    return unless @touch
+    return unless @moving
     e = e.originalEvent if e.originalEvent
-    data = if e.touches then e.touches[0] else e
-    contact = @viewport.fromScreen x: data.pageX, y: data.pageY
-    @model.set coords:
-      x: contact.x - @touch.x
-      y: contact.y - @touch.y
+    if e.changedTouches.identifiedTouch
+      touch = e.changedTouches.identifiedTouch @moving.id
+    else  # Seems like chrome don't implement identifiedTouch
+      touch = t for t in e.changedTouches when t.identifier == @moving.id
+    if touch
+      contact = @viewport.fromScreen x: touch.pageX, y: touch.pageY
+      @model.set coords:
+        x: contact.x - @moving.x
+        y: contact.y - @moving.y
     true
 
   touchcancel: =>
-    return unless @touch
-    @touch = null
+    return unless @moving
+    @moving = null
     @el.classList.remove 'moving'
     true
 
-  touchend: (e) =>
-    return unless @touch
-    @touch = null
+  touchend: =>
+    return unless @moving
+    @moving = null
     @model.save()
     @dragend()
 

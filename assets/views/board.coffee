@@ -149,29 +149,33 @@ class App.BoardView extends Backbone.View
     , 2500
 
   touchstart: (e) =>
+    return if @touch
     e = e.originalEvent if e.originalEvent
-    data = if e.touches then e.touches[0] else e
+    return if e.touches.length != e.changedTouches.length  # Other touches
+    touch = e.changedTouches[0]
     offset = @viewport.get 'offset'
     @touch =
-      x: data.pageX + offset.x
-      y: data.pageY + offset.y
+      x: touch.pageX + offset.x
+      y: touch.pageY + offset.y
     true
 
   touchmove: (e) =>
     return unless @touch
     e = e.originalEvent if e.originalEvent
-    data = if e.touches then e.touches[0] else e
-    @viewport.set offset:
-      x: @touch.x - data.pageX
-      y: @touch.y - data.pageY
+    if e.changedTouches.identifiedTouch
+      touch = e.changedTouches.identifiedTouch @moving.id
+    else  # Seems like chrome don't implement identifiedTouch
+      touch = t for t in e.changedTouches when t.identifier == @moving.id
+    if touch
+      @viewport.set offset:
+        x: @touch.x - touch.pageX
+        y: @touch.y - touch.pageY
     true
 
   touchcancel: =>
-    return unless @touch
     @touch = null
     true
 
-  touchend: (e) =>
-    return unless @touch
+  touchend: =>
     @touch = null
     true
