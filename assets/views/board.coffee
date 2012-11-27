@@ -67,16 +67,16 @@ class App.BoardView extends Backbone.View
     false
 
   addPostitBlue: ->
-    @addPostit '3fa1f3'
+    @addPostit App.Postit.colors.blue
 
   addPostitGreen: ->
-    @addPostit '7ef45f'
+    @addPostit App.Postit.colors.green
 
   addPostitYellow: ->
-    @addPostit 'f0fa78'
+    @addPostit App.Postit.colors.yellow
 
   addPostitRose: ->
-    @addPostit 'f878d2'
+    @addPostit App.Postit.colors.rose
 
   addLineH: ->
     @model.lines.createHorizontal()

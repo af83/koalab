@@ -16,4 +16,14 @@ class App.Postit extends Backbone.Model
       x: was.x + dx
       y: was.y + dy
 
+  nextColor: ->
+    colors = _.values App.Postit.colors
+    index  = 1 + colors.indexOf @get 'color'
+    @save color: colors[index % colors.length]
+
 App.Postit.defaultTitle = "New post-it"
+App.Postit.colors =
+  yellow: 'f0fa78'
+  blue: '3fa1f3'
+  green: '7ef45f'
+  rose: 'f878f2'

@@ -9,6 +9,8 @@ class App.PostitView extends Backbone.View
   className: 'postit'
 
   events:
+    'dblclick':              'nextColor'
+    'doubleTap':             'nextColor'
     'focus p':               'focus'
     'blur  p':               'blur'
     'keyup p':               'updateTitle'
@@ -120,6 +122,9 @@ class App.PostitView extends Backbone.View
     @model.collection.sort silent: true
     @model.collection.trigger 'sort'
     @
+
+  nextColor: ->
+    @model.nextColor()
 
   dragstart: (e) =>
     e = e.originalEvent if e.originalEvent
