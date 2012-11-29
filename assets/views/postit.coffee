@@ -127,10 +127,9 @@ class App.PostitView extends Backbone.View
     @model.nextColor()
 
   dragstart: (e) =>
-    e = e.originalEvent if e.originalEvent
     if e.target.classList.contains 'resize'
       zoom = @viewport.get 'zoom'
-      size = @model.get('size')
+      size = @model.get 'size'
       x = e.clientX / zoom - size.w
       y = e.clientY / zoom - size.h
       App.Dnd.set e, 'text/koalab-corner', @model.cid, x, y
@@ -141,58 +140,79 @@ class App.PostitView extends Backbone.View
       y = contact.y - topleft.y
       @el.classList.add 'moving'
       App.Dnd.set e, 'text/koalab-postit', @model.cid, x, y
+    @el.style.zIndex = 998
     e.dataTransfer.dropEffect = 'move'
     true
 
   dragend: =>
     @el.classList.remove 'moving'
-    @el.style.zIndex = 998
     true
 
   dragcancel: =>
     @el.classList.remove 'moving'
     true
 
-  touchstart: (e) =>
-    return if @moving
-    e = e.originalEvent if e.originalEvent
+  touchstart: (originalEvent: e) =>
+    return if @resizing
     e.preventDefault()   # Prevent image drag
     e.stopPropagation()  # Avoid touchstart on the BoardView
-    touch = e.changedTouches[0]
-    contact = @viewport.fromScreen x: touch.pageX, y: touch.pageY
-    topleft = @model.get 'coords'
-    @moving =
-      x: contact.x - topleft.x
-      y: contact.y - topleft.y
-      id: touch.identifier
+    if @moving
+      one = App.Touch.find e.touches, @moving.id
+      two = e.changedTouches[0]
+      @moving = null
+    else if e.changedTouches.length >= 2
+      one = e.changedTouches[0]
+      two = e.changedTouches[1]
+    if one and two
+      zoom = @viewport.get 'zoom'
+      size = @model.get 'size'
+      [one, two] = [two, one] if two.pageX < one.pageX
+      @resizing =
+        x: (two.pageX - one.pageX) / zoom - size.w
+        y: (two.pageY - one.pageY) / zoom - size.h
+        id1: one.identifier
+        id2: two.identifier
+    else
+      touch = e.changedTouches[0]
+      contact = @viewport.fromScreen x: touch.pageX, y: touch.pageY
+      topleft = @model.get 'coords'
+      @moving =
+        x: contact.x - topleft.x
+        y: contact.y - topleft.y
+        id: touch.identifier
     @el.classList.add 'moving'
+    @el.style.zIndex = 998
     false
 
-  touchmove: (e) =>
-    return unless @moving
-    e = e.originalEvent if e.originalEvent
-    if e.changedTouches.identifiedTouch
-      touch = e.changedTouches.identifiedTouch @moving.id
-    else  # Seems like chrome don't implement identifiedTouch
-      touch = t for t in e.changedTouches when t.identifier == @moving.id
-    if touch
-      contact = @viewport.fromScreen x: touch.pageX, y: touch.pageY
-      @model.set coords:
-        x: contact.x - @moving.x
-        y: contact.y - @moving.y
+  touchmove: (originalEvent: e) =>
+    if @resizing
+      one = App.Touch.find e.touches, @resizing.id1
+      two = App.Touch.find e.touches, @resizing.id2
+      if one and two
+        zoom = @viewport.get 'zoom'
+        @model.set size:
+          w: (two.pageX - one.pageX) / zoom - @resizing.x
+          h: (two.pageY - one.pageY) / zoom - @resizing.y
+    else if @moving
+      touch = App.Touch.find e.changedTouches, @moving.id
+      if touch
+        contact = @viewport.fromScreen x: touch.pageX, y: touch.pageY
+        @model.set coords:
+          x: contact.x - @moving.x
+          y: contact.y - @moving.y
     true
 
   touchcancel: =>
-    return unless @moving
+    return unless @moving or @resizing
+    @resizing = null
     @moving = null
     @el.classList.remove 'moving'
     true
 
   touchend: =>
-    return unless @moving
-    @moving = null
+    return unless @moving or @resizing
     @model.save()
-    @dragend()
+    @touchcancel()
 
   focus: =>
     @inEdition = true
@@ -211,11 +231,10 @@ class App.PostitView extends Backbone.View
     @p.textContent = App.Postit.defaultTitle if @p.textContent == ''
     true
 
-  editTitle: (e) =>
-    e = e.originalEvent if e.originalEvent
+  editTitle: (originalEvent: e) =>
     e.stopPropagation?()
 
-  updateTitle: (e) =>
+  updateTitle: =>
     title = @p.textContent
     return if title == ''
     return if title == @model.get('title')

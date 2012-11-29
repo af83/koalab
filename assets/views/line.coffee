@@ -44,7 +44,6 @@ class App.LineView extends Backbone.View
     @
 
   start: (e) =>
-    e = e.originalEvent if e.originalEvent
     x = e.clientX
     y = e.clientY
     if e.target.classList.contains 'handle'
@@ -57,7 +56,6 @@ class App.LineView extends Backbone.View
 
   touchstart: (e) =>
     return if @moving
-    e = e.originalEvent if e.originalEvent
     e.preventDefault()   # Prevent image drag
     e.stopPropagation()  # Avoid touchstart on the BoardView
     touch = e.changedTouches[0]
@@ -72,11 +70,7 @@ class App.LineView extends Backbone.View
 
   touchmove: (e) =>
     return unless @moving
-    e = e.originalEvent if e.originalEvent
-    if e.changedTouches.identifiedTouch
-      touch = e.changedTouches.identifiedTouch @moving.id
-    else  # Seems like chrome don't implement identifiedTouch
-      touch = t for t in e.changedTouches when t.identifier == @moving.id
+    touch = App.Touch.find e.changedTouches, @moving.id
     if touch
       contact = @viewport.fromScreen x: touch.pageX, y: touch.pageY
       @model.set

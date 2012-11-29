@@ -135,7 +135,6 @@ class App.BoardView extends Backbone.View
     false
 
   wheel: (e) ->
-    e = e.originalEvent if e.originalEvent
     d = e.wheelDelta || -e.detail
     if d > 0 then @zoomIn() else @zoomOut()
     false
@@ -150,22 +149,18 @@ class App.BoardView extends Backbone.View
 
   touchstart: (e) =>
     return if @touch
-    e = e.originalEvent if e.originalEvent
     return if e.touches.length != e.changedTouches.length  # Other touches
     touch = e.changedTouches[0]
     offset = @viewport.get 'offset'
     @touch =
       x: touch.pageX + offset.x
       y: touch.pageY + offset.y
+      id: touch.identifier
     true
 
   touchmove: (e) =>
     return unless @touch
-    e = e.originalEvent if e.originalEvent
-    if e.changedTouches.identifiedTouch
-      touch = e.changedTouches.identifiedTouch @moving.id
-    else  # Seems like chrome don't implement identifiedTouch
-      touch = t for t in e.changedTouches when t.identifier == @moving.id
+    touch = App.Touch.find e.changedTouches, @touch.id
     if touch
       @viewport.set offset:
         x: @touch.x - touch.pageX

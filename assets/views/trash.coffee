@@ -14,7 +14,6 @@ class App.TrashView extends Backbone.View
     @
 
   start: (e) ->
-    e = e.originalEvent if e.originalEvent
     classes = e.target.classList
     unless classes.contains 'resize' or classes.contains 'corner'
       @trash.style.display = 'block'
@@ -28,8 +27,7 @@ class App.TrashView extends Backbone.View
     @trash.classList.remove 'hover'
     true
 
-  trash: (e) ->
-    e = e.originalEvent if e.originalEvent
+  trash: (originalEvent: e) ->
     [type, cid] = App.Dnd.get e
     if type == "text/koalab-line"
       collection = @model.lines

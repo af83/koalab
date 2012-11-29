@@ -37,7 +37,6 @@ class App.LinesView extends Backbone.View
 
   drop: (e) =>
     zoom = @viewport.get 'zoom'
-    e = e.originalEvent if e.originalEvent
     [type, cid, x, y, n] = App.Dnd.get e
     if type == "text/koalab-line"
       if el = @collection.getByCid cid

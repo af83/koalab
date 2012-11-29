@@ -41,7 +41,6 @@ class App.PostitsView extends Backbone.View
     view.bringOut() for view in @views
 
   dragover: (e) =>
-    e = e.originalEvent if e.originalEvent
     e.preventDefault()
     [type, cid, x, y] = App.Dnd.get e
     if type == "text/koalab-corner"
@@ -60,7 +59,6 @@ class App.PostitsView extends Backbone.View
 
   drop: (e) =>
     zoom = @viewport.get 'zoom'
-    e = e.originalEvent if e.originalEvent
     [type, cid, x, y] = App.Dnd.get e
     if type == "text/koalab-corner"
       if el = @collection.getByCid cid
