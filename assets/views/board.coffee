@@ -25,10 +25,21 @@ class App.BoardView extends Backbone.View
     'touchend':    'touchend'
 
   shortcuts:
-    'up':    'moveUp'
-    'down':  'moveDown'
-    'left':  'moveLeft'
-    'right': 'moveRight'
+    'up':      'moveUp'
+    'down':    'moveDown'
+    'left':    'moveLeft'
+    'right':   'moveRight'
+
+    # Zoom in/out with keyboard too (note: KeyMaster </3 Firefox)
+    '-':       'zoomOut'
+    'shift+=': 'zoomIn'
+    '=':       'zoomDefault'
+
+    # Even Facebook uses thoses shortcuts now:
+    'k':       'moveUp'
+    'j':       'moveDown'
+    'h':       'moveLeft'
+    'l':       'moveRight'
 
   initialize: ->
     @viewport = new App.Viewport()
@@ -132,6 +143,10 @@ class App.BoardView extends Backbone.View
     z = @viewport.get 'zoom'
     z /= 1.3
     @viewport.set zoom: z unless z < 0.1
+    false
+
+  zoomDefault: ->
+    @viewport.set zoom: 1
     false
 
   wheel: (e) ->
