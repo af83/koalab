@@ -4,14 +4,10 @@ class App.LinesView extends Backbone.View
 
   initialize: ->
     @viewport = @options.viewport
-    @collection.on 'add', @add
-    @collection.on 'destroy', @destroy
-    @collection.on 'reset', @fetch
+    @listenTo @collection, 'add', @add
+    @listenTo @collection, 'destroy', @destroy
+    @listenTo @collection, 'reset', @fetch
     @views = []
-
-  dispose: ->
-    @viewport.off null, null, @
-    Backbone.View.prototype.dispose.call @
 
   remove: ->
     view.remove() for view in @views
@@ -22,16 +18,16 @@ class App.LinesView extends Backbone.View
     @add line for line in @collection.models
     @
 
-  add: (line) =>
+  add: (line) ->
     view = new App.LineView model: line, viewport: @viewport
     @views.push view
     @$el.append view.render().el
 
-  destroy: (line, collection, {index}) =>
+  destroy: (line, collection, {index}) ->
     view = @views.splice(index, 1)[0]
     view.remove()
 
-  fetch: =>
+  fetch: ->
     @views = []
     @render()
 
@@ -39,12 +35,12 @@ class App.LinesView extends Backbone.View
     zoom = @viewport.get 'zoom'
     [type, cid, x, y, n] = App.Dnd.get e
     if type == "text/koalab-line"
-      if el = @collection.getByCid cid
+      if el = @collection.get cid
         dx = (e.clientX - x) / zoom
         dy = (e.clientY - y) / zoom
         el.move dx, dy, @collection.board.postits.models
     else if type == "text/koalab-handle"
-      if el = @collection.getByCid cid
+      if el = @collection.get cid
         dx = (e.clientX - x) / zoom
         dy = (e.clientY - y) / zoom
         coords = el.toJSON()

@@ -35,7 +35,7 @@ class App.TrashView extends Backbone.View
       collection = @model.postits
     else
       return true
-    if el = collection.getByCid cid
+    if el = collection.get cid
       el.destroy()
     e.preventDefault()
     false

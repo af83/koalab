@@ -9,24 +9,20 @@ class App.LineView extends Backbone.View
     'touchend':    'touchend'
 
   initialize: (viewport: @viewport) ->
-    @viewport.on 'change', @move
-    @model.on    'change', @update
+    @listenTo @viewport, 'change', @move
+    @listenTo @model,    'change', @update
 
-  dispose: ->
-    @viewport.off null, null, @
-    Backbone.View.prototype.dispose.call @
-
-  render: =>
+  render: ->
     @$el.html JST.line
     @update()
     @
 
-  update: =>
+  update: ->
     @move()
     @rotate()
     @
 
-  move: =>
+  move: ->
     len = @model.length() * @viewport.get('zoom')
     coords = @viewport.toScreen
       x: @model.get('x1')

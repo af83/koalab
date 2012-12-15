@@ -24,21 +24,17 @@ class App.PostitView extends Backbone.View
     'touchend    .gradient': 'touchend'
 
   initialize: (viewport: @viewport) ->
-    @viewport.on 'change:zoom',    @redraw
-    @viewport.on 'change:offset',  @move
-    @model.on 'change:title',      @update
-    @model.on 'change:color',      @colorize
-    @model.on 'change:coords',     @move
-    @model.on 'change:size',       @resize
-    @model.on 'change:angle',      @rotate
-    @model.on 'change:updated_at', @updated
+    @listenTo @viewport, 'change:zoom',    @redraw
+    @listenTo @viewport, 'change:offset',  @move
+    @listenTo @model, 'change:title',      @update
+    @listenTo @model, 'change:color',      @colorize
+    @listenTo @model, 'change:coords',     @move
+    @listenTo @model, 'change:size',       @resize
+    @listenTo @model, 'change:angle',      @rotate
+    @listenTo @model, 'change:updated_at', @updated
     fn = => @model.save {}, {silent: true}
     @throttledSave = _.throttle fn, 2000
     @el.id = "postit-#{@model.cid}"
-
-  dispose: ->
-    @viewport.off null, null, @
-    Backbone.View.prototype.dispose.call @
 
   render: ->
     @$el.html JST.postit @model.toJSON()
@@ -51,7 +47,7 @@ class App.PostitView extends Backbone.View
     @bringOut()
     @
 
-  redraw: =>
+  redraw: ->
     @move()
     @resize()
     @adjustFontSize()
@@ -63,7 +59,7 @@ class App.PostitView extends Backbone.View
     @gradient = @el.querySelector '.gradient'
     @
 
-  update: =>
+  update: ->
     return if @inEdition
     @p.textContent = @model.get 'title'
     setTimeout @adjustFontSize, 0
@@ -77,7 +73,7 @@ class App.PostitView extends Backbone.View
     App.FontSize.adjust @p, width, height
     @
 
-  colorize: =>
+  colorize: ->
     c = App.Colors.mix (@model.get 'color'), '#000000', 0.9
     colors = "#{c} 0%, ##{@model.get 'color'} 75%"
     @gradient.style.background = "-webkit-linear-gradient(top, #{colors})"
@@ -85,13 +81,13 @@ class App.PostitView extends Backbone.View
     @el.classList.add 'reverse' if @model.get('color')[0] == '0'
     @
 
-  move: =>
+  move: ->
     coords = @viewport.toScreen @model.get "coords"
     @el.style.left = "#{coords.x}px"
     @el.style.top  = "#{coords.y}px"
     @
 
-  resize: =>
+  resize: ->
     size = @model.get "size"
     zoom = @viewport.get "zoom"
     @el.style.width  = "#{size.w * zoom}px"
@@ -108,19 +104,18 @@ class App.PostitView extends Backbone.View
     @adjustFontSize()
     @
 
-  rotate: =>
+  rotate: ->
     prop = "rotate(#{@model.get 'angle'}deg)"
     @el.style.WebkitTransform = prop
     @el.style.transform = prop
     @
 
-  bringOut: =>
+  bringOut: ->
     @el.style.zIndex = @model.collection.indexOf @model
     @
 
-  updated: =>
-    @model.collection.sort silent: true
-    @model.collection.trigger 'sort'
+  updated: ->
+    @model.collection.sort()
     @
 
   nextColor: ->

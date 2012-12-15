@@ -9,9 +9,9 @@ class App.LinesCollection extends Backbone.Collection
     "#{@board.url()}/lines"
 
   initialize: (source) ->
-    source.on "create-line", (line) => @add line
-    source.on "update-line", (line) => @get(line._id)?.set line
-    source.on "delete-line", (line) => @get(line._id)?.destroy()
+    @listenTo source, "create-line", (line) -> @add line
+    @listenTo source, "update-line", (line) -> @get(line._id)?.set line
+    @listenTo source, "delete-line", (line) -> @get(line._id)?.destroy()
 
   exists: (attrs) ->
     !! @find (line) ->
