@@ -18,7 +18,7 @@ module.exports = function(grunt) {
         ' * Copyright (c) <%= grunt.template.today("yyyy") %> ' +
         'af83; Licensed MIT */'
     },
-    clean: ["docs", "tmp/*", "public/*.css", "public/*.js"],
+    clean: ['docs', 'tmp/*', 'public/*.css', 'public/*.js'],
     lint: {
       files: ['grunt.js']
     },
@@ -28,13 +28,13 @@ module.exports = function(grunt) {
     coffee: {
       compile: {
         files: {
-          "tmp/app.js": [
-            "assets/app.coffee",
-            "assets/source.coffee",
-            "assets/helpers/*.coffee",
-            "assets/models/*.coffee",
-            "assets/collections/*.coffee",
-            "assets/views/*.coffee"
+          'tmp/app.js': [
+            'assets/app.coffee',
+            'assets/source.coffee',
+            'assets/helpers/*.coffee',
+            'assets/models/*.coffee',
+            'assets/collections/*.coffee',
+            'assets/views/*.coffee'
           ]
         }
       }
@@ -43,25 +43,32 @@ module.exports = function(grunt) {
       compile: {
         options: {
           wrapped: true,
-          namespace: "JST",
+          namespace: 'JST',
           processName: function(filename) {
-            return path.basename(filename, ".hbs");
+            return path.basename(filename, '.hbs');
           }
         },
         files: {
-          "tmp/templates.js": ["assets/templates/*.hbs"]
+          'tmp/templates.js': ['assets/templates/*.hbs']
         }
       }
     },
     copy: {
-      vendor: {
-        files: {
-          "public/": "assets/vendor/*"
-        }
-      },
       js: {
         files: {
-          "public/": "assets/js/*"
+          'public/keymaster.js': 'components/keymaster/keymaster.js',
+          'public/json2.js': 'components/json2/json2.js',
+          'public/handlebars.runtime.js': 'components/handlebars/handlebars.runtime-1.0.0-rc.1.js',
+          'public/lodash.js': 'components/lodash/lodash.js',
+          'public/backbone.js': 'components/backbone/backbone.js',
+          'public/backbone.shortcuts.js': 'components/backbone.shortcuts/index.js',
+          'public/': 'assets/js/*'
+        }
+      },
+      css: {
+        files: {
+          'public/persona-buttons.css': 'assets/css/persona-buttons.css',
+          'public/normalize.css': 'components/normalize-css/normalize.css'
         }
       }
     },
@@ -75,18 +82,18 @@ module.exports = function(grunt) {
       dist: {
         src: [
           '<banner:meta.banner>',
-          'assets/vendor/keymaster.js',
-          'assets/vendor/json2.js',
-          'assets/vendor/handlebars.runtime.js',
-          'assets/vendor/lodash.js',
-          'assets/vendor/backbone.js',
-          'assets/vendor/backbone.shortcuts.js',
+          'components/keymaster/keymaster.js',
+          'components/json2/json2.js',
+          'components/handlebars/handlebars.runtime-1.0.0-rc.1.js',
+          'components/lodash/lodash.js',
+          'components/backbone/backbone.js',
+          'components/backbone.shortcuts/index.js',
           '<config:concat.dist.dest>'
         ],
         dest: 'public/koalab.min.js'
       },
       zepto: {
-        src: ['assets/vendor/zepto.js'],
+        src: ['components/zepto/index.js'],
         dest: 'public/zepto.min.js'
       }
     },
@@ -101,7 +108,11 @@ module.exports = function(grunt) {
     mincss: {
       dist: {
         files: {
-          'public/koalab.min.css': ['assets/vendor/*.css', 'public/koalab.css']
+          'public/koalab.min.css': [
+            'assets/css/persona-buttons.css',
+            'components/normalize-css/normalize.css',
+            'public/koalab.css'
+          ]
         }
       }
     },

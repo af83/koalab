@@ -1,4 +1,5 @@
 /.secret
+/components
 /config/deploy.rb
 /config/server.json
 /docs

@@ -51,6 +51,7 @@ cd koalab
 cp config/server.json.example config/server.json
 $EDITOR config/server.json
 npm install .
+./node_modules/bower/bin/bower install
 ./node_modules/grunt/bin/grunt
 node koalab.js
 firefox http://localhost:8080/

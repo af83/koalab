@@ -17,7 +17,7 @@ set :branch, 'master'
 
 # Manually create these paths in shared/ (eg: shared/config/database.yml) in your server.
 # They will be linked in the 'deploy:link_shared_paths' step.
-set :shared_paths, ['config/server.json', 'logs', 'node_modules', 'pids']
+set :shared_paths, ['config/server.json', 'logs', 'node_modules', 'components', 'pids']
 
 # This task is the environment that is loaded for most commands, such as
 # `mina deploy` or `mina rake`.
@@ -29,6 +29,9 @@ end
 task :setup => :environment do
   queue! %[mkdir -p "#{deploy_to}/shared/pids"]
   queue! %[chmod g+rx,u+rwx "#{deploy_to}/shared/pids"]
+
+  queue! %[mkdir -p "#{deploy_to}/shared/components"]
+  queue! %[chmod g+rx,u+rwx "#{deploy_to}/shared/components"]
 
   queue! %[mkdir -p "#{deploy_to}/shared/node_modules"]
   queue! %[chmod g+rx,u+rwx "#{deploy_to}/shared/node_modules"]
@@ -53,6 +56,7 @@ task :deploy => :environment do
 
     to :launch do
       queue 'npm install'
+	  queue 'bower install'
       queue 'grunt'
       queue 'forever stop koalab.js'
       queue "forever start -a -l #{deploy_to}/shared/logs/forever.log -o logs/out.log -e logs/err.log --pidfile pids/koalab.pid koalab.js"
