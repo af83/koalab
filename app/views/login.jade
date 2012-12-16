@@ -2,10 +2,46 @@ extends layout
 
 block content
   section#login
-    h1 Koalab
-    img(src="/images/koalab-logo.png", alt="", id="logo")
-    p
-      a(href="#", class="signin persona-button dark")
-        span Sign in with your Email
+    header
+      h1 K
+        span o
+        = "alab"
+      p Real time board everywhere
+
+    article
+      p
+        a(href="#", class="signin") Sign in
+      p Just take 2 sec to subscribe through 
+        a(href="http://www.mozilla.org/en-US/persona/", target="_blank") persona 
+        and come stick your first note!
+
+  section#services
+    article
+      p Project management, backlog, brainstorming...
+      p Create and share new boards as you want
+      p.screenshot
+        img(src="/images/home/screenshot.png", alt="Koalab screenshot")
+
+  article#features
+    ul
+      li Create, move, resized and dump as many notes, lines and columns you need.
+      li Edit your notes again, change their color
+      li Move freely inside the board, zoom in and out to have the perfect view on the right information
+
+  footer
+    ul
+      li
+        a(href="#")!= "An issue. A bug?<br/>Leave us a message on github"
+      li
+        a(href="#")!= "Show us how you use Koalab.<br/>We're so curious about you!"
+
+    ul
+      li
+        a(href="#") About
+      li
+        a(href="#") Github
+      li
+        a(href="#") Twitter
+
   script(src="https://login.persona.org/include.js")
   script(src="login.js")
