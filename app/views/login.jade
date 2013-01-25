@@ -3,17 +3,19 @@ extends layout
 block content
   section#login
     header
-      h1 K
+      h1
+        | K
         span o
-        = "alab"
+        | alab
       p Real time board everywhere
 
     article
       p
-        a(href="#", class="signin") Sign in
-      p Just take 2 sec to subscribe through 
-        a(href="http://www.mozilla.org/en-US/persona/", target="_blank") persona 
-        and come stick your first note!
+        a(class="signin") Sign in
+      p
+        | Just take 2 sec to subscribe through 
+        a(href="http://www.mozilla.org/en-US/persona/", target="_blank") persona
+        |  and come stick your first note!
 
   section#services
     article
@@ -31,17 +33,19 @@ block content
   footer
     ul
       li
-        a(href="#")!= "An issue. A bug?<br/>Leave us a message on github"
+        a(href="https://github.com/AF83/koalab/issues")!= "An issue. A bug?<br/>Leave us a message on github"
       li
-        a(href="#")!= "Show us how you use Koalab.<br/>We're so curious about you!"
+        a(href="https://github.com/AF83/koalab/issues")!= "Show us how you use Koalab.<br/>We're so curious about you!"
 
     ul
       li
-        a(href="#") About
+        a(href="/help") Help
       li
-        a(href="#") Github
+        a(href="http://dev.af83.com/") About
       li
-        a(href="#") Twitter
+        a(href="https://github.com/AF83/koalab") Github
+      li
+        a(href="https://twitter.com/af83") Twitter
 
   script(src="https://login.persona.org/include.js")
   script(src="login.js")
