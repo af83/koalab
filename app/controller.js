@@ -47,9 +47,14 @@ module.exports = function(app, db, pass) {
           );
 
   // Logout
-  app.post('/logout', function(req,res) {
+  app.post('/logout', function(req, res) {
     req.logout();
     res.send(204);
+  });
+
+  // Show the help
+  app.get('/help', function(req, res) {
+    res.render('help');
   });
 
   // Show the list of boards
