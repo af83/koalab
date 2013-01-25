@@ -1,35 +1,34 @@
+header
+  margin: 0 0 50px 0
+  padding: 30px 0
+  text-align: center
+  h1
+    display: inline-block
+    margin: 0
+    padding: 0
+    font: bold 130px/130px Helvetica
+    color: #fff
+    text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0,0,0,.1), 0 0 5px rgba(0,0,0,.1), 0 1px 3px rgba(0,0,0,.3), 0 3px 5px rgba(0,0,0,.2), 0 5px 10px rgba(0,0,0,.25), 0 10px 10px rgba(0,0,0,.2), 0 20px 20px rgba(0,0,0,.15)
+    span
+      display: inline-block
+      width: 105px
+      height: 120px
+      text-indent: -9999px
+      background: url('/images/koala.png') 0 36px no-repeat
+  p
+    margin: 10px 0 0 0
+    font: bold 30px/30px Helvetica
+    color: #999
+    letter-spacing: -1px
+
 #login
   display: block
   padding: 0 0 100px 0
   font: normal 14px/14px Helvetica
-  background: #fff
   *
     margin: 0
     padding: 0
     border: 0
-
-  header
-    margin: 0 0 50px 0
-    padding: 30px 0
-    text-align: center
-    h1
-      display: inline-block
-      padding: 0
-      font: bold 130px/130px Helvetica
-      color: #fff
-      text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0,0,0,.1), 0 0 5px rgba(0,0,0,.1), 0 1px 3px rgba(0,0,0,.3), 0 3px 5px rgba(0,0,0,.2), 0 5px 10px rgba(0,0,0,.25), 0 10px 10px rgba(0,0,0,.2), 0 20px 20px rgba(0,0,0,.15)
-      span
-        display: inline-block
-        width: 105px
-        height: 120px
-        text-indent: -9999px
-        background: url('/images/koala.png') 0 36px no-repeat
-
-    p
-      margin: 10px 0 0 0
-      font: bold 30px/30px Helvetica
-      color: #999
-      letter-spacing: -1px
 
   article
     position: relative
@@ -54,6 +53,7 @@
         box-shadow: 0 -1px 0 #ccc, 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0,0,0,.1), 0 0 5px rgba(0,0,0,.1), 0 1px 3px rgba(0,0,0,.3), 0 3px 5px rgba(0,0,0,.2), 0 5px 10px rgba(0,0,0,.25), 0 10px 10px rgba(0,0,0,.2), 0 20px 20px rgba(0,0,0,.15)
         font: bold 30px/30px Helvetica
         color: #999
+        background: #fff
         text-shadow: rgba(0, 0, 0, 0.3) 2px 2px 2px
         text-decoration: none
         text-transform: uppercase
@@ -155,3 +155,21 @@ footer
     padding: 0 0 30px 0
   h1, article:last-child p
     font-size: 1.4em
+
+#list
+  width: 980px
+  margin: 50px auto 0 auto
+  .pagination li
+    display: inline-block
+    margin: 0 4px
+    padding: 0 9px
+    border: 1px solid #ccc
+    border-radius: 2px
+    background-color: #eee
+    box-shadow: inset 0px 1px 0px rgba(255,255,255, .8), 0px 1px 3px rgba(0,0,0, .1)
+    &:hover
+      background-color: #ccc
+      box-shadow: none
+    a
+      color: #666
+

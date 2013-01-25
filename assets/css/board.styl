@@ -1,51 +1,14 @@
 @import "font-awesome"
 
-@font-face
-  font-family: 'Indie Flower'
-  font-style: normal
-  font-weight: 400
-  src: local('Indie Flower'), local('IndieFlower'), url('/fonts/IndieFlower.woff') format('woff')
-
-body
-  background-image: url("/images/background.png")
-  font-family: 'Indie Flower', cursive
-  font-size: 1.5em
-  line-height: 1.2em
-
-:focus
-  outline-color: #333
-
-#list
-  .logout
-    position: absolute
-    right: 10px
-    top: 10px
-    color: #666
-    text-decoration: none
-    icon-signout()
-    &:before
-      margin-right: 8px
-  #logo
-    float: left
-    margin: 10px 50px
-  h1
-    font-size: 2.5em
-    text-shadow: 3px 3px 3px #666
-  section
-    padding-left: 350px
-  .pagination li
-    display: inline-block
-    margin: 0 4px
-    padding: 0 9px
-    border: 1px solid #ccc
-    border-radius: 2px
-    background-color: #eee
-    box-shadow: inset 0px 1px 0px rgba(255,255,255, .8), 0px 1px 3px rgba(0,0,0, .1)
-    &:hover
-      background-color: #ccc
-      box-shadow: none
-    a
-      color: #666
+.logout
+  position: absolute
+  right: 10px
+  top: 10px
+  color: #666
+  text-decoration: none
+  icon-signout()
+  &:before
+    margin-right: 8px
 
 #board-view
   position: fixed

@@ -1,21 +1,50 @@
 extends layout
 
 block content
+  header
+    h1
+      | K
+      span o
+      | alab
+    p Real time board everywhere
+
+  a(href="#", class="logout") Logout
+
   section#list
-    a(href="#", class="logout") Logout
-    img(src="/images/koalab-logo.png", alt="", id="logo")
-    section
-      h1 Koalab
-      form(action="/boards", method="post")
-        input(name="title", placeholder="Wants a new board?", required)
-        input(type="submit", value="Create")
-      - if (boards.length)
-        ul#list-of-boards
-          each board in boards
-            li: a(href="/boards/#{board.id}")= board.title
-        != boards.pagination.render({ baseUrl: '/' })
-      - else
-        p No boards yet, you should create one!
-        p It's easy, just type a title in the box and press enter.
+    form(action="/boards", method="post")
+      input(name="title", placeholder="Wants a new board?", required)
+      input(type="submit", value="Create")
+    - if (boards.length)
+      ul#list-of-boards
+        each board in boards
+          li: a(href="/boards/#{board.id}")= board.title
+      != boards.pagination.render({ baseUrl: '/' })
+    - else
+      p No boards yet, you should create one!
+      p It's easy, just type a title in the box and press enter.
+
+  article#features
+    ul
+      li Create, move, resized and dump as many notes, lines and columns you need.
+      li Edit your notes again, change their color
+      li Move freely inside the board, zoom in and out to have the perfect view on the right information
+
+  footer
+    ul
+      li
+        a(href="https://github.com/AF83/koalab/issues")!= "An issue. A bug?<br/>Leave us a message on github"
+      li
+        a(href="https://github.com/AF83/koalab/issues")!= "Show us how you use Koalab.<br/>We're so curious about you!"
+
+    ul
+      li
+        a(href="/help") Help
+      li
+        a(href="http://dev.af83.com/") About
+      li
+        a(href="https://github.com/AF83/koalab") Github
+      li
+        a(href="https://twitter.com/af83") Twitter
+
   script(src="https://login.persona.org/include.js")
   script(src="index.js")
