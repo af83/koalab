@@ -1,7 +1,7 @@
 Koalab
 ======
 
-[Koalab](https://github.com:AF83/koalab) is a board for brainstorming,
+[Koalab](https://github.com/AF83/koalab) is a board for brainstorming,
 [Scrum](http://en.wikipedia.org/wiki/Scrum_\(development\)) or managing your
 [family chores](http://scrum4kids.blogspot.fr/2010/09/using-scrum-for-saturday-chores.html).
 
