@@ -5,9 +5,9 @@
     "zepto": "https://raw.github.com/nono/zepto/master/zepto.js",
     "keymaster": "latest",
     "json2": "latest",
-    "handlebars": "~1.0.0-rc.1",
+    "handlebars": "~1.0.0-rc.2",
     "lodash": "=0.6.1",
-    "backbone": "~0.9.9",
+    "backbone": "~0.9.10",
     "backbone.shortcuts": "https://raw.github.com/bry4n/backbone-shortcuts/master/backbone.shortcuts.js",
     "normalize-css": "~2.0.1"
   }

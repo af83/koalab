@@ -58,7 +58,7 @@ module.exports = function(grunt) {
         files: {
           'public/keymaster.js': 'components/keymaster/keymaster.js',
           'public/json2.js': 'components/json2/json2.js',
-          'public/handlebars.runtime.js': 'components/handlebars/handlebars.runtime-1.0.0-rc.1.js',
+          'public/handlebars.runtime.js': 'components/handlebars/handlebars.runtime.js',
           'public/lodash.js': 'components/lodash/lodash.js',
           'public/backbone.js': 'components/backbone/backbone.js',
           'public/backbone.shortcuts.js': 'components/backbone.shortcuts/index.js',
