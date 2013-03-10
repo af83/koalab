@@ -111,6 +111,7 @@ module.exports = function(app, db, pass) {
     req.body.updated_at = new Date();
     Postit.findByIdAndUpdate(req.params.pid, req.body, function(err, postit) {
       if (err) return next(err);
+      if (!postit) return next(new errors.NotFound());
       res.send(200, postit);
       sse.broadcast(postit.board_id, { action: 'update', type: 'postit', model: postit });
     });
