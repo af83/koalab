@@ -62,7 +62,8 @@ module.exports = function(grunt) {
           'public/lodash.js': 'components/lodash/lodash.js',
           'public/backbone.js': 'components/backbone/backbone.js',
           'public/backbone.shortcuts.js': 'components/backbone.shortcuts/index.js',
-          'public/': 'assets/js/*'
+          'public/login.js': 'assets/js/login.js',
+          'public/login.js': 'assets/js/login.js'
         }
       },
       css: {
