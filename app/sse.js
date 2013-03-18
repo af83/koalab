@@ -16,7 +16,7 @@ function broadcast(board_id, data) {
   emitter.emit(board_id, msg);
 
   histo[board_id] = histo[board_id] || [];
-  var diff = histo[board_id].push(msg) - HISTO_S
+  var diff = histo[board_id].push(msg) - HISTO_S;
   if (diff > 0) { histo[board_id].slice(diff); }
 }
 

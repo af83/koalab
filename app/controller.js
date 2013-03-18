@@ -21,7 +21,7 @@ function loader(Model, id) {
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
   req.session.destroy();
-  res.send(403, 'Forbidden')
+  res.send(403, 'Forbidden');
 }
 
 module.exports = function(app, db, pass) {
@@ -41,9 +41,9 @@ module.exports = function(app, db, pass) {
   });
 
   // Check the persona assertion
-  app.post( '/api/user'
-          , pass.authenticate('browserid')
-          , function(req,res) { res.send(204); }
+  app.post( '/api/user',
+           pass.authenticate('browserid'),
+           function(req,res) { res.send(204); }
           );
 
   // Logout
@@ -85,9 +85,9 @@ module.exports = function(app, db, pass) {
       if (err) return next(new Error());
       Line.find({ board_id : bid }, function(err, lines) {
         if (err) return next(new Error());
-        res.render('board', { board: JSON.stringify(req.board)
-                            , postits: JSON.stringify(postits)
-                            , lines: JSON.stringify(lines)
+        res.render('board', { board: JSON.stringify(req.board),
+                              postits: JSON.stringify(postits),
+                              lines: JSON.stringify(lines)
                             });
       });
     });
@@ -118,7 +118,7 @@ module.exports = function(app, db, pass) {
   });
 
   // Delete postit
-  app.delete('/api/boards/:bid/postits/:pid', ensureAuthenticated, loader(Postit, 'pid'), touchBoard, function(req, res, next) {
+  app.del('/api/boards/:bid/postits/:pid', ensureAuthenticated, loader(Postit, 'pid'), touchBoard, function(req, res, next) {
     req.postit.remove(function(err) {
       if (err) return next(err);
       res.send(204);
@@ -148,7 +148,7 @@ module.exports = function(app, db, pass) {
   });
 
   // Delete line
-  app.delete('/api/boards/:bid/lines/:lid', ensureAuthenticated, loader(Line, 'lid'), touchBoard, function(req, res, next) {
+  app.del('/api/boards/:bid/lines/:lid', ensureAuthenticated, loader(Line, 'lid'), touchBoard, function(req, res, next) {
     req.line.remove(function(err) {
       if (err) return next(err);
       res.send(204);

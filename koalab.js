@@ -20,7 +20,7 @@ function abort() {
     abort("Can't load config/server.json");
   }
 
-  var example = ["example@example.net", "*@example.com"]
+  var example = ["example@example.net", "*@example.com"];
   if (!config.authorized || !config.authorized.length) {
     abort("Authorized is missing in config/server.json");
   }
