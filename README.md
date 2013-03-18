@@ -43,7 +43,8 @@ How to run it in local?
 -----------------------
 
 Install [Git](http://git-scm.com/), [NodeJS](http://www.nodejs.org/),
-[MongoDB](http://www.mongodb.org/) and run these commands:
+[MongoDB](http://www.mongodb.org/), [Grunt](http://gruntjs.com/getting-started)
+and run these commands:
 
 ```
 git clone git@github.com:AF83/koalab.git
@@ -52,7 +53,7 @@ cp config/server.json.example config/server.json
 $EDITOR config/server.json
 npm install .
 ./node_modules/bower/bin/bower install
-./node_modules/grunt/bin/grunt
+grunt
 node koalab.js
 firefox http://localhost:8080/
 ```
