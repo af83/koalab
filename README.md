@@ -51,6 +51,7 @@ git clone git@github.com:AF83/koalab.git
 cd koalab
 cp config/server.json.example config/server.json
 $EDITOR config/server.json
+npm install -g grunt-cli
 npm install .
 ./node_modules/bower/bin/bower install
 grunt

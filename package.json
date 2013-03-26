@@ -11,7 +11,7 @@
     "passport-browserid"    : "~0.1"
   },
   "devDependencies": {
-    "bower"                 : "~0.6",
+    "bower"                 : "latest",
     "grunt"                 : "latest",
     "grunt-contrib"         : "latest",
     "grunt-coffeelint"      : "latest",
