@@ -2,8 +2,8 @@ App.FontSize =
   initialize: ->
     clone = document.createElement 'p'
     clone.style.visibility = 'hidden'
+    clone.style.lineHeight = "1em"
     inner = document.createElement 'span'
-    inner.style.lineHeight = "1em"
     clone.appendChild inner
     App.FontSize.inner = inner
     App.FontSize.clone = clone
@@ -20,7 +20,7 @@ App.FontSize =
     [low, high] = [6, 80]
     while low < high
       size = Math.ceil (low + high) / 2
-      inner.style.fontSize = "#{size}px"
+      clone.style.fontSize = "#{size}px"
       if inner.offsetWidth > width or inner.offsetHeight > height
         high = size - 1
       else
