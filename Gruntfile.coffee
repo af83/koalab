@@ -71,7 +71,7 @@ module.exports = (grunt) ->
           'public/koalab.min.js': [
             'components/keymaster/keymaster.js',
             'components/json2/json2.js',
-            'components/handlebars/handlebars.runtime-1.0.0-rc.1.js',
+            'components/handlebars/handlebars.runtime.js',
             'components/lodash/lodash.js',
             'components/backbone/backbone.js',
             'components/backbone.shortcuts/index.js',
