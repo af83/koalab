@@ -75,7 +75,7 @@ module.exports = (grunt) ->
             'components/lodash/lodash.js',
             'components/backbone/backbone.js',
             'components/backbone.shortcuts/index.js',
-            '<config:concat.dist.dest>'
+            '<%= concat.dist.dest %>'
           ]
       zepto:
         files:
@@ -94,7 +94,7 @@ module.exports = (grunt) ->
           ]
     watch:
       files: [
-        '<config:coffeelint.files>'
+        '<%= coffeelint.files %>'
         'assets/templates/*.hbs'
         'assets/css/*.styl'
       ]
