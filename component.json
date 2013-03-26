@@ -2,12 +2,12 @@
   "name": "Koalab",
   "version": "0.1.0",
   "dependencies": {
-    "zepto": "https://raw.github.com/nono/zepto/master/zepto.js",
+    "zepto": "~1.0",
     "keymaster": "latest",
     "json2": "latest",
-    "handlebars": "~1.0.0-rc.2",
+    "handlebars": "~1.0.0-rc.3",
     "lodash": "=0.6.1",
-    "backbone": "~0.9.10",
+    "backbone": "~1.0",
     "backbone.shortcuts": "https://raw.github.com/bry4n/backbone-shortcuts/master/backbone.shortcuts.js",
     "normalize-css": "~2.0.1"
   }

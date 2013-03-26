@@ -31,7 +31,8 @@ module.exports = (grunt) ->
             'assets/helpers/*.coffee',
             'assets/models/*.coffee',
             'assets/collections/*.coffee',
-            'assets/views/*.coffee']
+            'assets/views/*.coffee'
+          ]
     handlebars:
       compile:
         options:
@@ -53,7 +54,8 @@ module.exports = (grunt) ->
           'public/backbone.shortcuts.js':
             'components/backbone.shortcuts/index.js'
           'public/login.js': 'assets/js/login.js'
-          'public/index.js': 'assets/js/index.js']
+          'public/index.js': 'assets/js/index.js'
+        ]
       css:
         files:
           'public/persona-buttons.css': 'assets/css/persona-buttons.css'
@@ -73,10 +75,11 @@ module.exports = (grunt) ->
             'components/lodash/lodash.js',
             'components/backbone/backbone.js',
             'components/backbone.shortcuts/index.js',
-            '<config:concat.dist.dest>']
+            '<config:concat.dist.dest>'
+          ]
       zepto:
         files:
-          'public/zepto.min.js': ['components/zepto/index.js']
+          'public/zepto.min.js': ['components/zepto/zepto.js']
     stylus:
       compile:
         files:
@@ -93,13 +96,15 @@ module.exports = (grunt) ->
       files: [
         '<config:coffeelint.files>'
         'assets/templates/*.hbs'
-        'assets/css/*.styl']
+        'assets/css/*.styl'
+      ]
       tasks: [
         'coffeelint'
         'stylus'
         'handlebars'
         'coffee'
-        'concat']
+        'concat'
+      ]
 
   # Default task.
   grunt.registerTask 'default', [
