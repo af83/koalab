@@ -78,7 +78,7 @@ module.exports = function(app, db, pass) {
   });
 
   // Show a board
-  app.get('/boards/:bid', loader(Board, 'bid'), function(req, res) {
+  app.get('/boards/:bid', loader(Board, 'bid'), function(req, res, next) {
     if (!req.isAuthenticated()) { return res.redirect('/login'); }
     var bid = req.params.bid;
     Postit.find({ board_id : bid }, function(err, postits) {
