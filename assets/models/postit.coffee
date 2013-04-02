@@ -3,8 +3,8 @@ class App.Postit extends Backbone.Model
     title: App.Postit.defaultTitle
     color: "ccc"
     coords:
-      x: 50 + Math.floor(Math.random() * 100)
-      y: 50 + Math.floor(Math.random() * 100)
+      x: 0
+      y: 0
     size:
       w: 160
       h: 160

@@ -74,7 +74,10 @@ class App.BoardView extends Backbone.View
     @
 
   addPostit: (color) ->
-    @model.postits.create color: color
+    coords = @viewport.fromScreen
+      x: 50 + Math.floor(Math.random() * 100)
+      y: 50 + Math.floor(Math.random() * 100)
+    @model.postits.create color: color, coords: coords
     false
 
   addPostitBlue: ->
