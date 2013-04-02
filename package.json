@@ -2,19 +2,20 @@
   "name": "Koalab",
   "version": "0.1.0",
   "dependencies": {
-    "mongoose"              : "~3.1",
-    "paginate"              : "~0.1",
-    "express"               : "~3.0",
-    "consolidate"           : "~0.4",
-    "jade"                  : "*",
-    "passport"              : "~0.1",
-    "passport-browserid"    : "~0.1"
+    "mongoose": "~3.1",
+    "paginate": "~0.1",
+    "express": "~3.0",
+    "consolidate": "~0.4",
+    "jade": "*",
+    "passport": "~0.1",
+    "passport-browserid": "~0.1"
   },
   "devDependencies": {
-    "bower"                 : "latest",
-    "grunt"                 : "latest",
-    "grunt-contrib"         : "latest",
-    "grunt-coffeelint"      : "latest",
-    "grunt-shell-completion": "latest"
+    "bower": "latest",
+    "grunt": "latest",
+    "grunt-contrib": "latest",
+    "grunt-coffeelint": "latest",
+    "grunt-shell-completion": "latest",
+    "grunt-plato": "~0.2.0"
   }
 }

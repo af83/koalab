@@ -83,6 +83,20 @@ The `config/server.json` file contains some configuration entries:
 - `persona.audience` is the public hostname and port of the website.
 - `mongodb` is the database informations.
 
+
+JavaScript Code Analysis
+------------------------
+
+[Plato](http://github.com/jsoverson/plato) can be used to generate two reports
+on the JavaScript Code Analysis (back and front):
+
+```
+grunt plato
+$BROWER reports/back/index.html
+$BROWER reports/front/index.html
+```
+
+
 Credits
 -------
 

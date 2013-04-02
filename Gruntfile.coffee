@@ -6,6 +6,7 @@ module.exports = (grunt) ->
   # Load tasks
   grunt.loadNpmTasks('grunt-contrib')
   grunt.loadNpmTasks('grunt-coffeelint')
+  grunt.loadNpmTasks('grunt-plato')
 
   # Project configuration.
   grunt.initConfig
@@ -22,6 +23,13 @@ module.exports = (grunt) ->
       back: ['package.json', 'koalab.js', 'app/**/*.js']
     coffeelint:
       files: ['Gruntfile.coffee', 'assets/**/*.coffee']
+    plato:
+      front:
+        files:
+          'reports/front': ['assets/**/*.js', 'tmp/app.js']
+      back:
+        files:
+          'reports/back': ['koalab.js', 'app/**/*.js']
     coffee:
       compile:
         files:
