@@ -55,7 +55,6 @@ class App.BoardView extends Backbone.View
       collection: @model.postits
       viewport: @viewport
       el: @el
-    _.extend @, new Backbone.Shortcuts
     @delegateShortcuts()
 
   remove: ->
@@ -192,3 +191,6 @@ class App.BoardView extends Backbone.View
   touchend: =>
     @touch = null
     true
+
+App.BoardView.prototype.delegateShortcuts =
+  Backbone.Shortcuts.prototype.delegateShortcuts
