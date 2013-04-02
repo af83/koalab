@@ -17,7 +17,13 @@ module.exports = (grunt) ->
          * https://github.com/AF83/koalab\n
          * Copyright (c) <%= grunt.template.today("yyyy") %>
         af83; Licensed MIT */"""
-    clean: ['docs', 'tmp/*', 'public/*.css', 'public/*.js']
+    clean: [
+      'docs'
+      'public/*.css'
+      'public/*.js'
+      'public/*.map'
+      'public/*.coffee'
+    ]
     jshint:
       front: ['assets/**/*.js']
       back: ['package.json', 'koalab.js', 'app/**/*.js']
@@ -26,19 +32,25 @@ module.exports = (grunt) ->
     plato:
       front:
         files:
-          'reports/front': ['assets/**/*.js', 'tmp/app.js']
+          'reports/front': [
+            'assets/**/*.js'
+            'public/templates.js'
+            'public/app.js'
+          ]
       back:
         files:
           'reports/back': ['koalab.js', 'app/**/*.js']
     coffee:
+      options:
+        sourceMap: true
       compile:
         files:
-          'tmp/app.js': [
-            'assets/app.coffee',
-            'assets/source.coffee',
-            'assets/helpers/*.coffee',
-            'assets/models/*.coffee',
-            'assets/collections/*.coffee',
+          'public/app.js': [
+            'assets/app.coffee'
+            'assets/source.coffee'
+            'assets/helpers/*.coffee'
+            'assets/models/*.coffee'
+            'assets/collections/*.coffee'
             'assets/views/*.coffee'
           ]
     handlebars:
@@ -49,7 +61,7 @@ module.exports = (grunt) ->
           processName: (filename) ->
             path.basename(filename, '.hbs')
         files:
-          'tmp/templates.js': ['assets/templates/*.hbs']
+          'public/templates.js': ['assets/templates/*.hbs']
     copy:
       js:
         files: [
@@ -68,22 +80,19 @@ module.exports = (grunt) ->
         files:
           'public/persona-buttons.css': 'assets/css/persona-buttons.css'
           'public/normalize.css': 'components/normalize-css/normalize.css'
-    concat:
-      dist:
-        src: ['<banner:meta.banner>', 'tmp/app.js', 'tmp/templates.js']
-        dest: 'public/koalab.js'
     uglify:
       dist:
         banner: '<banner:meta.banner>',
         files:
           'public/koalab.min.js': [
-            'components/keymaster/keymaster.js',
-            'components/json2/json2.js',
-            'components/handlebars/handlebars.runtime.js',
-            'components/lodash/lodash.js',
-            'components/backbone/backbone.js',
-            'components/backbone.shortcuts/index.js',
-            '<%= concat.dist.dest %>'
+            'components/keymaster/keymaster.js'
+            'components/json2/json2.js'
+            'components/handlebars/handlebars.runtime.js'
+            'components/lodash/lodash.js'
+            'components/backbone/backbone.js'
+            'components/backbone.shortcuts/index.js'
+            'public/templates.js'
+            'public/app.js'
           ]
       zepto:
         files:
@@ -96,8 +105,8 @@ module.exports = (grunt) ->
       dist:
         files:
           'public/koalab.min.css': [
-            'assets/css/persona-buttons.css',
-            'components/normalize-css/normalize.css',
+            'assets/css/persona-buttons.css'
+            'components/normalize-css/normalize.css'
             'public/koalab.css'
           ]
     watch:
@@ -111,7 +120,6 @@ module.exports = (grunt) ->
         'stylus'
         'handlebars'
         'coffee'
-        'concat'
       ]
 
   # Default task.
@@ -123,7 +131,6 @@ module.exports = (grunt) ->
     'handlebars'
     'coffee'
     'copy'
-    'concat'
     'cssmin'
     'uglify'
   ]

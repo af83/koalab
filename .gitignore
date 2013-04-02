@@ -8,5 +8,6 @@
 /pids
 /public/*.css
 /public/*.js
+/public/*.map
+/public/*.coffee
 /reports
-/tmp
