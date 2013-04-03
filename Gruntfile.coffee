@@ -69,7 +69,7 @@ module.exports = (grunt) ->
           'public/json2.js': 'components/json2/json2.js'
           'public/handlebars.runtime.js':
             'components/handlebars/handlebars.runtime.js'
-          'public/lodash.js': 'components/lodash/lodash.js'
+          'public/lodash.js': 'components/lodash/dist/lodash.underscore.js'
           'public/backbone.js': 'components/backbone/backbone.js'
           'public/backbone.shortcuts.js':
             'components/backbone.shortcuts/index.js'
@@ -88,7 +88,7 @@ module.exports = (grunt) ->
             'components/keymaster/keymaster.js'
             'components/json2/json2.js'
             'components/handlebars/handlebars.runtime.js'
-            'components/lodash/lodash.js'
+            'components/lodash/dist/lodash.underscore.js'
             'components/backbone/backbone.js'
             'components/backbone.shortcuts/index.js'
             'public/templates.js'
