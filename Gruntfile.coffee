@@ -4,8 +4,16 @@ path = require 'path'
 module.exports = (grunt) ->
 
   # Load tasks
-  grunt.loadNpmTasks('grunt-contrib')
   grunt.loadNpmTasks('grunt-coffeelint')
+  grunt.loadNpmTasks('grunt-contrib-clean')
+  grunt.loadNpmTasks('grunt-contrib-coffee')
+  grunt.loadNpmTasks('grunt-contrib-copy')
+  grunt.loadNpmTasks('grunt-contrib-cssmin')
+  grunt.loadNpmTasks('grunt-contrib-handlebars')
+  grunt.loadNpmTasks('grunt-contrib-jshint')
+  grunt.loadNpmTasks('grunt-contrib-stylus')
+  grunt.loadNpmTasks('grunt-contrib-uglify')
+  grunt.loadNpmTasks('grunt-contrib-watch')
   grunt.loadNpmTasks('grunt-plato')
 
   # Project configuration.
