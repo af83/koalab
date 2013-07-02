@@ -100,6 +100,9 @@ $BROWER reports/front/index.html
 Credits
 -------
 
+The logo is the copyright of [Charlotte Schimdt](http://pattedemouche.free.fr/)
+and can be distributed and used for personal purpose.
+
 Copyright (c) 2012 af83
 
 Released under the MIT license
