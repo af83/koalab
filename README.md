@@ -13,6 +13,8 @@ with a modern browser like Mozilla Firefox or Google Chrome.
 Screenshot
 ----------
 
+You can try Koalab on [koalab.af83.com](http://koalab.af83.com).
+
 ![Our board](https://raw.github.com/AF83/koalab/master/public/screenshots/board.png)
 
 
