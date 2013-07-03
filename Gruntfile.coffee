@@ -4,17 +4,7 @@ path = require 'path'
 module.exports = (grunt) ->
 
   # Load tasks
-  grunt.loadNpmTasks('grunt-coffeelint')
-  grunt.loadNpmTasks('grunt-contrib-clean')
-  grunt.loadNpmTasks('grunt-contrib-coffee')
-  grunt.loadNpmTasks('grunt-contrib-copy')
-  grunt.loadNpmTasks('grunt-contrib-cssmin')
-  grunt.loadNpmTasks('grunt-contrib-handlebars')
-  grunt.loadNpmTasks('grunt-contrib-jshint')
-  grunt.loadNpmTasks('grunt-contrib-stylus')
-  grunt.loadNpmTasks('grunt-contrib-uglify')
-  grunt.loadNpmTasks('grunt-contrib-watch')
-  grunt.loadNpmTasks('grunt-plato')
+  require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks)
 
   # Project configuration.
   grunt.initConfig
@@ -73,38 +63,46 @@ module.exports = (grunt) ->
     copy:
       js:
         files: [
-          'public/keymaster.js': 'components/keymaster/keymaster.js'
-          'public/json2.js': 'components/json2/json2.js'
+          'public/keymaster.js':
+            'bower_components/keymaster/keymaster.js'
+          'public/json2.js':
+            'bower_components/json2/json2.js'
           'public/handlebars.runtime.js':
-            'components/handlebars/handlebars.runtime.js'
-          'public/lodash.js': 'components/lodash/dist/lodash.underscore.js'
-          'public/backbone.js': 'components/backbone/backbone.js'
+            'bower_components/handlebars/handlebars.runtime.js'
+          'public/lodash.js':
+            'bower_components/lodash/dist/lodash.underscore.js'
+          'public/backbone.js':
+            'bower_components/backbone/backbone.js'
           'public/backbone.shortcuts.js':
-            'components/backbone.shortcuts/index.js'
-          'public/login.js': 'assets/js/login.js'
-          'public/index.js': 'assets/js/index.js'
+            'bower_components/backbone.shortcuts/index.js'
+          'public/login.js':
+            'assets/js/login.js'
+          'public/index.js':
+            'assets/js/index.js'
         ]
       css:
         files:
-          'public/persona-buttons.css': 'assets/css/persona-buttons.css'
-          'public/normalize.css': 'components/normalize-css/normalize.css'
+          'public/persona-buttons.css':
+            'assets/css/persona-buttons.css'
+          'public/normalize.css':
+            'bower_components/normalize-css/normalize.css'
     uglify:
       dist:
         banner: '<banner:meta.banner>',
         files:
           'public/koalab.min.js': [
-            'components/keymaster/keymaster.js'
-            'components/json2/json2.js'
-            'components/handlebars/handlebars.runtime.js'
-            'components/lodash/dist/lodash.underscore.js'
-            'components/backbone/backbone.js'
-            'components/backbone.shortcuts/index.js'
+            'bower_components/keymaster/keymaster.js'
+            'bower_components/json2/json2.js'
+            'bower_components/handlebars/handlebars.runtime.js'
+            'bower_components/lodash/dist/lodash.underscore.js'
+            'bower_components/backbone/backbone.js'
+            'bower_components/backbone.shortcuts/index.js'
             'public/templates.js'
             'public/app.js'
           ]
       zepto:
         files:
-          'public/zepto.min.js': ['components/zepto/zepto.js']
+          'public/zepto.min.js': ['bower_components/zepto/zepto.js']
     stylus:
       compile:
         files:
@@ -114,7 +112,7 @@ module.exports = (grunt) ->
         files:
           'public/koalab.min.css': [
             'assets/css/persona-buttons.css'
-            'components/normalize-css/normalize.css'
+            'bower_components/normalize-css/normalize.css'
             'public/koalab.css'
           ]
     watch:

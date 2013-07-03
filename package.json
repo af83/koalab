@@ -14,7 +14,6 @@
     "bower": "latest",
     "grunt": "latest",
     "grunt-coffeelint": "latest",
-    "grunt-shell-completion": "latest",
     "grunt-contrib-clean": "~0.4.0",
     "grunt-contrib-coffee": "~0.6.4",
     "grunt-contrib-copy": "~0.4.0",
@@ -24,6 +23,7 @@
     "grunt-contrib-stylus": "~0.5.0",
     "grunt-contrib-uglify": "~0.2.0",
     "grunt-contrib-watch": "~0.3.1",
-    "grunt-plato": "~0.2.0"
+    "grunt-plato": "~0.2.0",
+    "matchdep": "~0.1.2"
   }
 }

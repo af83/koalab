@@ -1,5 +1,5 @@
 /.secret
-/components
+/bower_components
 /config/deploy.rb
 /config/server.json
 /docs
