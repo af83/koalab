@@ -95,7 +95,7 @@ useSecret(function(secret) {
       abort("Can't connect to mongodb: ", err);
     });
     db.once('open', function () {
-      require('./app/controller')(app, db, pass);
+      require('./app/controller')(app, db, pass, config.demo);
       app.listen(config.port, function() {
         console.log('Express server listening on port ' + config.port);
       });

@@ -1,4 +1,6 @@
 $(function() {
+  if ($('#demo').length) { return ; }
+
   function onLogout() {
     $.ajax({
       type: 'POST',

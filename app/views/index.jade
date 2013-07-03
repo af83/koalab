@@ -8,7 +8,10 @@ block content
       | alab
     p Real time board everywhere
 
-  a(href="#", class="logout") Logout
+  - if (demo)
+    span#demo Démo
+  - else
+    a(href="#", class="logout") Logout
 
   section#list
     form(action="/boards", method="post")

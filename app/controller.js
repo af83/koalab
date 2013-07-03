@@ -18,17 +18,22 @@ function loader(Model, id) {
   };
 }
 
-function ensureAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) { return next(); }
-  req.session.destroy();
-  res.send(403, 'Forbidden');
-}
-
-module.exports = function(app, db, pass) {
+module.exports = function(app, db, pass, demo) {
   var models = require('./models')(db),
       Board  = models.Board,
       Postit = models.Postit,
       Line   = models.Line;
+
+
+  function isNotAuthenticated(req) {
+    return !req.isAuthenticated() && !demo;
+  }
+
+  function ensureAuthenticated(req, res, next) {
+    if (req.isAuthenticated() || demo) { return next(); }
+    req.session.destroy();
+    res.send(403, 'Forbidden');
+  }
 
   function touchBoard(req, res, next) {
     Board.findByIdAndUpdate(req.params.bid, { updated_at: new Date() }, function() {});
@@ -59,16 +64,16 @@ module.exports = function(app, db, pass) {
 
   // Show the list of boards
   app.get('/', function(req, res, next) {
-    if (!req.isAuthenticated()) { return res.redirect('/login'); }
+    if (isNotAuthenticated(req)) { return res.redirect('/login'); }
     Board.find().sort('-updated_at').paginate({ page: req.query.page }, function(err, boards) {
       if(err) return next(err);
-      res.render('index', { boards: boards });
+      res.render('index', { boards: boards, demo: demo });
     });
   });
 
   // Create Board
   app.post('/boards', function(req, res, next) {
-    if (!req.isAuthenticated()) { return res.redirect('/login'); }
+    if (isNotAuthenticated(req)) { return res.redirect('/login'); }
     req.body.updated_at = new Date();
     var board = new Board(req.body);
     board.save(function(err) {
@@ -79,7 +84,7 @@ module.exports = function(app, db, pass) {
 
   // Show a board
   app.get('/boards/:bid', loader(Board, 'bid'), function(req, res, next) {
-    if (!req.isAuthenticated()) { return res.redirect('/login'); }
+    if (isNotAuthenticated(req)) { return res.redirect('/login'); }
     var bid = req.params.bid;
     Postit.find({ board_id : bid }, function(err, postits) {
       if (err) return next(new Error());
