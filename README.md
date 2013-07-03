@@ -67,7 +67,7 @@ And for production?
 
 In production, we are using:
 
-- nginx (you can find an example of the vhost config in the admin/nginx directory)
+- nginx (you can find an example of the vhost config in the config/nginx directory)
 - [forever](https://github.com/nodejitsu/forever) (`npm install forever -g` on the server)
 - and [mina](http://nadarei.co/mina/) for deployments.
 
