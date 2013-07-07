@@ -40,7 +40,7 @@ function middleware(req, res, next) {
   }
 
   function ping() {
-    res.write('::\n\n');
+    res.write(':\n');
   }
 
   req.socket.setTimeout(Infinity);
