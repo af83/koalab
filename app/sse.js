@@ -13,11 +13,13 @@ function broadcast(board_id, data) {
     id: count++,
     data: JSON.stringify(data, null, '')
   };
-  emitter.emit(board_id, msg);
 
-  histo[board_id] = histo[board_id] || [];
-  var diff = histo[board_id].push(msg) - HISTO_S;
-  if (diff > 0) { histo[board_id].slice(diff); }
+  var h = histo[board_id] = histo[board_id] || [];
+  if (h.push(msg) > HISTO_S) {
+    h.shift();
+  }
+
+  emitter.emit(board_id, msg);
 }
 
 function middleware(req, res, next) {
