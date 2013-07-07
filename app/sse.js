@@ -23,12 +23,29 @@ function broadcast(board_id, data) {
 }
 
 function middleware(req, res, next) {
-  var board_id = req.params.bid;
+  var board_id = req.params.bid,
+      interval;
+
   if (!('string' === typeof board_id && 24 === board_id.length)) {
     return next();
   }
 
+  function sender(msg) {
+    res.write('id: ' + msg.id + '\ndata: ' + msg.data + '\n\n');
+  }
+
+  function clean() {
+    clearInterval(interval);
+    emitter.removeListener(board_id, sender);
+  }
+
+  function ping() {
+    res.write('::\n\n');
+  }
+
   req.socket.setTimeout(Infinity);
+  req.on('close', clean);
+
   res.writeHead(200, {
     'Content-Type'  : 'text/event-stream',
     'Cache-Control' : 'no-cache',
@@ -36,17 +53,8 @@ function middleware(req, res, next) {
   });
   res.write('\n');
 
-  var sender = function(msg) {
-    res.write('id: ' + msg.id + '\ndata: '  + msg.data  + '\n\n');
-  };
+  interval = setInterval(ping, 30000);
   emitter.addListener(board_id, sender);
-
-  var ping = setInterval(function() { res.write('::\n\n'); }, 30000);
-
-  req.on('close', function() {
-    clearInterval(ping);
-    emitter.removeListener(board_id, sender);
-  });
 
   var lastEventId = parseInt(req.headers['last-event-id'], 10);
   if (!isNaN(lastEventId)) {
