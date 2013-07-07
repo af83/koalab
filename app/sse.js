@@ -44,7 +44,8 @@ function middleware(req, res, next) {
   }
 
   req.socket.setTimeout(Infinity);
-  req.on('close', clean);
+  req.on('end',   clean); // closed by server
+  req.on('close', clean); // closed by client
 
   res.writeHead(200, {
     'Content-Type'  : 'text/event-stream',
