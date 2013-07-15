@@ -65,8 +65,6 @@ module.exports = (grunt) ->
         files: [
           'public/keymaster.js':
             'bower_components/keymaster/keymaster.js'
-          'public/json2.js':
-            'bower_components/json2/json2.js'
           'public/handlebars.runtime.js':
             'bower_components/handlebars/handlebars.runtime.js'
           'public/lodash.js':
@@ -92,7 +90,6 @@ module.exports = (grunt) ->
         files:
           'public/koalab.min.js': [
             'bower_components/keymaster/keymaster.js'
-            'bower_components/json2/json2.js'
             'bower_components/handlebars/handlebars.runtime.js'
             'bower_components/lodash/dist/lodash.underscore.js'
             'bower_components/backbone/backbone.js'

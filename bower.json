@@ -4,7 +4,6 @@
   "dependencies": {
     "zepto": "~1.0",
     "keymaster": "latest",
-    "json2": "latest",
     "handlebars": "~1.0.0-rc.4",
     "lodash": "~1.1",
     "backbone": "~1.0",
