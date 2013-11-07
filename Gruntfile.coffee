@@ -137,3 +137,10 @@ module.exports = (grunt) ->
     'cssmin'
     'uglify'
   ]
+
+  # Heroku
+  # heroku config:add
+  # BUILDPACK_URL=https://github.com/jmreidy/heroku-buildpack-nodejs-grunt.git
+  grunt.registerTask 'heroku', [
+    'default'
+  ]

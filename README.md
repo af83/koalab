@@ -72,6 +72,41 @@ In production, we are using:
 - and [mina](http://nadarei.co/mina/) for deployments.
 
 
+And for heroku?
+---------------
+
+- Add `config/server.json` to git (in a dedicated heroku branch if you want).
+
+    - Don't forget to set the persona audience value to your heroku app url.
+    - Mongodb part is not necessary.
+
+- Add an heroku buildpack for grunt :
+
+```
+heroku config:add BUILDPACK_URL=https://github.com/jmreidy/heroku-buildpack-nodejs-grunt.git
+```
+
+- Add a mongodb provider
+
+```
+heroku addons:add mongolab
+```
+
+for mongolab or for mongohq
+
+```
+heroku addons:add mongohq
+```
+
+- Deploy on heroku
+
+```
+git push heroku master
+```
+
+- Enjoy!
+
+
 Configuration
 -------------
 

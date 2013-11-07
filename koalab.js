@@ -90,14 +90,19 @@ useSecret(function(secret) {
     app.use(express.methodOverride());
     app.use(app.router);
 
-    var db = mongoose.createConnection(config.mongodb.host, config.mongodb.database);
+    var uri = process.env.MONGOLAB_URI ||
+      process.env.MONGOHQ_URL ||
+      config.mongodb.host + "/" + config.mongodb.database;
+    var db = mongoose.createConnection(uri);
     db.on('error', function(err) {
       abort("Can't connect to mongodb: ", err);
     });
+    
+    var port = process.env.PORT || config.port;
     db.once('open', function () {
       require('./app/controller')(app, db, pass, config.demo);
-      app.listen(config.port, function() {
-        console.log('Express server listening on port ' + config.port);
+      app.listen(port, function() {
+        console.log('Express server listening on port ' + port);
       });
     });
   });
