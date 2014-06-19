@@ -1,9 +1,13 @@
-var fs        = require('fs'),
-    crypto    = require('crypto'),
-    express   = require('express'),
-    pass      = require('passport'),
-    BrowserID = require('passport-browserid').Strategy,
-    mongoose  = require('mongoose');
+var fs             = require('fs'),
+  crypto         = require('crypto'),
+  express        = require('express'),
+  bodyParser     = require('body-parser'),
+  cookieParser   = require('cookie-parser'),
+  cookieSession  = require('cookie-session'),
+  methodOverride = require('method-override'),
+  pass           = require('passport'),
+  BrowserID      = require('passport-browserid').Strategy,
+  mongoose       = require('mongoose');
 
 var config,
     authorized = [];
@@ -78,42 +82,53 @@ pass.use('browserid', new BrowserID({
 
 useSecret(function(secret) {
   var app = express();
-  app.configure(function() {
-    app.set('view engine', 'jade');
-    app.set('views', __dirname + '/app/views');
+  app.set('view engine', 'jade');
+  app.set('views', __dirname + '/app/views');
 
-    app.use(express.bodyParser());
-    app.use(express.cookieParser());
-    app.use(express.cookieSession({ secret: secret }));
-    app.use(pass.initialize());
-    app.use(pass.session());
-    app.use(express.methodOverride());
-    app.use(app.router);
+  app
+    .use(express.static(__dirname + '/public'))
+    .use(bodyParser())
+    .use(cookieParser())
+    .use(cookieSession({secret: secret}))
+    .use(pass.initialize())
+    .use(pass.session())
+    .use(methodOverride());
 
-    var uri = process.env.MONGOLAB_URI ||
-      process.env.MONGOHQ_URL ||
-      config.mongodb.host + "/" + config.mongodb.database;
-    var db = mongoose.createConnection(uri);
-    db.on('error', function(err) {
-      abort("Can't connect to mongodb: ", err);
-    });
-    
-    var port = process.env.PORT || config.port;
-    db.once('open', function () {
-      require('./app/controller')(app, db, pass, config.demo);
-      app.listen(port, function() {
-        console.log('Express server listening on port ' + port);
+  // development error handler
+  // will print stacktrace
+  if (app.get('env') === 'development') {
+      app.use(function(err, req, res, next) {
+          res.status(err.status || 500);
+          res.render('error', {
+              message: err.message,
+              error: err
+          });
       });
+  }
+
+  // production error handler
+  // no stacktraces leaked to user
+  app.use(function(err, req, res, next) {
+      res.status(err.status || 500);
+      res.render('error', {
+          message: err.message,
+          error: {}
+      });
+  });
+
+  var uri = process.env.MONGOLAB_URI ||
+    process.env.MONGOHQ_URL ||
+    config.mongodb.host + "/" + config.mongodb.database;
+  var db = mongoose.createConnection(uri);
+  db.on('error', function(err) {
+    abort("Can't connect to mongodb: ", err);
+  });
+
+  var port = process.env.PORT || config.port;
+  db.once('open', function () {
+    require('./app/controller')(app, db, pass, config.demo);
+    app.listen(port, function() {
+      console.log('Express server listening on port ' + port);
     });
-  });
-
-  app.configure('development', function() {
-    app.use(express.static(__dirname + '/public'));
-    app.use(express.logger('dev'));
-    app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-  });
-
-  app.configure('production', function() {
-    app.use(express.errorHandler());
   });
 });

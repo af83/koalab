@@ -24,7 +24,11 @@ module.exports = (grunt) ->
     ]
     jshint:
       front: ['assets/**/*.js']
-      back: ['package.json', 'koalab.js', 'app/**/*.js']
+      back: [
+        'package.json'
+        'koalab.js'
+        'app/**/*.js'
+      ]
     coffeelint:
       files: ['Gruntfile.coffee', 'assets/**/*.coffee']
     plato:
@@ -37,7 +41,10 @@ module.exports = (grunt) ->
           ]
       back:
         files:
-          'reports/back': ['koalab.js', 'app/**/*.js']
+          'reports/back': [
+            'koalab.js'
+            'app/**/*.js'
+          ]
     coffee:
       options:
         sourceMap: true
@@ -102,6 +109,8 @@ module.exports = (grunt) ->
           'public/zepto.min.js': ['bower_components/zepto/zepto.js']
     stylus:
       compile:
+        options:
+          "resolve url": true
         files:
           'public/koalab.css': 'assets/css/*.styl'
     cssmin:

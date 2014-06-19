@@ -55,7 +55,6 @@ cp config/server.json.example config/server.json
 $EDITOR config/server.json
 npm install -g grunt-cli
 npm install .
-./node_modules/bower/bin/bower install
 grunt
 node koalab.js
 firefox http://localhost:8080/
