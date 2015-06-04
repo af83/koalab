@@ -127,7 +127,7 @@ useSecret(function(secret) {
   var port = process.env.PORT || config.port;
   db.once('open', function () {
     require('./app/controller')(app, db, pass, config.demo);
-    app.listen(port, function() {
+    app.listen(port, localhost, function() {
       console.log('Express server listening on port ' + port);
     });
   });
