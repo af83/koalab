@@ -1,5 +1,6 @@
 FROM node:5.1
-RUN git clone https://github.com/AF83/koalab.git /app
+# RUN git clone https://github.com/AF83/koalab.git /app
+ADD . /app
 WORKDIR /app
 RUN cp config/server.json.example config/server.json
 #?? $EDITOR config/server.json" 
